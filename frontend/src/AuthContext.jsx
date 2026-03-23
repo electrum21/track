@@ -30,8 +30,6 @@ export function AuthProvider({ children }) {
       }
       setLoading(false)
     })
-      setLoading(false)
-    })
     return unsubscribe
   }, [])
 
