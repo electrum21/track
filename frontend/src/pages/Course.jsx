@@ -203,7 +203,7 @@ function Course() {
             </div>
             <button onClick={() => setShowAddForm(false)} className="text-xs text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 cursor-pointer transition-all duration-150">✕</button>
           </div>
-          <div className="grid grid-cols-2 gap-3 mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
             <div><label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Module code</label><input type="text" value={addForm.code} onChange={e => setAddForm(p => ({ ...p, code: e.target.value }))} onBlur={e => {
                 const code = e.target.value.trim().toUpperCase()
                 const existing = courses.find(c => c.moduleCode === code)
@@ -229,7 +229,7 @@ function Course() {
       )}
 
       {/* Course cards grid */}
-      <div className="grid grid-cols-3 gap-3 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
         {modules.map(mod => {
           const details = courses.find(c => c.moduleCode === mod) || {}
           const stats = getModStats(mod)
@@ -296,7 +296,7 @@ function Course() {
         const isEditing = editingMod === selectedMod
         return (
           <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5">
-            <div className="flex justify-between items-start mb-4">
+            <div className="flex flex-wrap justify-between items-start gap-3 mb-4">
               <div>
                 <div className="text-base font-medium text-gray-900 dark:text-gray-100">{selectedMod}</div>
                 {details.name && <div className="text-sm text-gray-400 dark:text-gray-500 mt-0.5">{details.name}</div>}
@@ -326,7 +326,7 @@ function Course() {
             </div>
 
             {isEditing && (
-              <div className="grid grid-cols-2 gap-3 mb-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
                 <div><label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Module code</label><input type="text" value={editForm.moduleCode || ''} onChange={e => setEditForm(p => ({ ...p, moduleCode: e.target.value.toUpperCase() }))} placeholder="e.g. CS2040" className={inputClass} /></div>
                 <div><label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Course name</label><input type="text" value={editForm.name || ''} onChange={e => setEditForm(p => ({ ...p, name: e.target.value }))} placeholder="e.g. Data Structures" className={inputClass} /></div>
                 <div><label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Professor</label><input type="text" value={editForm.prof || ''} onChange={e => setEditForm(p => ({ ...p, prof: e.target.value }))} placeholder="e.g. Prof Chan" className={inputClass} /></div>
@@ -386,7 +386,7 @@ function Course() {
                                 className="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-600 flex-shrink-0 cursor-pointer hover:border-green-400 dark:hover:border-green-500 transition-colors"
                             />
                             )}
-                            <span className={`text-xs px-2 py-0.5 rounded-full font-medium w-24 text-center ${typeColor(task.type)}`}>{task.type}</span>
+                            <span className={`text-xs px-2 py-0.5 rounded-full font-medium hidden sm:inline w-24 text-center ${typeColor(task.type)}`}>{task.type}</span>
                             <div>
                             <span className={`text-sm ${
                                 isCompleted

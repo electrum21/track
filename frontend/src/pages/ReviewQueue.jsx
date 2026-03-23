@@ -100,9 +100,7 @@ function ReviewQueue() {
             )}
 
             {/* Fields grid */}
-            <div className="grid grid-cols-4 gap-2 mb-3">
-              <div>
-                <label className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1 block">Module</label>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
                 <input
                   type="text"
                   value={e.moduleCode || ''}
@@ -143,7 +141,7 @@ function ReviewQueue() {
               </div>
             </div>
 
-            <div className="grid grid-cols-4 gap-2 mb-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
               <div>
                 <label className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1 block">Weight %</label>
                 <input
@@ -156,7 +154,7 @@ function ReviewQueue() {
                   className={inp}
                 />
               </div>
-              <div className="col-span-3">
+              <div className="col-span-2 sm:col-span-3">
                 <label className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1 block">Note</label>
                 <input
                   type="text"

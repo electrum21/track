@@ -229,8 +229,8 @@ function Dashboard() {
             <span className="text-sm font-medium text-gray-900 dark:text-gray-100">New task</span>
             <button onClick={() => setShowCreateForm(false)} className="text-xs text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 cursor-pointer">✕</button>
           </div>
-          <div className="grid grid-cols-2 gap-3 mb-4">
-            <div className="col-span-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+            <div className="col-span-1 sm:col-span-2">
               <label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Title</label>
               <input type="text" value={createForm.title} onChange={e => setCreateForm(p => ({ ...p, title: e.target.value }))} placeholder="e.g. Assignment 1" className={inputClass} />
             </div>
@@ -315,7 +315,7 @@ function Dashboard() {
       )}
 
       {/* Metric cards */}
-      <div className="grid grid-cols-4 gap-3 mb-8">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
         {[
           { label: 'Total tasks', value: total, color: 'text-gray-900 dark:text-gray-100' },
           { label: 'Due this week', value: dueThisWeek, color: 'text-red-600 dark:text-red-400' },

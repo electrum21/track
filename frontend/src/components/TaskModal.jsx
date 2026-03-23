@@ -88,7 +88,7 @@ function TaskModal({ task, onClose, onUpdated, onDeleted }) {
       onClick={onClose}
     >
       <div
-        className="bg-white dark:bg-gray-900 rounded-2xl w-full max-w-md p-6 border border-gray-200 dark:border-gray-800"
+        className="bg-white dark:bg-gray-900 rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto p-6 border border-gray-200 dark:border-gray-800"
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}
@@ -218,7 +218,7 @@ function TaskModal({ task, onClose, onUpdated, onDeleted }) {
                   className={inputClass}
                 />
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Module</label>
                   <input type="text" value={form.moduleCode} onChange={e => setForm(p => ({ ...p, moduleCode: e.target.value }))} className={inputClass} />

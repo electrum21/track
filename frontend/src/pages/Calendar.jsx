@@ -194,8 +194,8 @@ function Calendar() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-medium text-gray-900 dark:text-gray-100 w-32">Calendar</h1>
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+        <h1 className="text-xl font-medium text-gray-900 dark:text-gray-100">Calendar</h1>
 
         {view === 'month' ? (
           <div className="flex items-center gap-2">
@@ -207,7 +207,7 @@ function Calendar() {
           <div />
         )}
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 ml-auto">
           <button
             onClick={() => setShowCalendarSetup(p => !p)}
             className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-500 dark:text-gray-400 transition-all duration-150 cursor-pointer"
@@ -239,7 +239,7 @@ function Calendar() {
             <span className="text-sm font-medium text-gray-900 dark:text-gray-100">Academic Calendar Setup</span>
             <button onClick={() => setShowCalendarSetup(false)} className="text-xs text-gray-400 hover:text-gray-600 cursor-pointer">✕</button>
           </div>
-          <div className="grid grid-cols-2 gap-4 mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-2">Upload calendar file</p>
               <div className="flex gap-2 mb-2">
@@ -317,7 +317,7 @@ function Calendar() {
             {cells.map((cell, i) => {
               const dayTasks = getTasksForDay(cell.date)
               return (
-                <div key={i} className={`min-h-32 rounded-lg p-1.5 border ${
+                <div key={i} className={`min-h-16 sm:min-h-32 rounded-lg p-1 sm:p-1.5 border ${
                   isToday(cell.date)
                     ? 'border-blue-400 dark:border-blue-500 bg-blue-50 dark:bg-blue-900/20'
                     : cell.currentMonth

@@ -142,7 +142,7 @@ export default function SettingsPanel({ open, onClose }) {
         role="dialog"
         aria-modal="true"
         aria-label="Settings"
-        className={`fixed top-0 right-0 h-full z-50 w-80 bg-white dark:bg-gray-950 border-l border-gray-200 dark:border-gray-800 flex flex-col
+        className={`fixed top-0 right-0 h-full z-50 w-full sm:w-80 bg-white dark:bg-gray-950 border-l border-gray-200 dark:border-gray-800 flex flex-col
           transform transition-transform duration-300 ease-in-out focus:outline-none
           ${open ? 'translate-x-0' : 'translate-x-full'}`}
       >
