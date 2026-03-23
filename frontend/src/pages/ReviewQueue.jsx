@@ -57,7 +57,7 @@ function ReviewQueue() {
   const inp = "w-full text-sm border border-gray-200 dark:border-gray-700 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-gray-400 dark:focus:border-gray-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
 
   return (
-    <div>
+    <div className="max-w-4xl mx-auto p-4">
       <div className="mb-6">
         <h1 className="text-xl font-medium text-gray-900 dark:text-gray-100">Review Queue</h1>
         <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">
@@ -74,11 +74,8 @@ function ReviewQueue() {
       {tasks.map(task => {
         const e = edits[task.id] || {}
         return (
-          <div
-            key={task.id}
-            className="bg-white dark:bg-gray-900 border border-amber-200 dark:border-amber-900/50 rounded-xl p-4 mb-3"
-          >
-            {/* Title row + badge */}
+          <div key={task.id} className="bg-white dark:bg-gray-900 border border-amber-200 dark:border-amber-900/50 rounded-xl p-4 mb-3">
+            {/* Title row */}
             <div className="flex items-center justify-between mb-3">
               <input
                 type="text"
@@ -99,8 +96,10 @@ function ReviewQueue() {
               </div>
             )}
 
-            {/* Fields grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
+            {/* Fields grid 1: Core Details */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-3">
+              <div>
+                <label className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1 block">Module</label>
                 <input
                   type="text"
                   value={e.moduleCode || ''}
@@ -141,7 +140,8 @@ function ReviewQueue() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
+            {/* Fields grid 2: Metadata */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
               <div>
                 <label className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1 block">Weight %</label>
                 <input
@@ -154,7 +154,7 @@ function ReviewQueue() {
                   className={inp}
                 />
               </div>
-              <div className="col-span-2 sm:col-span-3">
+              <div className="col-span-1 sm:col-span-3">
                 <label className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1 block">Note</label>
                 <input
                   type="text"
@@ -167,16 +167,16 @@ function ReviewQueue() {
             </div>
 
             {/* Actions */}
-            <div className="flex justify-end gap-2">
+            <div className="flex justify-end gap-2 pt-2 border-t border-gray-100 dark:border-gray-800">
               <button
                 onClick={() => handleDiscard(task)}
-                className="text-xs px-3 py-1.5 border border-red-200 dark:border-red-700 rounded-lg text-red-700 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 active:scale-95 transition-all duration-150 cursor-pointer"
+                className="text-xs px-4 py-1.5 border border-red-200 dark:border-red-700/50 rounded-lg text-red-700 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all cursor-pointer"
               >
                 Discard
               </button>
               <button
                 onClick={() => handleConfirm(task)}
-                className="text-xs px-3 py-1.5 border border-green-200 dark:border-green-900/50 rounded-lg text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-900/20 hover:bg-green-100 dark:hover:bg-green-900/30 active:scale-95 transition-all duration-150 cursor-pointer font-medium"
+                className="text-xs px-4 py-1.5 rounded-lg text-white bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 transition-all cursor-pointer font-medium"
               >
                 Confirm & save
               </button>
