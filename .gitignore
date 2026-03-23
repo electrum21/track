@@ -33,7 +33,7 @@ build/
 .vscode/
 
 # Firebase
-frontend/src/firebase.js
+frontend/src/firebase-local.js
 src/main/resources/firebase-service-account.json
 
 #Localhost files
