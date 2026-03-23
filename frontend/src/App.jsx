@@ -1,0 +1,49 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { AuthProvider, useAuth } from './AuthContext'
+import { SettingsProvider } from './hooks/useSettings.jsx'
+import Navbar from './components/Navbar'
+import Dashboard from './pages/Dashboard'
+import Calendar from './pages/Calendar'
+import ReviewQueue from './pages/ReviewQueue'
+import Course from './pages/Course'
+import Agent from './pages/Agent'
+import Login from './pages/Login'
+
+function ProtectedRoute({ children }) {
+  const { user } = useAuth()
+  if (!user) return <Navigate to="/login" replace />
+  return children
+}
+
+function AppLayout() {
+  const { user } = useAuth()
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      {user && <Navbar />}
+      <main className="max-w-7xl mx-auto px-6 py-8">
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/calendar" element={<ProtectedRoute><Calendar /></ProtectedRoute>} />
+          <Route path="/review" element={<ProtectedRoute><ReviewQueue /></ProtectedRoute>} />
+          <Route path="/course" element={<ProtectedRoute><Course /></ProtectedRoute>} />
+          <Route path="/agent" element={<ProtectedRoute><Agent /></ProtectedRoute>} />
+        </Routes>
+      </main>
+    </div>
+  )
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <SettingsProvider>
+        <BrowserRouter>
+          <AppLayout />
+        </BrowserRouter>
+      </SettingsProvider>
+    </AuthProvider>
+  )
+}
+
+export default App
