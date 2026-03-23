@@ -10,8 +10,9 @@ import Agent from './pages/Agent'
 import Login from './pages/Login'
 
 function ProtectedRoute({ children }) {
-  const { user } = useAuth()
-  if (!user) return <Navigate to="/login" replace />
+  const { user, token, loading } = useAuth()
+  if (loading) return null  // still initialising
+  if (!user || !token) return <Navigate to="/login" replace />
   return children
 }
 
