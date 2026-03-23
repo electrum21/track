@@ -1,8 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { auth } from './firebase'
-import { onAuthStateChanged } from 'firebase/auth'
-
-const AuthContext = createContext(null)
+import { onAuthStateChanged, getRedirectResult } from 'firebase/auth'
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
@@ -10,6 +8,9 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    // Handle redirect result first
+    getRedirectResult(auth).catch(console.error)
+
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
         const idToken = await firebaseUser.getIdToken()
