@@ -7,7 +7,7 @@ const ALLOWED_TYPES = new Set([
   'image/webp',
 ])
 
-const MAX_SIZE_MB = 10
+const MAX_SIZE_MB = 30
 
 /**
  * Returns an error string if the file is invalid, or null if it's fine.
