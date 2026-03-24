@@ -150,3 +150,12 @@ export const deleteAccount = async () => {
   })
   return res.ok
 }
+
+export const agentChat = async (message, history) => {
+  const res = await fetch(`${BASE_URL}/agent/chat`, {
+    method: 'POST',
+    headers: authHeaders(),
+    body: JSON.stringify({ message, history })
+  })
+  return res.json()
+}
