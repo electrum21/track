@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useSettings } from '../hooks/useSettings.jsx'
-import { getTasks, getCourses, getAcademicWeeks, uploadAcademicCalendar, setupAcademicCalendar, clearAcademicCalendar } from '../api/api'
+import { useTasks } from '../hooks/useTasks.jsx'
+import { getCourses, getAcademicWeeks, uploadAcademicCalendar, setupAcademicCalendar, clearAcademicCalendar } from '../api/api'
+import { validateUploadFile } from '../utils/fileValidation'
 import TaskModal from '../components/TaskModal'
 
 const FALLBACK_WEEKS = [
@@ -42,7 +44,7 @@ function normaliseWeeks(weeks) {
 }
 
 function Calendar() {
-  const [tasks, setTasks] = useState([])
+  const { tasks, updateTaskInState, deleteTaskFromState } = useTasks()
   const [courses, setCourses] = useState([])
   const { settings } = useSettings()
   const td = settings.taskDisplay
@@ -50,6 +52,7 @@ function Calendar() {
   const [semesterWeeks, setSemesterWeeks] = useState(FALLBACK_WEEKS)
   const [showCalendarSetup, setShowCalendarSetup] = useState(false)
   const [calendarUploading, setCalendarUploading] = useState(false)
+  const [calendarUploadError, setCalendarUploadError] = useState(null)
   const [semester, setSemester] = useState('1')
   const [manualForm, setManualForm] = useState({ semesterStart: '', recessStart: '', examStart: '', teachingWeeks: '13', examWeeks: '3' })
   const [currentDate, setCurrentDate] = useState(new Date())
@@ -57,12 +60,12 @@ function Calendar() {
   const [collapsedModules, setCollapsedModules] = useState({})
 
   const handleTaskUpdated = (updated) => {
-    setTasks(prev => prev.map(t => t.id === updated.id ? updated : t))
+    updateTaskInState(updated)
     setSelectedTask(null)
   }
 
   const handleTaskDeleted = (id) => {
-    setTasks(prev => prev.filter(t => t.id !== id))
+    deleteTaskFromState(id)
     setSelectedTask(null)
   }
 
@@ -71,7 +74,6 @@ function Calendar() {
   }
 
   useEffect(() => {
-    getTasks().then(data => { if (Array.isArray(data)) setTasks(data) }).catch(() => {})
     getCourses().then(data => { if (Array.isArray(data)) setCourses(data) }).catch(() => {})
     getAcademicWeeks().then(data => {
       if (Array.isArray(data) && data.length > 0) setSemesterWeeks(data)
@@ -176,6 +178,9 @@ function Calendar() {
     const file = e.target.files[0]
     if (!file) return
     e.target.value = ''
+    const err = validateUploadFile(file)
+    if (err) { setCalendarUploadError(err); return }
+    setCalendarUploadError(null)
     setCalendarUploading(true)
     try {
       const weeks = await uploadAcademicCalendar(file, semester)
@@ -192,8 +197,80 @@ function Calendar() {
     } catch (err) { console.error(err) }
   }
 
+  // ── iCalendar export ──────────────────────────────────────────────────────
+  const exportICS = () => {
+    const pad = n => String(n).padStart(2, '0')
+    const toICSDate = (dateStr, timeStr) => {
+      const [y, m, d] = dateStr.split('-').map(Number)
+      if (timeStr) {
+        const [h, min] = timeStr.slice(0, 5).split(':').map(Number)
+        return `${y}${pad(m)}${pad(d)}T${pad(h)}${pad(min)}00`
+      }
+      return `${y}${pad(m)}${pad(d)}`
+    }
+
+    const exportable = tasks.filter(t => t.dueDate)
+    if (exportable.length === 0) return
+
+    const uid = () => `${Date.now()}-${Math.random().toString(36).slice(2)}@track`
+    const stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z'
+
+    const events = exportable.map(t => {
+      const hasTime = !!t.dueTime
+      const dtProp = hasTime ? 'DTSTART' : 'DTSTART;VALUE=DATE'
+      const dtVal = toICSDate(t.dueDate, t.dueTime)
+      const summary = [t.moduleCode, t.title, t.weightage ? `(${t.weightage}%)` : '']
+        .filter(Boolean).join(' ')
+      const lines = [
+        'BEGIN:VEVENT',
+        `UID:${uid()}`,
+        `DTSTAMP:${stamp}`,
+        `${dtProp}:${dtVal}`,
+        hasTime ? `DTEND:${dtVal}` : `DTEND;VALUE=DATE:${dtVal}`,
+        `SUMMARY:${summary}`,
+        t.note ? `DESCRIPTION:${t.note.replace(/\n/g, '\\n')}` : '',
+        `CATEGORIES:${t.type}`,
+        'END:VEVENT',
+      ].filter(Boolean)
+      return lines.join('\r\n')
+    })
+
+    const ics = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Track//Academic Deadlines//EN',
+      'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH',
+      ...events,
+      'END:VCALENDAR',
+    ].join('\r\n')
+
+    const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'track-deadlines.ics'
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  // ── PDF / print semester table ────────────────────────────────────────────
+  const printSemester = () => {
+    window.print()
+  }
+
   return (
     <div>
+      {/* Print-only styles */}
+      <style>{`
+        @media print {
+          body * { visibility: hidden; }
+          #semester-print-area, #semester-print-area * { visibility: visible; }
+          #semester-print-area { position: absolute; inset: 0; padding: 24px; }
+          #semester-print-title { font-size: 16px; font-weight: 600; margin-bottom: 12px; }
+        }
+      `}</style>
+
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <h1 className="text-xl font-medium text-gray-900 dark:text-gray-100">Calendar</h1>
 
@@ -208,6 +285,32 @@ function Calendar() {
         )}
 
         <div className="flex flex-wrap items-center gap-2 ml-auto">
+          {/* Export buttons */}
+          <button
+            onClick={exportICS}
+            disabled={tasks.filter(t => t.dueDate).length === 0}
+            title="Export all deadlines to Google / Apple Calendar"
+            className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-500 dark:text-gray-400 transition-all duration-150 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1.5"
+          >
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M6 1v7M3.5 5.5L6 8l2.5-2.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M1 9.5V11h10V9.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+            </svg>
+            Export .ics
+          </button>
+          {view === 'semester' && (
+            <button
+              onClick={printSemester}
+              title="Download semester table as PDF"
+              className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-500 dark:text-gray-400 transition-all duration-150 cursor-pointer flex items-center gap-1.5"
+            >
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <rect x="1" y="1" width="10" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.3"/>
+                <path d="M3.5 4.5h5M3.5 6.5h5M3.5 8.5h3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+              </svg>
+              Save PDF
+            </button>
+          )}
           <button
             onClick={() => setShowCalendarSetup(p => !p)}
             className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-500 dark:text-gray-400 transition-all duration-150 cursor-pointer"
@@ -258,6 +361,9 @@ function Calendar() {
                 <input type="file" className="hidden" accept=".pdf,.pptx,.docx,image/*" onChange={handleCalendarUpload} />
               </label>
               <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Semester {semester} · Extraction may not be reliable — manual entry is advised for higher accuracy</p>
+              {calendarUploadError && (
+                <p className="text-xs text-red-500 dark:text-red-400 mt-1">{calendarUploadError}</p>
+              )}
             </div>
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-2">Or enter manually</p>
@@ -367,7 +473,10 @@ function Calendar() {
 
       {/* Semester view */}
       {view === 'semester' && (
-        <div>
+        <div id="semester-print-area">
+          <div id="semester-print-title" className="hidden print:block text-gray-900 mb-3">
+            Semester Overview — Track
+          </div>
           <div className="overflow-x-auto">
             <table className="w-full text-xs border-collapse">
               <thead>

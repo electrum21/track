@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { getTasks, updateTask, getCourses, createCourse, updateCourse, deleteCourse, deleteTask, uploadCourseFile } from '../api/api'
+import { validateUploadFile } from '../utils/fileValidation'
 import TaskModal from '../components/TaskModal'
 
 function Course() {
@@ -10,6 +11,7 @@ function Course() {
   const [showAddOptions, setShowAddOptions] = useState(false)
   const [addForm, setAddForm] = useState({ code: '', name: '', prof: '', examDate: '', examVenue: '' })
   const [extracting, setExtracting] = useState(false)
+  const [uploadError, setUploadError] = useState(null)
   const [editingMod, setEditingMod] = useState(null)
   const [editForm, setEditForm] = useState({ name: '', prof: '', examDate: '', examVenue: '' })
   const [selectedTask, setSelectedTask] = useState(null)
@@ -36,6 +38,9 @@ function Course() {
     const file = e.target.files[0]
     if (!file) return
     e.target.value = ''
+    const err = validateUploadFile(file)
+    if (err) { setUploadError(err); return }
+    setUploadError(null)
     setExtracting(true)
     try {
       const result = await uploadCourseFile(file)
@@ -193,6 +198,13 @@ function Course() {
           )}
         </div>
       </div>
+
+      {uploadError && (
+        <div className="mb-4 px-4 py-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-sm text-red-700 dark:text-red-400 flex items-center justify-between">
+          {uploadError}
+          <button onClick={() => setUploadError(null)} className="ml-3 text-red-400 hover:text-red-600 cursor-pointer">✕</button>
+        </div>
+      )}
 
       {showAddForm && (
         <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5 mb-4">

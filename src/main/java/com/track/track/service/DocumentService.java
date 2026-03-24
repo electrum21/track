@@ -1,5 +1,6 @@
 package com.track.track.service;
 
+import com.track.track.config.FileValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.track.track.model.Course;
@@ -28,11 +29,13 @@ public class DocumentService {
     private final RestClient restClient;
     private final ObjectMapper objectMapper;
     private final FileConversionService fileConversionService;
+    private final FileValidator fileValidator;
 
-    public DocumentService(FileConversionService fileConversionService) {
+    public DocumentService(FileConversionService fileConversionService, FileValidator fileValidator) {
         this.restClient = RestClient.create();
         this.objectMapper = new ObjectMapper();
         this.fileConversionService = fileConversionService;
+        this.fileValidator = fileValidator;
     }
 
     // ── existing: extract tasks only (used by Dashboard upload) ─────────────
@@ -142,15 +145,17 @@ public class DocumentService {
         // Convert PPTX/DOCX to PDF — Gemini only supports PDF and images
         byte[] fileBytes = fileConversionService.convertToPdf(file);
         String base64File = Base64.getEncoder().encodeToString(fileBytes);
-        // Always send as PDF after conversion
         String originalMime = file.getContentType() != null ? file.getContentType() : "application/pdf";
         String mimeType = (originalMime.contains("pdf") || originalMime.contains("image")) ? originalMime : "application/pdf";
+
+        // Sanitise the prompt to prevent injection via document content
+        String safePrompt = fileValidator.sanitiseExtractedText(prompt);
 
         Map<String, Object> requestBody = Map.of(
             "contents", List.of(
                 Map.of("parts", List.of(
                     Map.of("inline_data", Map.of("mime_type", mimeType, "data", base64File)),
-                    Map.of("text", prompt)
+                    Map.of("text", safePrompt)
                 ))
             ),
             "generationConfig", Map.of("response_mime_type", "application/json")

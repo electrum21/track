@@ -1,5 +1,6 @@
 package com.track.track.controller;
 
+import com.track.track.config.FileValidator;
 import com.track.track.dto.CourseResponse;
 import com.track.track.dto.TaskResponse;
 import com.track.track.model.Course;
@@ -11,12 +12,15 @@ import com.track.track.service.DocumentService;
 import com.track.track.service.TaskService;
 import com.track.track.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequestMapping("/api/upload")
@@ -27,36 +31,53 @@ public class UploadController {
     private final UserService userService;
     private final CourseService courseService;
     private final AcademicCalendarService academicCalendarService;
+    private final FileValidator fileValidator;
+
+    // Simple per-user upload cooldown: 15 seconds between uploads
+    private static final long UPLOAD_COOLDOWN_MS = 15_000;
+    private final ConcurrentHashMap<String, Long> lastUploadTime = new ConcurrentHashMap<>();
+
+    private void checkRateLimit(String userId) {
+        long now = System.currentTimeMillis();
+        Long last = lastUploadTime.get(userId);
+        if (last != null && now - last < UPLOAD_COOLDOWN_MS)
+            throw new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS,
+                "Please wait a moment before uploading again.");
+        lastUploadTime.put(userId, now);
+    }
 
     public UploadController(TaskService taskService, DocumentService documentService,
                             UserService userService, CourseService courseService,
-                            AcademicCalendarService academicCalendarService) {
+                            AcademicCalendarService academicCalendarService,
+                            FileValidator fileValidator) {
         this.taskService = taskService;
         this.documentService = documentService;
         this.userService = userService;
         this.courseService = courseService;
         this.academicCalendarService = academicCalendarService;
+        this.fileValidator = fileValidator;
     }
 
     private User getUserFromRequest(HttpServletRequest request) {
-        String uid = (String) request.getAttribute("firebaseUid");
+        String uid   = (String) request.getAttribute("firebaseUid");
         String email = (String) request.getAttribute("firebaseEmail");
-        String name = (String) request.getAttribute("firebaseName");
+        String name  = (String) request.getAttribute("firebaseName");
         return userService.findOrCreateByFirebaseUid(uid, email != null ? email : "", name != null ? name : "");
     }
 
-    // ── new: course + tasks upload (Course and Dashboard page) ─────────────────────────────
+    // ── course + tasks upload (Course page + Dashboard) ─────────────────────
 
     @PostMapping("/course")
     public ResponseEntity<Map<String, Object>> uploadCourseFile(
             HttpServletRequest request,
             @RequestParam("file") MultipartFile file) {
+        fileValidator.validate(file);
         try {
             User user = getUserFromRequest(request);
+            checkRateLimit(user.getId().toString());
             String weekContext = academicCalendarService.buildWeekContext(user.getId());
             DocumentService.CourseAndTasks result = documentService.extractCourseAndTasksFromFile(file, weekContext);
 
-            // Upsert all extracted courses
             List<Course> savedCourses = new java.util.ArrayList<>();
             for (Course course : result.courses()) {
                 course.setUser(user);
@@ -72,12 +93,10 @@ public class UploadController {
                 }
             }
 
-            // Save tasks
             List<Task> tasks = result.tasks();
             tasks.forEach(t -> t.setUser(user));
             List<Task> savedTasks = taskService.saveAll(tasks);
 
-            // Ensure a course row exists for any task module code not already saved
             java.util.Set<String> savedCodes = savedCourses.stream()
                     .map(Course::getModuleCode).collect(java.util.stream.Collectors.toSet());
             savedTasks.stream()
@@ -88,11 +107,12 @@ public class UploadController {
 
             return ResponseEntity.ok(Map.of(
                 "courses", savedCourses.stream().map(CourseResponse::from).toList(),
-                "tasks", savedTasks.stream().map(TaskResponse::from).toList()
+                "tasks",   savedTasks.stream().map(TaskResponse::from).toList()
             ));
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.internalServerError().body(Map.of("error", e.getMessage() != null ? e.getMessage() : e.getClass().getName()));
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("error", e.getMessage() != null ? e.getMessage() : e.getClass().getName()));
         }
     }
 }

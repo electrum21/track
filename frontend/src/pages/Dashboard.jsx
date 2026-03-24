@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { uploadCourseFile, createTask, getCourses, updateTask } from '../api/api'
 import { useTasks } from '../hooks/useTasks.jsx'
+import { validateUploadFile } from '../utils/fileValidation'
 import TaskModal from '../components/TaskModal'
 
 function SkeletonCard() {
@@ -19,6 +20,7 @@ function SkeletonCard() {
 function Dashboard() {
   const { tasks, loading, updateTaskInState, deleteTaskFromState, addTasksToState, addTaskToState } = useTasks()
   const [uploading, setUploading] = useState(false)
+  const [uploadError, setUploadError] = useState(null)
   const [selectedTask, setSelectedTask] = useState(null)
   const [showCreateForm, setShowCreateForm] = useState(false)
   const [createForm, setCreateForm] = useState({
@@ -83,6 +85,9 @@ function Dashboard() {
     const file = e.target.files[0]
     if (!file) return
     e.target.value = ''
+    const err = validateUploadFile(file)
+    if (err) { setUploadError(err); return }
+    setUploadError(null)
     setUploading(true)
     try {
       const result = await uploadCourseFile(file)
@@ -204,6 +209,14 @@ function Dashboard() {
           )}
         </div>
       </div>
+
+      {/* Upload error */}
+      {uploadError && (
+        <div className="mb-4 px-4 py-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-sm text-red-700 dark:text-red-400 flex items-center justify-between">
+          {uploadError}
+          <button onClick={() => setUploadError(null)} className="ml-3 text-red-400 hover:text-red-600 cursor-pointer">✕</button>
+        </div>
+      )}
 
       {/* Create task form */}
       {showCreateForm && (
