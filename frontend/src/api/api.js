@@ -155,3 +155,11 @@ export const clearAcademicCalendar = async () => {
     headers: authHeaders()
   })
 }
+
+export const deleteAccount = async () => {
+  const res = await fetch(`${BASE_URL}/users/me`, {
+    method: 'DELETE',
+    headers: authHeaders()
+  })
+  return res.ok
+}

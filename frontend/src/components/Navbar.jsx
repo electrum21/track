@@ -1,22 +1,15 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../AuthContext'
 import { useState, useEffect } from 'react'
-import { getTasks } from '../api/api'
+import { useTasks } from '../hooks/useTasks.jsx'
 import SettingsPanel from './SettingsPanel'
 
 function Navbar() {
   const location = useLocation()
   const { user } = useAuth()
+  const { reviewCount } = useTasks()
   const [settingsOpen, setSettingsOpen] = useState(false)
-  const [reviewCount, setReviewCount] = useState(0)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
-  useEffect(() => {
-    if (!user) return
-    getTasks().then(data => {
-      setReviewCount(data.filter(t => t.status === 'NEEDS_REVIEW' || t.status === 'PENDING_DATE').length)
-    }).catch(() => {})
-  }, [user])
 
   useEffect(() => {
     setMobileMenuOpen(false)
@@ -95,7 +88,7 @@ function Navbar() {
           </div>
         </div>
 
-        {/* Mobile dropdown menu */}
+        {/* Mobile dropdown */}
         {mobileMenuOpen && (
           <div className="md:hidden mt-3 border-t border-gray-100 dark:border-gray-800 pt-3 pb-1 flex flex-col gap-0.5">
             {links.map(link => (

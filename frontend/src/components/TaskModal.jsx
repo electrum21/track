@@ -233,7 +233,21 @@ function TaskModal({ task, onClose, onUpdated, onDeleted }) {
                 </div>
                 <div>
                   <label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Due date</label>
-                  <input type="date" value={form.dueDate} onChange={e => setForm(p => ({ ...p, dueDate: e.target.value }))} className={inputClass} />
+                  <input
+                    type="date"
+                    value={form.dueDate}
+                    onChange={e => {
+                      const newDate = e.target.value
+                      setForm(p => {
+                        let newStatus = p.status
+                        if (newDate) {
+                          newStatus = new Date(newDate) < new Date() ? 'COMPLETED' : 'CONFIRMED'
+                        }
+                        return { ...p, dueDate: newDate, status: newStatus }
+                      })
+                    }}
+                    className={inputClass}
+                  />
                 </div>
                 <div>
                   <label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Due time</label>

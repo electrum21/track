@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSettings } from '../hooks/useSettings.jsx'
 import { useAuth } from '../AuthContext'
-import { signOutUser } from '../firebase'
+import { signOutUser, auth } from '../firebase'
+import { deleteAccount } from '../api/api'
 
 // ── tiny primitives ──────────────────────────────────────────────────────────
 
@@ -79,6 +80,24 @@ export default function SettingsPanel({ open, onClose }) {
   const navigate = useNavigate()
   const panelRef = useRef(null)
   const [confirmSignOut, setConfirmSignOut] = useState(false)
+  const [confirmDelete, setConfirmDelete] = useState(false)
+  const [deleting, setDeleting] = useState(false)
+
+  const handleDeleteAccount = async () => {
+    setDeleting(true)
+    try {
+      await deleteAccount()
+      // Delete Firebase account too, then sign out
+      if (auth.currentUser) {
+        try { await auth.currentUser.delete() } catch (_) {}
+      }
+      localStorage.clear()
+      navigate('/login')
+    } catch (err) {
+      console.error('Delete account failed:', err)
+      setDeleting(false)
+    }
+  }
 
   const handleClose = () => {
     persistSettings(settings)
@@ -101,7 +120,7 @@ export default function SettingsPanel({ open, onClose }) {
   useEffect(() => {
     if (open) panelRef.current?.focus()
     // Reset sign out confirmation when panel reopens
-    if (!open) setConfirmSignOut(false)
+    if (!open) { setConfirmSignOut(false); setConfirmDelete(false) }
   }, [open])
 
   const themeOptions = [
@@ -201,6 +220,41 @@ export default function SettingsPanel({ open, onClose }) {
               </div>
             </div>
           )}
+
+          {/* Delete account */}
+          <div className="mt-2">
+            {!confirmDelete ? (
+              <button
+                onClick={() => setConfirmDelete(true)}
+                className="w-full text-xs px-3 py-2 rounded-lg text-gray-400 dark:text-gray-600 hover:text-red-500 dark:hover:text-red-400 transition-all duration-150 cursor-pointer text-center"
+              >
+                Delete account
+              </button>
+            ) : (
+              <div className="bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/30 rounded-lg p-3">
+                <p className="text-xs font-medium text-red-700 dark:text-red-400 mb-1">Delete your account?</p>
+                <p className="text-xs text-red-500 dark:text-red-500 mb-3">
+                  This permanently deletes all your tasks, courses, and calendar data. Cannot be undone.
+                </p>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setConfirmDelete(false)}
+                    disabled={deleting}
+                    className="flex-1 text-xs py-1.5 rounded-md border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:bg-white dark:hover:bg-gray-800 transition-all duration-150 cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleDeleteAccount}
+                    disabled={deleting}
+                    className="flex-1 text-xs py-1.5 rounded-md border border-red-300 dark:border-red-700 text-white bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 transition-all duration-150 cursor-pointer font-medium disabled:opacity-50"
+                  >
+                    {deleting ? 'Deleting…' : 'Delete everything'}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Scrollable body */}

@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './AuthContext'
 import { SettingsProvider } from './hooks/useSettings.jsx'
+import { TasksProvider } from './hooks/useTasks.jsx'
 import Navbar from './components/Navbar'
 import Dashboard from './pages/Dashboard'
 import Calendar from './pages/Calendar'
@@ -11,7 +12,7 @@ import Login from './pages/Login'
 
 function ProtectedRoute({ children }) {
   const { user, token, loading } = useAuth()
-  if (loading) return null  // still initialising
+  if (loading) return null
   if (!user || !token) return <Navigate to="/login" replace />
   return children
 }
@@ -40,7 +41,9 @@ function App() {
     <AuthProvider>
       <SettingsProvider>
         <BrowserRouter>
-          <AppLayout />
+          <TasksProvider>
+            <AppLayout />
+          </TasksProvider>
         </BrowserRouter>
       </SettingsProvider>
     </AuthProvider>

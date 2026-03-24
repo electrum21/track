@@ -1,6 +1,5 @@
 package com.track.track.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.track.track.model.User;
 import com.track.track.service.UserService;
@@ -43,13 +42,10 @@ public class UserController {
             @RequestBody Map<String, Object> preferencesMap) {
         try {
             String prefsString = objectMapper.writeValueAsString(preferencesMap);
-
-            // Reject oversized payloads
             if (prefsString.getBytes().length > MAX_PREFERENCES_BYTES) {
                 return ResponseEntity.badRequest()
                         .body(Map.of("error", "Preferences payload too large (max 10KB)"));
             }
-
             User user = getUserFromRequest(request);
             user.setPreferences(prefsString);
             userService.saveUser(user);
@@ -58,5 +54,18 @@ public class UserController {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
+    }
+
+    /**
+     * Permanently deletes the authenticated user and ALL associated data
+     * (tasks, courses, academic weeks). The Firebase account deletion
+     * should be handled client-side after this call succeeds.
+     */
+    @DeleteMapping("/me")
+    public ResponseEntity<Void> deleteAccount(HttpServletRequest request) {
+        String uid = (String) request.getAttribute("firebaseUid");
+        if (uid == null) return ResponseEntity.status(401).build();
+        userService.deleteUserAndAllData(uid);
+        return ResponseEntity.noContent().build();
     }
 }
