@@ -51,19 +51,6 @@ export const deleteTask = async (id) => {
   })
 }
 
-export const uploadFile = async (file) => {
-  const { userId } = getAuth()
-  const formData = new FormData()
-  formData.append('file', file)
-  formData.append('userId', userId)
-  const res = await fetch(`${BASE_URL}/upload`, {
-    method: 'POST',
-    headers: { 'Authorization': `Bearer ${getAuth().token}` },
-    body: formData
-  })
-  return res.json()
-}
-
 export const getCourses = async () => {
   const { userId } = getAuth()
   const res = await fetch(`${BASE_URL}/courses`, { headers: authHeaders() })

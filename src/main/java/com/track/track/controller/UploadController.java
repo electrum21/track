@@ -45,54 +45,7 @@ public class UploadController {
         return userService.findOrCreateByFirebaseUid(uid, email != null ? email : "", name != null ? name : "");
     }
 
-    // ── task upload (Dashboard) — also upserts course info ─────────────────
-
-    @PostMapping
-    public ResponseEntity<List<TaskResponse>> uploadFile(
-            HttpServletRequest request,
-            @RequestParam("file") MultipartFile file) {
-        try {
-            User user = getUserFromRequest(request);
-            String weekContext = academicCalendarService.buildWeekContext(user.getId());
-            DocumentService.CourseAndTasks result = documentService.extractCourseAndTasksFromFile(file, weekContext);
-
-            // Upsert all extracted courses
-            java.util.Set<String> savedCodes2 = new java.util.HashSet<>();
-            for (Course course : result.courses()) {
-                course.setUser(user);
-                Course existing = courseService.getCourseByUserAndCode(user.getId(), course.getModuleCode()).orElse(null);
-                if (existing != null) {
-                    if (course.getName() != null)      existing.setName(course.getName());
-                    if (course.getProf() != null)      existing.setProf(course.getProf());
-                    if (course.getExamDate() != null)  existing.setExamDate(course.getExamDate());
-                    if (course.getExamVenue() != null) existing.setExamVenue(course.getExamVenue());
-                    courseService.saveCourse(existing);
-                } else {
-                    courseService.saveCourse(course);
-                }
-                savedCodes2.add(course.getModuleCode());
-            }
-
-            // Save tasks
-            List<Task> tasks = result.tasks();
-            tasks.forEach(t -> t.setUser(user));
-            List<Task> savedTasks = taskService.saveAll(tasks);
-
-            // Ensure a course row exists for any task module code not already saved
-            savedTasks.stream()
-                    .map(Task::getModuleCode)
-                    .filter(code -> code != null && !code.isBlank() && !savedCodes2.contains(code))
-                    .distinct()
-                    .forEach(code -> courseService.getOrCreate(user.getId(), code, user));
-
-            return ResponseEntity.ok(savedTasks.stream().map(TaskResponse::from).toList());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.internalServerError().body(null);
-        }
-    }
-
-    // ── new: course + tasks upload (Course page) ─────────────────────────────
+    // ── new: course + tasks upload (Course and Dashboard page) ─────────────────────────────
 
     @PostMapping("/course")
     public ResponseEntity<Map<String, Object>> uploadCourseFile(
