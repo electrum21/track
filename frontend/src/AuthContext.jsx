@@ -13,16 +13,13 @@ export function AuthProvider({ children }) {
     getRedirectResult(auth).catch(console.error)
 
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      console.log('onAuthStateChanged fired, user:', firebaseUser?.email)
       if (firebaseUser) {
         const idToken = await firebaseUser.getIdToken()
-        console.log('token obtained:', idToken?.slice(0, 20))
         setUser(firebaseUser)
         setToken(idToken)
         localStorage.setItem('firebase_token', idToken)
         localStorage.setItem('firebase_uid', firebaseUser.uid)
       } else {
-        console.log('no user')
         setUser(null)
         setToken(null)
         localStorage.removeItem('firebase_token')
