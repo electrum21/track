@@ -503,7 +503,15 @@ function Calendar() {
                     ? 'bg-yellow-50 dark:bg-yellow-900/10'
                     : 'bg-white dark:bg-gray-900'
 
-                  const weekCellBg = isPast ? 'bg-gray-900 dark:bg-gray-950' : rowBg
+                  const weekCellBg = isPast
+                    ? 'bg-gray-900 dark:bg-gray-950'
+                    : semWeek.weekType === 'RECESS'
+                    ? 'bg-blue-50 dark:bg-blue-900/10'
+                    : semWeek.weekType === 'EXAM'
+                    ? 'bg-red-50 dark:bg-red-900/10'
+                    : isCurrent
+                    ? 'bg-yellow-50 dark:bg-yellow-900/10'
+                    : 'bg-white dark:bg-gray-900'
 
                   const weekLabelColor = isPast
                     ? 'text-gray-400 dark:text-gray-600'
@@ -533,7 +541,7 @@ function Calendar() {
                           return due >= start && due <= end
                         })
                         return (
-                          <td key={mod} className="p-2 align-top border-r border-gray-200 dark:border-gray-700">
+                          <td key={mod} className={`p-2 align-top border-r border-gray-200 dark:border-gray-700 ${rowBg}`}>
                             {cellTasks.map(task => (
                               <div
                                 key={task.id}
@@ -565,7 +573,7 @@ function Calendar() {
                     {modules.map(mod => {
                       const undated = tasks.filter(t => t.moduleCode === mod && !t.dueDate)
                       return (
-                        <td key={mod} className="p-2 align-top border-r border-gray-200 dark:border-gray-700">
+                        <td key={mod} className={`p-2 align-top border-r border-gray-200 dark:border-gray-700 ${rowBg}`}>
                           {undated.map(task => (
                             <div
                               key={task.id}
