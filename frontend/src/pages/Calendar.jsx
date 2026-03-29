@@ -573,7 +573,7 @@ function Calendar() {
                     {modules.map(mod => {
                       const undated = tasks.filter(t => t.moduleCode === mod && !t.dueDate)
                       return (
-                        <td key={mod} className={`p-2 align-top border-r border-gray-200 dark:border-gray-700 ${rowBg}`}>
+                        <td key={mod} className={`p-2 align-top border-r border-gray-200 dark:border-gray-700`}>
                           {undated.map(task => (
                             <div
                               key={task.id}
