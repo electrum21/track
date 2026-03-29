@@ -1,179 +1,210 @@
-# Track
+# 🧠 CardSense — Singapore Credit Card Intelligence Platform
 
-An AI-powered academic deadline tracker for NTU students. Upload your course syllabus or semester timetable and Track automatically extracts all assignments, quizzes, and exams — organised by module, ready to review. Ask the built-in agent to manage your deadlines in plain English.
+CardSense is a full-stack web application that transforms fragmented credit card data into a **centralized, decision-ready intelligence platform** for Singapore users.
 
----
-
-## Features
-
-- **AI document parsing** — upload a PDF, PPTX, or DOCX and Gemini extracts all assessed tasks automatically
-- **AI agent** — chat with Track in plain English to query, create, update, or delete tasks; suggested changes are presented for confirmation before anything is saved
-- **Semester & month calendar views** — see your full workload at a glance, with week labels aligned to the academic calendar
-- **Review queue** — tasks with uncertain dates are flagged for manual confirmation before saving
-- **Course management** — auto-creates course entries from uploads, with support for manual entry and editing
-- **Task completion tracking** — mark tasks done, with auto-completion for past deadlines
-- **Academic calendar setup** — upload your school calendar or enter semester dates manually to label weeks correctly
-- **Customisable task display** — choose which fields (due date, time, weightage) appear on calendar task cards
-- **Dark / light / system theme**
-- **Per-user settings** — all preferences are persisted to the database
+Developed by a team of 3 during the **TinyFish AI Hackathon at Acacia College, NUS**, this project explores how structured data and AI can be combined to simplify financial decision-making.  
+The platform is **actively being improved and expanded** beyond the hackathon prototype.
 
 ---
 
-## AI Agent
+## ✨ Core Idea
 
-The agent tab lets you manage your academic workload through natural language. It has full context of your tasks and courses and can answer questions or propose changes.
+Choosing the right credit card is difficult because information is:
+- scattered across bank websites and aggregators  
+- inconsistent in format  
+- hard to compare meaningfully  
 
-### Example queries
-
-| Query | What happens |
-|---|---|
-| "What's due this week?" | Lists all tasks due in the next 7 days |
-| "Summarise my workload" | Breaks down tasks by module and urgency |
-| "What's my heaviest module?" | Ranks modules by total weightage |
-| "Add a quiz for SC2000 worth 20% due 15 April" | Proposes a create_task action for confirmation |
-| "Mark Assignment 3 as complete" | Proposes an update_task action for confirmation |
-| "Delete all SC1008 quizzes" | Proposes delete_task actions for each, one per confirmation card |
-| "Change the due date of my project to 30 April" | Proposes an update_task action for confirmation |
-
-### How confirmation works
-
-When the agent suggests changes, an amber pill appears below its message — "N suggested changes — click to review". Clicking it opens a modal showing each suggested action with an **Accept** / **Reject** toggle per item. Only accepted changes are applied when you click **Apply**. After applying, all pages (Dashboard, Calendar, Course) update instantly without a reload.
-
-### What the agent can do
-
-- `create_task` — create a new task with title, module, type, due date/time, weightage, and note
-- `update_task` — update any field on an existing task including status, due date, weightage
-- `delete_task` — remove a task permanently
-- `create_course` — add a new course with module code, name, professor, exam date and venue
-
-Read-only queries (questions about deadlines, summaries, workload analysis) never trigger the confirmation modal — the agent just responds conversationally.
+CardSense solves this by:
+- aggregating data into a unified schema  
+- enabling powerful filtering and comparison  
+- layering AI on top for personalized recommendations  
 
 ---
 
-## Tech Stack
+## 🐟 Role of TinyFish
 
-| Layer | Technology |
-|---|---|
-| Frontend | React 18, Vite, Tailwind CSS |
-| Backend | Spring Boot 4, Java 21 |
-| Database | PostgreSQL via Supabase |
-| Auth | Firebase Authentication (Google OAuth) |
-| AI | Google Gemini 2.5 Flash |
-| File conversion | Apache POI, PDFBox |
+At the heart of CardSense is **TinyFish**, which acts as the **data acquisition and extraction engine**.
 
----
+### How TinyFish is used:
 
-## Getting Started
+- **Web scraping orchestration**  
+  TinyFish runs structured scraping workflows across:
+  - bank websites  
+  - aggregator platforms (e.g. MoneySmart)  
+  - merchant cashback platforms (e.g. ShopBack, Eatigo)
 
-### Prerequisites
+- **AI-powered data extraction**  
+  Instead of returning raw HTML, TinyFish extracts structured fields such as:
+  - card names, banks, and types  
+  - cashback rates and categories  
+  - signup rewards and conditions  
+  - merchant cashback rates  
+  - promotion metadata  
 
-- Java 21
-- Node.js 18+
-- Maven
-- A [Supabase](https://supabase.com) project (free tier)
-- A [Firebase](https://firebase.google.com) project with Google Auth enabled
-- A [Gemini API key](https://aistudio.google.com)
+- **Asynchronous run system**  
+  Each scrape is executed as a TinyFish run:
+  - tracked via `run_id`  
+  - returns `final_run_data` payloads  
+  - supports multiple source categories  
 
-### Backend setup
+- **Multi-source categorization**  
+  Data is tagged by source type:
+  - `BANK_CASHBACK`  
+  - `BANK_SIGNUP`  
+  - `SHOPBACK`  
+  - `EATIGO`  
+  - `MONEYSMART`  
 
-1. Clone the repo
-2. Copy `src/main/resources/application.properties.example` to `application.properties`
-3. Fill in your Supabase, Firebase, and Gemini credentials
-4. Place your `firebase-service-account.json` in `src/main/resources/`
-5. Run the backend:
+- **Foundation for the data pipeline**  
+  TinyFish outputs are ingested into Supabase via custom scripts, where they are:
+  - normalized  
+  - deduplicated  
+  - structured into relational tables  
 
-```bash
-./mvnw spring-boot:run
-```
-
-### Frontend setup
-
-1. Navigate to the `frontend` folder
-2. Install dependencies:
-
-```bash
-npm install
-```
-
-3. Copy `src/firebase.example.js` to `src/firebase.js` and fill in your Firebase config
-4. Create a `.env` file:
-
-```
-VITE_API_URL=http://localhost:8080/api
-```
-
-5. Start the dev server:
-
-```bash
-npm run dev
-```
+👉 TinyFish transforms messy web data into **AI-ready structured datasets**, enabling the rest of the system.
 
 ---
 
-## Environment Variables
+## 🚀 Key Functionalities
 
-### Backend (`application.properties`)
+### 🏦 1. Card Explorer
+Browse and compare credit cards in a structured, searchable interface.
 
-```properties
-spring.datasource.url=${SPRING_DATASOURCE_URL}
-spring.datasource.username=${SPRING_DATASOURCE_USERNAME}
-spring.datasource.password=${SPRING_DATASOURCE_PASSWORD}
-gemini.api.key=${GEMINI_API_KEY}
-```
-
-### Frontend (`.env`)
-
-```
-VITE_API_URL=http://localhost:8080/api
-```
+**Capabilities:**
+- Filter by:
+  - Bank  
+  - Card type  
+  - Annual fee (**Free / Waived / Paid**)  
+- Sort by cashback potential  
+- View normalized cashback categories  
 
 ---
 
-## Project Structure
+### 🎁 2. Signup Offers Aggregation
+Centralizes promotional offers across banks and aggregators.
 
-```
-track/
-├── frontend/               # React + Vite frontend
-│   ├── src/
-│   │   ├── api/            # API call functions
-│   │   ├── components/     # Navbar, TaskModal, SettingsPanel
-│   │   ├── hooks/          # useTasks, useSettings, useTheme
-│   │   └── pages/          # Dashboard, Calendar, Course, ReviewQueue, Agent
-├── src/                    # Spring Boot backend
-│   └── main/java/com/track/track/
-│       ├── config/         # Firebase, Security, CORS
-│       ├── controller/     # REST endpoints (Task, Course, Upload, Agent)
-│       ├── model/          # JPA entities
-│       ├── repository/     # Spring Data repositories
-│       └── service/        # Business logic, Gemini integration, Agent
-└── pom.xml
-```
+**Capabilities:**
+- Filter by:
+  - Bank  
+  - Reward type  
+  - Exclusivity  
+- Sort by:
+  - Highest reward value  
+  - Nearest expiry  
+- View:
+  - reward value  
+  - minimum spend  
+  - spend window  
+  - expiry  
 
 ---
 
-## Deployment
+### 🛍 3. Merchant Cashback Intelligence
+Surfaces high-value cashback opportunities from merchant platforms.
 
-- **Frontend** — [Vercel](https://vercel.com) (static site)
-- **Backend** — [Render](https://render.com) (web service) or any Java-compatible host
-- Set environment variables in your host's dashboard
-- Add your production domain to Firebase → Authentication → Authorized Domains
-- Update CORS in `SecurityConfig.java` to include your frontend URL
-
----
-
-## Security Notes
-
-- All API endpoints require a valid Firebase JWT
-- The backend verifies tokens using Firebase Admin SDK — the frontend UID is never trusted directly
-- Ownership is verified server-side before any update or delete operation
-- Row Level Security (RLS) is enabled on Supabase — only the service role (backend) can access data
-- Sensitive files (`firebase-service-account.json`, `application.properties`, `firebase.js`) are gitignored
+**Capabilities:**
+- Filter by category  
+- Sort by highest cashback  
+- Designed for **stacking with cards**
 
 ---
 
-## Known Limitations
+### 🤖 4. AI Advisor (Recommendation Engine)
 
-- AI extraction accuracy varies by document format — the review queue handles uncertain results
-- Gemini free tier is limited to 15 requests/minute
-- PPTX/DOCX files are converted to PDF before extraction, which may lose some formatting context
-- Agent suggestions are executed client-side via the existing API — complex multi-step operations may require multiple prompts
+Transforms structured data into personalized recommendations.
+
+**How it works:**
+1. User inputs preferences (natural language)  
+2. Backend retrieves structured data from Supabase  
+3. Data is injected into an AI prompt  
+4. AI selects and explains best-fit cards  
+
+👉 This is a **retrieval-augmented system**, grounded in real data.
+
+---
+
+### 🔍 5. Data Normalization Layer
+
+Bridges TinyFish outputs with a usable product.
+
+**Capabilities:**
+- Converts heterogeneous JSON into structured tables:
+  - `cashback_cards`  
+  - `signup_offers`  
+  - `merchant_offers`  
+  - `card_promotions`  
+- Handles:
+  - inconsistent formats  
+  - missing fields  
+  - numeric extraction (e.g. cashback rates)  
+
+---
+
+### 🧩 6. Multi-Source Data Integration
+
+Combines multiple ecosystems into a unified model:
+
+- Bank-issued cards  
+- Signup promotions  
+- Aggregator insights  
+- Merchant cashback deals  
+
+This enables:
+- cross-source comparison  
+- richer card profiles  
+- future stacking logic  
+
+---
+
+## 🧠 System Design Philosophy
+
+CardSense is built as a **data-first, AI-assisted system**:
+
+- **TinyFish → Data ingestion & extraction**  
+- **Supabase → Structured storage**  
+- **Backend → filtering + logic**  
+- **AI → reasoning + explanation**  
+
+This avoids relying purely on AI and instead combines:
+
+> structured logic + intelligent reasoning
+
+---
+
+## 🚧 Current Status
+
+Originally developed during a hackathon, CardSense is now:
+
+- actively being refined  
+- expanding data coverage  
+- improving recommendation quality  
+- enhancing UI/UX  
+
+---
+
+## 🔮 Future Directions
+
+- Card detail pages with full breakdowns  
+- Smarter recommendation engine (hybrid scoring + AI)  
+- Promotion stacking logic  
+- Deduplication across sources  
+- Spend optimization tools  
+- Real-time updates  
+
+---
+
+## 👥 Team
+
+Built by a team of 3 during the  
+**TinyFish AI Hackathon @ Acacia College, NUS**
+
+---
+
+## 💡 Motivation
+
+This project explores how AI can move beyond chat interfaces into:
+- structured decision systems  
+- real-world financial applications  
+- user-centric product design  
+
+---
