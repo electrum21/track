@@ -40,7 +40,7 @@ public class FileValidator {
 
         String detected;
         try {
-            detected = tika.detect(file.getInputStream());
+            detected = tika.detect(file.getBytes(), file.getOriginalFilename());
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not read file.");
         }

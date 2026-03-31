@@ -71,9 +71,25 @@ export function TasksProvider({ children }) {
   }, [])
 
   const addTasksToState = useCallback((newTasks) => {
+    const today = new Date()
+    const toComplete = newTasks.filter(t =>
+      t.dueDate && t.status === 'CONFIRMED' && new Date(t.dueDate) < today
+    )
+    if (toComplete.length > 0) {
+      Promise.all(
+        toComplete.map(t =>
+          updateTask(t.id, { ...t, status: 'COMPLETED', user: { id: t.userId } })
+        )
+      ).catch(err => console.error('Failed to auto-complete past-due uploaded tasks', err))
+    }
+    const completedIds = new Set(toComplete.map(t => t.id))
+    const resolvedTasks = newTasks.map(t =>
+      completedIds.has(t.id) ? { ...t, status: 'COMPLETED' } : t
+    )
+
     setTasks(prev => {
       const existingIds = new Set(prev.map(t => t.id))
-      return [...prev, ...newTasks.filter(t => !existingIds.has(t.id))]
+      return [...prev, ...resolvedTasks.filter(t => !existingIds.has(t.id))]
     })
   }, [])
 
