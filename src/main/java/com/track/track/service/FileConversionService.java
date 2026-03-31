@@ -7,6 +7,10 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.apache.poi.xwpf.usermodel.IBodyElement;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTableRow;
+import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import java.io.*;
 import java.util.List;
 
@@ -36,22 +40,38 @@ public class FileConversionService {
         PDDocument pdf = new PDDocument();
         PDType1Font font = new PDType1Font(Standard14Fonts.FontName.HELVETICA);
 
-        for (XWPFParagraph para : doc.getParagraphs()) {
-            String text = para.getText();
-            if (text == null || text.isBlank()) continue;
+        // Collect ALL body elements in document order (paragraphs + table cells)
+        List<String> lines = new ArrayList<>();
 
+        for (IBodyElement element : doc.getBodyElements()) {
+            if (element instanceof XWPFParagraph para) {
+                String text = para.getText();
+                if (text != null && !text.isBlank()) lines.add(text);
+            } else if (element instanceof XWPFTable table) {
+                for (XWPFTableRow row : table.getRows()) {
+                    for (XWPFTableCell cell : row.getTableCells()) {
+                        String text = cell.getText();
+                        if (text != null && !text.isBlank()) lines.add(text);
+                    }
+                }
+            }
+        }
+
+        // Write all lines to PDF pages (batch ~50 lines per page)
+        int batchSize = 50;
+        for (int i = 0; i < lines.size(); i += batchSize) {
             PDPage page = new PDPage();
             pdf.addPage(page);
-
             try (var stream = new org.apache.pdfbox.pdmodel.PDPageContentStream(pdf, page)) {
                 stream.beginText();
                 stream.setFont(font, 11);
                 stream.setLeading(14);
                 stream.newLineAtOffset(50, 750);
-
-                for (String line : wrapText(text, 90)) {
-                    stream.showText(sanitize(line));
-                    stream.newLine();
+                for (int j = i; j < Math.min(i + batchSize, lines.size()); j++) {
+                    for (String wrapped : wrapText(lines.get(j), 90)) {
+                        stream.showText(sanitize(wrapped));
+                        stream.newLine();
+                    }
                 }
                 stream.endText();
             }
