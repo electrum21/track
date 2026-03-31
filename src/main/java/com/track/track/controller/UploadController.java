@@ -93,7 +93,9 @@ public class UploadController {
                 }
             }
 
-            List<Task> tasks = result.tasks();
+            List<Task> tasks = result.tasks().stream()
+                .filter(t -> t.getModuleCode() != null && !t.getModuleCode().isBlank())
+                .collect(java.util.stream.Collectors.toList());
             tasks.forEach(t -> t.setUser(user));
             List<Task> savedTasks = taskService.saveAll(tasks);
 
