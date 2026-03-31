@@ -12,6 +12,7 @@ import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
