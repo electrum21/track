@@ -32,10 +32,6 @@ function ReviewQueue() {
   const handleChange = (id, field, value) => {
     setEdits(prev => {
       const updated = { ...prev, [id]: { ...prev[id], [field]: value } }
-      // Auto-adjust status when due date changes
-      if (field === 'dueDate' && value) {
-        // no status field in edits — handled at confirm time
-      }
       return updated
     })
   }

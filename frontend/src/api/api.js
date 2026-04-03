@@ -83,16 +83,6 @@ export const deleteCourse = async (id) => {
   })
 }
 
-export const extractCourseInfo = async (file) => {
-  const formData = new FormData()
-  formData.append('file', file)
-  const res = await fetch(`${BASE_URL}/courses/extract`, {
-    method: 'POST',
-    headers: { 'Authorization': `Bearer ${getAuth().token}` },
-    body: formData
-  })
-  return res.json()
-}
 export const uploadCourseFile = async (file) => {
   const formData = new FormData()
   formData.append('file', file)
