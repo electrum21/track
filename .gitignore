@@ -39,4 +39,7 @@ src/main/resources/firebase-service-account.json
 #Localhost files
 src/main/java/com/track/track/config/FirebaseConfigLocal.java
 src/main/resources/application.properties.local
-telegram-bot/
+
+#Telegram bot files
+telegram-bot/.env
+telegram-bot/__pycache__
