@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.Optional;
+import java.time.ZoneOffset;
 
 @RestController
 public class TelegramController {
@@ -47,7 +48,7 @@ public class TelegramController {
         TelegramLinkCode linkCode = telegramLinkService.createLinkCode(user);
         return ResponseEntity.ok(Map.of(
                 "code", linkCode.getCode(),
-                "expiresAt", linkCode.getExpiresAt().toString()
+                "expiresAt", linkCode.getExpiresAt().atZone(ZoneOffset.systemDefault()).withZoneSameInstant(ZoneOffset.UTC).toString()
         ));
     }
 
