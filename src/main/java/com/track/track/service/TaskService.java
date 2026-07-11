@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.time.LocalDate;
 
 @Service
 public class TaskService {
@@ -33,6 +34,14 @@ public class TaskService {
 
     public Optional<Task> getTaskById(UUID id) {
         return taskRepository.findById(id);
+    }
+
+    public List<Task> getOverdueTasks(UUID userId) {
+        return taskRepository.findByUserIdAndDueDateBeforeAndStatusNot(userId, LocalDate.now(), TaskStatus.COMPLETED);
+    }
+
+    public List<Task> getTasksDueToday(UUID userId) {
+        return taskRepository.findByUserIdAndDueDate(userId, LocalDate.now());
     }
 
     public Task saveTask(Task task) {

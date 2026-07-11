@@ -1,7 +1,10 @@
 package com.track.track.controller;
 
+import com.track.track.dto.TaskResponse;
 import com.track.track.model.TelegramLinkCode;
 import com.track.track.model.User;
+import com.track.track.model.Task;
+import com.track.track.service.TaskService;
 import com.track.track.service.TelegramLinkService;
 import com.track.track.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 import java.time.ZoneOffset;
 
@@ -18,13 +22,15 @@ public class TelegramController {
 
     private final TelegramLinkService telegramLinkService;
     private final UserService userService;
+    private final TaskService taskService;
 
     @Value("${telegram.bot.shared-secret}")
     private String botSharedSecret;
 
-    public TelegramController(TelegramLinkService telegramLinkService, UserService userService) {
+    public TelegramController(TelegramLinkService telegramLinkService, UserService userService, TaskService taskService) {
         this.telegramLinkService = telegramLinkService;
         this.userService = userService;
+        this.taskService = taskService;
     }
 
     // ── user-facing (Firebase-authenticated, called from the website) ──────
@@ -95,6 +101,26 @@ public class TelegramController {
                 "email", user.get().getEmail() != null ? user.get().getEmail() : "",
                 "name", user.get().getName() != null ? user.get().getName() : ""
         ));
+    }
+
+    @GetMapping("/internal/telegram/tasks/{chatId}")
+    public ResponseEntity<List<TaskResponse>> getTasksForChat(
+            HttpServletRequest request,
+            @PathVariable String chatId,
+            @RequestParam(required = false, defaultValue = "all") String filter) {
+        if (!isValidBotSecret(request)) return ResponseEntity.status(403).build();
+
+        Optional<User> userOpt = telegramLinkService.getUserByTelegramChatId(chatId);
+        if (userOpt.isEmpty()) return ResponseEntity.notFound().build();
+        User user = userOpt.get();
+
+        List<Task> tasks = switch (filter) {
+            case "overdue" -> taskService.getOverdueTasks(user.getId());
+            case "today" -> taskService.getTasksDueToday(user.getId());
+            default -> taskService.getTasksByUser(user.getId());
+        };
+
+        return ResponseEntity.ok(tasks.stream().map(TaskResponse::from).toList());
     }
 
     @DeleteMapping("/internal/telegram/user/{chatId}")
