@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useSettings } from '../hooks/useSettings.jsx'
 import { useAuth } from '../AuthContext'
 import { signOutUser, auth } from '../firebase'
-import { deleteAccount } from '../api/api'
+import { deleteAccount, getTelegramStatus, generateTelegramLinkCode, unlinkTelegram } from '../api/api'
 
 // ── tiny primitives ──────────────────────────────────────────────────────────
 
@@ -82,6 +82,12 @@ export default function SettingsPanel({ open, onClose }) {
   const [confirmSignOut, setConfirmSignOut] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [deleting, setDeleting] = useState(false)
+  const [telegramStatus, setTelegramStatus] = useState(null)
+  const [generatingCode, setGeneratingCode] = useState(false)
+  const [linkCode, setLinkCode] = useState(null)
+  const [linkError, setLinkError] = useState(null)
+  const [confirmUnlink, setConfirmUnlink] = useState(false)
+  const [secondsLeft, setSecondsLeft] = useState(0)
 
   const handleDeleteAccount = async () => {
     setDeleting(true)
@@ -96,6 +102,31 @@ export default function SettingsPanel({ open, onClose }) {
     } catch (err) {
       console.error('Delete account failed:', err)
       setDeleting(false)
+    }
+  }
+
+  const handleLinkTelegram = async () => {
+    if (generatingCode) return
+    setGeneratingCode(true)
+    setLinkError(null)
+    try {
+      const result = await generateTelegramLinkCode()
+      setLinkCode(result)
+    } catch (err) {
+      console.error('Generate link code failed:', err)
+      setLinkError('Could not generate a code. Try again.')
+    } finally {
+      setGeneratingCode(false)
+    }
+  }
+
+  const handleUnlinkTelegram = async () => {
+    try {
+      await unlinkTelegram()
+      setTelegramStatus({ linked: false, chatId: null })
+      setConfirmUnlink(false)
+    } catch (err) {
+      console.error('Unlink failed:', err)
     }
   }
 
@@ -119,9 +150,28 @@ export default function SettingsPanel({ open, onClose }) {
 
   useEffect(() => {
     if (open) panelRef.current?.focus()
-    // Reset sign out confirmation when panel reopens
-    if (!open) { setConfirmSignOut(false); setConfirmDelete(false) }
+    if (!open) {
+      setConfirmSignOut(false)
+      setConfirmDelete(false)
+      setConfirmUnlink(false)
+      setLinkCode(null)
+      setLinkError(null)
+    } else {
+      getTelegramStatus().then(setTelegramStatus).catch(() => setTelegramStatus({ linked: false, chatId: null }))
+    }
   }, [open])
+
+  useEffect(() => {
+    if (!linkCode) return
+    const tick = () => {
+      const remaining = Math.max(0, Math.floor((new Date(linkCode.expiresAt) - new Date()) / 1000))
+      setSecondsLeft(remaining)
+      if (remaining === 0) setLinkCode(null)
+    }
+    tick()
+    const interval = setInterval(tick, 1000)
+    return () => clearInterval(interval)
+  }, [linkCode])
 
   const themeOptions = [
     { value: 'light', label: 'Light' },
@@ -291,7 +341,68 @@ export default function SettingsPanel({ open, onClose }) {
               />
             ))}
           </div>
-
+          <SectionLabel>Telegram reminders</SectionLabel>
+            {telegramStatus === null ? (
+              <div className="text-xs text-gray-400 dark:text-gray-500">Checking status…</div>
+            ) : telegramStatus.linked ? (
+              !confirmUnlink ? (
+                <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-3 flex items-center justify-between">
+                  <span className="text-xs text-gray-500 dark:text-gray-400">Linked</span>
+                  <button
+                    onClick={() => setConfirmUnlink(true)}
+                    className="text-xs text-red-500 dark:text-red-400 hover:underline cursor-pointer"
+                  >
+                    Unlink
+                  </button>
+                </div>
+              ) : (
+                <div className="bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/30 rounded-lg p-3">
+                  <p className="text-xs text-red-500 dark:text-red-500 mb-3">
+                    You'll stop receiving reminders until you link again.
+                  </p>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setConfirmUnlink(false)}
+                      className="flex-1 text-xs py-1.5 rounded-md border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 cursor-pointer"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={handleUnlinkTelegram}
+                      className="flex-1 text-xs py-1.5 rounded-md border border-red-300 dark:border-red-700 text-white bg-red-500 hover:bg-red-600 cursor-pointer font-medium"
+                    >
+                      Unlink
+                    </button>
+                  </div>
+                </div>
+              )
+            ) : linkCode ? (
+              <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-3 text-center">
+                <div className="font-mono text-lg tracking-widest text-gray-800 dark:text-gray-200 mb-1">
+                  {linkCode.code}
+                </div>
+                <div className="text-xs text-gray-400 dark:text-gray-500 mb-2">Expires in {secondsLeft}s</div>
+                  <a href={`https://t.me/ntutrackbot?start=${linkCode.code}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-xs text-blue-500 hover:underline"
+                  >
+                    Open in Telegram
+                  </a>
+                </div>
+              ) : (
+                <div>
+                  <button
+                    onClick={handleLinkTelegram}
+                    disabled={generatingCode}
+                    className="w-full text-xs px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-150 cursor-pointer disabled:opacity-50"
+                  >
+                    {generatingCode ? 'Generating…' : 'Link Telegram'}
+                  </button>
+                  {linkError && <div className="text-xs text-red-500 mt-2">{linkError}</div>}
+                </div>
+              )}
+              
           <SectionLabel>Preview</SectionLabel>
           <TaskPreview settings={settings} />
 
