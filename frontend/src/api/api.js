@@ -149,3 +149,23 @@ export const agentChat = async (message, history) => {
   })
   return res.json()
 }
+
+export const getTelegramStatus = async () => {
+  const res = await fetch(`${BASE_URL}/telegram/status`, { headers: authHeaders() })
+  return res.json()
+}
+
+export const generateTelegramLinkCode = async () => {
+  const res = await fetch(`${BASE_URL}/telegram/link-code`, {
+    method: 'POST',
+    headers: authHeaders()
+  })
+  return res.json()
+}
+
+export const unlinkTelegram = async () => {
+  await fetch(`${BASE_URL}/telegram/link`, {
+    method: 'DELETE',
+    headers: authHeaders()
+  })
+}
