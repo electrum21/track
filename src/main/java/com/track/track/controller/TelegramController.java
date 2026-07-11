@@ -96,4 +96,17 @@ public class TelegramController {
                 "name", user.get().getName() != null ? user.get().getName() : ""
         ));
     }
+
+    @DeleteMapping("/internal/telegram/user/{chatId}")
+    public ResponseEntity<Map<String, Object>> unlinkByChatId(
+            HttpServletRequest request,
+            @PathVariable String chatId) {
+        if (!isValidBotSecret(request)) return ResponseEntity.status(403).build();
+
+        Optional<User> user = telegramLinkService.getUserByTelegramChatId(chatId);
+        if (user.isEmpty()) return ResponseEntity.notFound().build();
+
+        telegramLinkService.unlink(user.get());
+        return ResponseEntity.notFound().build();
+    }
 }
