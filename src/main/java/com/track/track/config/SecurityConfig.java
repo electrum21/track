@@ -30,6 +30,7 @@ public class SecurityConfig {
             .sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/internal/telegram/**").permitAll()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(firebaseAuthFilter, UsernamePasswordAuthenticationFilter.class);

@@ -23,6 +23,9 @@ public class User {
     @Column(unique = true)
     private String firebaseUid;
 
+    @Column(unique = true)
+    private String telegramChatId;
+
     private String name;
 
     // Stores settings as a JSON blob in the DB, e.g.:
@@ -44,6 +47,9 @@ public class User {
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+
+    public String getTelegramChatId() { return telegramChatId; }
+    public void setTelegramChatId(String telegramChatId) { this.telegramChatId = telegramChatId; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
 
