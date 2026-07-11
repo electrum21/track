@@ -124,7 +124,7 @@ function Agent() {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: "Hi! I'm Track, your academic assistant. Ask me anything about your deadlines, or tell me to create, update, or delete tasks.",
+      content: "Hi! I'm NTUTrack, your academic assistant. Ask me anything about your deadlines, or tell me to create, update, or delete tasks.",
       suggestions: null,
       data: null
     }

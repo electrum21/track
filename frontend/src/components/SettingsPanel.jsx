@@ -402,7 +402,7 @@ export default function SettingsPanel({ open, onClose }) {
                   {linkError && <div className="text-xs text-red-500 mt-2">{linkError}</div>}
                 </div>
               )}
-              
+
           <SectionLabel>Preview</SectionLabel>
           <TaskPreview settings={settings} />
 
@@ -422,7 +422,7 @@ function TaskPreview({ settings }) {
       <div className="flex items-center gap-2 flex-wrap">
         {taskDisplay.moduleCode && (
           <span className="text-xs font-medium bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 px-2 py-0.5 rounded-full">
-            CS2040
+            SC2001
           </span>
         )}
         {taskDisplay.title && (

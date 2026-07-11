@@ -27,7 +27,7 @@ function Navbar() {
     <>
       <nav className="bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 px-4 sm:px-6 py-3">
         <div className="flex items-center justify-between">
-          <span className="font-medium text-gray-900 dark:text-gray-100">Track</span>
+          <span className="font-medium text-gray-900 dark:text-gray-100">NTUTrack</span>
 
           {/* Desktop nav links */}
           <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 gap-1">
