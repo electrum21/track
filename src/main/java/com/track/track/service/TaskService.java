@@ -44,6 +44,11 @@ public class TaskService {
         return taskRepository.findByUserIdAndDueDate(userId, LocalDate.now());
     }
 
+    public List<Task> getTasksDueWithin(UUID userId, int days) {
+        LocalDate today = LocalDate.now();
+        return taskRepository.findByUserIdAndDueDateBetweenAndStatusNot(userId, today, today.plusDays(days), TaskStatus.COMPLETED);
+    }
+
     public Task saveTask(Task task) {
         return taskRepository.save(task);
     }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.time.ZoneOffset;
 
 @RestController
@@ -121,6 +122,19 @@ public class TelegramController {
         };
 
         return ResponseEntity.ok(tasks.stream().map(TaskResponse::from).toList());
+    }
+
+    @GetMapping("/internal/telegram/reminders/due")
+    public ResponseEntity<Map<String, List<TaskResponse>>> getDueReminders(HttpServletRequest request) {
+        if (!isValidBotSecret(request)) return ResponseEntity.status(403).build();
+
+        Map<String, List<Task>> reminders = telegramLinkService.getDueReminders(3); // 3-day lookahead
+        Map<String, List<TaskResponse>> response = reminders.entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        e -> e.getValue().stream().map(TaskResponse::from).toList()
+                ));
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/internal/telegram/user/{chatId}")

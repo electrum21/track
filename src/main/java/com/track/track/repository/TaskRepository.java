@@ -20,6 +20,8 @@ public interface TaskRepository extends JpaRepository<Task, UUID> {  // By exten
 
     List<Task> findByUserIdAndDueDateBeforeAndStatusNot(UUID userId, LocalDate date, TaskStatus status);
 
+    List<Task> findByUserIdAndDueDateBetweenAndStatusNot(UUID userId, LocalDate start, LocalDate end, TaskStatus status);
+
     List<Task> findByUserIdAndDueDate(UUID userId, LocalDate date);
 
     void deleteByUserId(UUID userId);

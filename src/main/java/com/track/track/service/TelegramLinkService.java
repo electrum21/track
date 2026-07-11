@@ -2,6 +2,8 @@ package com.track.track.service;
 
 import com.track.track.model.TelegramLinkCode;
 import com.track.track.model.User;
+import com.track.track.model.Task;
+import com.track.track.service.TaskService;
 import com.track.track.repository.TelegramLinkCodeRepository;
 import com.track.track.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Optional;
 
 @Service
@@ -21,11 +27,13 @@ public class TelegramLinkService {
 
     private final TelegramLinkCodeRepository linkCodeRepository;
     private final UserRepository userRepository;
+    private final TaskService taskService;
 
     public TelegramLinkService(TelegramLinkCodeRepository linkCodeRepository,
-                                UserRepository userRepository) {
+                                UserRepository userRepository, TaskService taskService) {
         this.linkCodeRepository = linkCodeRepository;
         this.userRepository = userRepository;
+        this.taskService = taskService;
     }
 
     @Transactional
@@ -100,4 +108,22 @@ public class TelegramLinkService {
     }
 
     public record TelegramLinkStatus(boolean linked, String chatId) {}
+
+    public Map<String, List<Task>> getDueReminders(int dueSoonDays) {
+        Map<String, List<Task>> reminders = new HashMap<>();
+        List<User> linkedUsers = userRepository.findByTelegramChatIdIsNotNull();
+
+        for (User user : linkedUsers) {
+            List<Task> overdue = taskService.getOverdueTasks(user.getId());
+            List<Task> dueSoon = taskService.getTasksDueWithin(user.getId(), dueSoonDays);
+
+            List<Task> combined = new ArrayList<>(overdue);
+            combined.addAll(dueSoon);
+
+            if (!combined.isEmpty()) {
+                reminders.put(user.getTelegramChatId(), combined);
+            }
+        }
+        return reminders;
+    }
 }
