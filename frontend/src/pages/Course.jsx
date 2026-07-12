@@ -2,16 +2,16 @@ import { useState, useEffect } from 'react'
 import { getTasks, updateTask, getCourses, createCourse, updateCourse, deleteCourse, deleteTask, uploadCourseFile } from '../api/api'
 import { validateUploadFile } from '../utils/fileValidation'
 import TaskModal from '../components/TaskModal'
+import CourseCatalog from '../components/CourseCatalog'
 
 function Course() {
+  const [activeTab, setActiveTab] = useState('my')
   const [tasks, setTasks] = useState([])
   const [courses, setCourses] = useState([])
   const [selectedMod, setSelectedMod] = useState(null)
-  const [showAddForm, setShowAddForm] = useState(false)
-  const [showAddOptions, setShowAddOptions] = useState(false)
-  const [addForm, setAddForm] = useState({ code: '', name: '', prof: '', examDate: '', examVenue: '' })
   const [extracting, setExtracting] = useState(false)
   const [uploadError, setUploadError] = useState(null)
+  const [catalogAddError, setCatalogAddError] = useState(null)
   const [editingMod, setEditingMod] = useState(null)
   const [editForm, setEditForm] = useState({ name: '', prof: '', examDate: '', examVenue: '' })
   const [selectedTask, setSelectedTask] = useState(null)
@@ -22,12 +22,6 @@ function Course() {
     getTasks().then(data => setTasks(data))
     getCourses().then(data => setCourses(data))
   }, [])
-
-  useEffect(() => {
-    const handleClickOutside = () => setShowAddOptions(false)
-    if (showAddOptions) document.addEventListener('click', handleClickOutside)
-    return () => document.removeEventListener('click', handleClickOutside)
-  }, [showAddOptions])
 
   const modules = [...new Set([
     ...courses.map(c => c.moduleCode),
@@ -70,20 +64,21 @@ function Course() {
     setExtracting(false)
   }
 
-  const handleAddCourse = async () => {
-    const code = addForm.code.trim().toUpperCase()
-    if (!code) return
-    const saved = await createCourse({
-      moduleCode: code,
-      name: addForm.name,
-      prof: addForm.prof,
-      examDate: addForm.examDate || null,
-      examVenue: addForm.examVenue
-    })
-    setCourses(prev => [...prev, saved])
-    setAddForm({ code: '', name: '', prof: '', examDate: '', examVenue: '' })
-    setShowAddForm(false)
-    setExtracted(false)
+  // Adds a course from the Course Catalog tab — replaces the old flow of
+  // manually typing the module code and course name.
+  const handleAddFromCatalog = async (mod) => {
+    if (courses.some(c => c.moduleCode === mod.moduleCode)) return
+    setCatalogAddError(null)
+    try {
+      const saved = await createCourse({
+        moduleCode: mod.moduleCode,
+        name: mod.name
+      })
+      setCourses(prev => [...prev, saved])
+    } catch (err) {
+      console.error('Failed to add course from catalog:', err)
+      setCatalogAddError(`Could not add ${mod.moduleCode}. Please try again.`)
+    }
   }
 
   const handleSaveEdit = async (mod) => {
@@ -168,78 +163,52 @@ function Course() {
 
   const inputClass = "mt-1 w-full text-sm border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 focus:outline-none focus:border-gray-400 dark:focus:border-gray-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
 
+  const tabButtonClass = (tab) =>
+    `text-sm px-1 pb-3 -mb-px border-b-2 transition-all duration-150 cursor-pointer ${
+      activeTab === tab
+        ? 'border-gray-900 dark:border-gray-100 text-gray-900 dark:text-gray-100 font-medium'
+        : 'border-transparent text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300'
+    }`
+
   return (
     <div>
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-5">
         <h1 className="text-xl font-medium text-gray-900 dark:text-gray-100">Courses</h1>
-        <div className="relative">
-          <button
-            onClick={(e) => { e.stopPropagation(); setShowAddOptions(prev => !prev) }}
-            className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 active:scale-95 text-gray-600 dark:text-gray-300 transition-all duration-150 cursor-pointer"
-          >
-            {extracting ? 'Uploading & parsing...' : '+ Add Course Information'}
-          </button>
-          {showAddOptions && (
-            <div
-              className="absolute right-0 top-8 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg z-10 overflow-hidden w-36"
-              onClick={e => e.stopPropagation()}
-            >
-              <label className="block text-xs px-4 py-2.5 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer transition-all duration-150">
-                Upload & Parse File
-                <input type="file" className="hidden" accept=".pdf,.docx,.pptx,image/*" onChange={(e) => { setShowAddOptions(false); handleFileUpload(e) }} />
-              </label>
-              <button
-                onClick={() => { setShowAddOptions(false); setShowAddForm(true); setExtracted(false); setAddForm({ code: '', name: '', prof: '', examDate: '', examVenue: '' }) }}
-                className="block w-full text-left text-xs px-4 py-2.5 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-150 border-t border-gray-100 dark:border-gray-800 cursor-pointer"
-              >
-                Manual Entry
-              </button>
-            </div>
-          )}
-        </div>
+        {activeTab === 'my' && (
+          <label className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 active:scale-95 text-gray-600 dark:text-gray-300 transition-all duration-150 cursor-pointer">
+            {extracting ? 'Uploading & parsing...' : 'Upload & Parse File'}
+            <input type="file" className="hidden" accept=".pdf,.docx,.pptx,image/*" onChange={handleFileUpload} />
+          </label>
+        )}
       </div>
 
-      {uploadError && (
+      {/* Subtabs */}
+      <div className="flex gap-6 border-b border-gray-200 dark:border-gray-800 mb-6">
+        <button onClick={() => setActiveTab('my')} className={tabButtonClass('my')}>My Courses</button>
+        <button onClick={() => setActiveTab('catalog')} className={tabButtonClass('catalog')}>Course Catalog</button>
+      </div>
+
+      {uploadError && activeTab === 'my' && (
         <div className="mb-4 px-4 py-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-sm text-red-700 dark:text-red-400 flex items-center justify-between">
           {uploadError}
           <button onClick={() => setUploadError(null)} className="ml-3 text-red-400 hover:text-red-600 cursor-pointer">✕</button>
         </div>
       )}
 
-      {showAddForm && (
-        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5 mb-4">
-          <div className="flex justify-between items-center mb-4">
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-gray-900 dark:text-gray-100">New course</span>
-
+      {activeTab === 'catalog' && (
+        <>
+          {catalogAddError && (
+            <div className="mb-4 px-4 py-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-sm text-red-700 dark:text-red-400 flex items-center justify-between">
+              {catalogAddError}
+              <button onClick={() => setCatalogAddError(null)} className="ml-3 text-red-400 hover:text-red-600 cursor-pointer">✕</button>
             </div>
-            <button onClick={() => setShowAddForm(false)} className="text-xs text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 cursor-pointer transition-all duration-150">✕</button>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-            <div><label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Module code</label><input type="text" value={addForm.code} onChange={e => setAddForm(p => ({ ...p, code: e.target.value }))} onBlur={e => {
-                const code = e.target.value.trim().toUpperCase()
-                const existing = courses.find(c => c.moduleCode === code)
-                if (existing) setAddForm(p => ({
-                  ...p,
-                  name: existing.name || p.name,
-                  prof: existing.prof || p.prof,
-                  examDate: existing.examDate || p.examDate,
-                  examVenue: existing.examVenue || p.examVenue,
-                }))
-              }} placeholder="e.g. CS2040" className={inputClass} /></div>
-            <div><label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Course name</label><input type="text" value={addForm.name} onChange={e => setAddForm(p => ({ ...p, name: e.target.value }))} placeholder="e.g. Data Structures" className={inputClass} /></div>
-            <div><label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Professor</label><input type="text" value={addForm.prof} onChange={e => setAddForm(p => ({ ...p, prof: e.target.value }))} placeholder="e.g. Prof Chan" className={inputClass} /></div>
-            <div><label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Exam date</label><input type="date" value={addForm.examDate} onChange={e => setAddForm(p => ({ ...p, examDate: e.target.value }))} className={inputClass} /></div>
-            <div><label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Exam venue</label><input type="text" value={addForm.examVenue} onChange={e => setAddForm(p => ({ ...p, examVenue: e.target.value }))} placeholder="e.g. SPMS LT" className={inputClass} /></div>
-          </div>
-          <div className="flex justify-end gap-2">
-            <button onClick={() => setAddForm({ code: addForm.code, name: '', prof: '', examDate: '', examVenue: '' })} className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 active:scale-95 transition-all duration-150 cursor-pointer">Clear</button>
-            <button onClick={() => setShowAddForm(false)} className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 active:scale-95 transition-all duration-150 cursor-pointer">Cancel</button>
-            <button onClick={handleAddCourse} className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 active:scale-95 transition-all duration-150 font-medium cursor-pointer">Save</button>
-          </div>
-        </div>
+          )}
+          <CourseCatalog courses={courses} onAdd={handleAddFromCatalog} />
+        </>
       )}
 
+      {activeTab === 'my' && (
+      <>
       {/* Course cards grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
         {modules.map(mod => {
@@ -429,7 +398,11 @@ function Course() {
       })()}
 
       {modules.length === 0 && (
-        <div className="text-center py-16 text-gray-400 dark:text-gray-600 text-sm">Add your first course to get started</div>
+        <div className="text-center py-16 text-gray-400 dark:text-gray-600 text-sm">
+          No courses yet — add one from the Course Catalog tab to get started
+        </div>
+      )}
+      </>
       )}
 
       {/* Full-screen parsing overlay */}

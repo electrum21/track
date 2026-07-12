@@ -1,23 +1,58 @@
 package com.track.track.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.track.track.model.Course;
 import com.track.track.model.Task;
 import com.track.track.repository.CourseRepository;
 import com.track.track.repository.TaskRepository;
+import jakarta.annotation.PostConstruct;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+
+import java.io.InputStream;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class CourseService {
 
+    private static final String CATALOG_PATH = "data/ntu-modules.json";
+
     private final CourseRepository courseRepository;
     private final TaskRepository taskRepository;
+
+    private List<Course> moduleCatalog = List.of();
 
     public CourseService(CourseRepository courseRepository, TaskRepository taskRepository) {
         this.courseRepository = courseRepository;
         this.taskRepository = taskRepository;
+    }
+
+    @PostConstruct
+    public void loadModuleCatalog() {
+        try (InputStream is = new ClassPathResource(CATALOG_PATH).getInputStream()) {
+            ObjectMapper mapper = new ObjectMapper();
+            List<Map<String, String>> raw = mapper.readValue(is, new TypeReference<List<Map<String, String>>>() {});
+            moduleCatalog = raw.stream()
+                    .map(entry -> {
+                        Course course = new Course();
+                        course.setModuleCode(entry.get("moduleCode"));
+                        course.setName(entry.get("title"));
+                        return course;
+                    })
+                    .sorted(Comparator.comparing(Course::getModuleCode))
+                    .toList();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to load NTU module catalog from " + CATALOG_PATH, e);
+        }
+    }
+
+    public List<Course> getModuleCatalog() {
+        return moduleCatalog;
     }
 
     public List<Course> getCoursesByUser(UUID userId) {

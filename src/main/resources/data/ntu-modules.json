@@ -1,0 +1,4390 @@
+[
+  {
+    "moduleCode": "AB0403",
+    "title": "DECISION MAKING WITH PROGRAMMING & ANALYTICS"
+  },
+  {
+    "moduleCode": "AB0602",
+    "title": "COMMUNICATION MANAGEMENT STRATEGIES"
+  },
+  {
+    "moduleCode": "AB0603",
+    "title": "SOCIAL ENTREPRENEURSHIP"
+  },
+  {
+    "moduleCode": "AB1088",
+    "title": "CAREER LAUNCHPAD"
+  },
+  {
+    "moduleCode": "AB1201",
+    "title": "FINANCIAL MANAGEMENT"
+  },
+  {
+    "moduleCode": "AB1202",
+    "title": "STATISTICS & ANALYSIS"
+  },
+  {
+    "moduleCode": "AB1211",
+    "title": "APPLIED BUSINESS MATHEMATICS"
+  },
+  {
+    "moduleCode": "AB1301",
+    "title": "BUSINESS LAW"
+  },
+  {
+    "moduleCode": "AB1501",
+    "title": "MARKETING"
+  },
+  {
+    "moduleCode": "AB1600",
+    "title": "COMMUNICATION MANAGEMENT FUNDAMENTALS"
+  },
+  {
+    "moduleCode": "AB1601",
+    "title": "ORGANISATIONAL BEHAVIOUR & DESIGN"
+  },
+  {
+    "moduleCode": "AB2008",
+    "title": "CAREERS FUTURE FORWARD"
+  },
+  {
+    "moduleCode": "AB3601",
+    "title": "STRATEGIC MANAGEMENT"
+  },
+  {
+    "moduleCode": "AB3602",
+    "title": "STRATEGIC MANAGEMENT"
+  },
+  {
+    "moduleCode": "AB5101",
+    "title": "BUSINESS VALUATION: FROM THEORY TO PRACTICE"
+  },
+  {
+    "moduleCode": "AB5102",
+    "title": "FORENSIC ACCOUNTING & FRAUD INVESTIGATION"
+  },
+  {
+    "moduleCode": "AB5201",
+    "title": "FINANCE WORKSHOP I"
+  },
+  {
+    "moduleCode": "AB5601",
+    "title": "NEGOTIATE TO GET WHAT YOU WANT: STRATEGY & PRACTICE"
+  },
+  {
+    "moduleCode": "AB5602",
+    "title": "LEADERSHIP IN ORGANISATIONS"
+  },
+  {
+    "moduleCode": "AB5611",
+    "title": "MANAGEMENT CONSULTING WORKSHOP I"
+  },
+  {
+    "moduleCode": "AC1103",
+    "title": "ACCOUNTING I"
+  },
+  {
+    "moduleCode": "AC1104",
+    "title": "ACCOUNTING II"
+  },
+  {
+    "moduleCode": "AC1105",
+    "title": "DIGITAL ACCOUNTING & ANALYTICS WITH MICROSOFT TOOLS"
+  },
+  {
+    "moduleCode": "AC2101",
+    "title": "ACCOUNTING RECOGNITION & MEASUREMENT"
+  },
+  {
+    "moduleCode": "AC2104",
+    "title": "ASSURANCE & AUDITING"
+  },
+  {
+    "moduleCode": "AC2105",
+    "title": "ACCOUNTING FOR DECISION MAKING & CONTROL"
+  },
+  {
+    "moduleCode": "AC2301",
+    "title": "PRINCIPLES OF TAXATION"
+  },
+  {
+    "moduleCode": "AC2302",
+    "title": "COMPANY LAW & CORPORATE GOVERNANCE"
+  },
+  {
+    "moduleCode": "AC2401",
+    "title": "ACCOUNTING INFORMATION SYSTEMS"
+  },
+  {
+    "moduleCode": "AC3102",
+    "title": "RISK REPORTING & ANALYSIS"
+  },
+  {
+    "moduleCode": "AC3103",
+    "title": "ACCOUNTING ANALYSIS & VALUATION"
+  },
+  {
+    "moduleCode": "AC3104",
+    "title": "ENTERPRISE RISK MANAGEMENT & SUSTAINABILITY"
+  },
+  {
+    "moduleCode": "AC3105",
+    "title": "SUSTAINABILITY REPORTING"
+  },
+  {
+    "moduleCode": "AC3106",
+    "title": "SUSTAINABILITY ASSURANCE"
+  },
+  {
+    "moduleCode": "AD1101",
+    "title": "FINANCIAL ACCOUNTING"
+  },
+  {
+    "moduleCode": "AD1102",
+    "title": "FINANCIAL ACCOUNTING"
+  },
+  {
+    "moduleCode": "AD2101",
+    "title": "MANAGEMENT ACCOUNTING"
+  },
+  {
+    "moduleCode": "AD2102",
+    "title": "MANAGERIAL ACCOUNTING"
+  },
+  {
+    "moduleCode": "AL1301",
+    "title": "BUSINESS ETHICS"
+  },
+  {
+    "moduleCode": "BA2202",
+    "title": "MATHEMATICS OF FINANCE"
+  },
+  {
+    "moduleCode": "BA2203",
+    "title": "STATISTICAL MODELLING"
+  },
+  {
+    "moduleCode": "BA3201",
+    "title": "LIFE CONTINGENCIES & DEMOGRAPHY"
+  },
+  {
+    "moduleCode": "BA3202",
+    "title": "ACTUARIAL STATISTICS"
+  },
+  {
+    "moduleCode": "BC2402",
+    "title": "DESIGNING & DEVELOPING DATABASES"
+  },
+  {
+    "moduleCode": "BC2406",
+    "title": "ANALYTICS I: VISUAL & PREDICTIVE TECHNIQUES"
+  },
+  {
+    "moduleCode": "BC2412",
+    "title": "DESIGNING & DEVELOPING DATABASES"
+  },
+  {
+    "moduleCode": "BC2416",
+    "title": "ANALYTICS I: VISUAL & PREDICTIVE TECHNIQUES"
+  },
+  {
+    "moduleCode": "BC3405",
+    "title": "LEAN OPERATIONS & ANALYTICS"
+  },
+  {
+    "moduleCode": "BC3409",
+    "title": "AI IN ACCOUNTING & FINANCE"
+  },
+  {
+    "moduleCode": "BC3411",
+    "title": "LEAN OPERATIONS & ANALYTICS"
+  },
+  {
+    "moduleCode": "BC3415",
+    "title": "AI IN ACCOUNTING & FINANCE"
+  },
+  {
+    "moduleCode": "BE1401",
+    "title": "BUSINESS OPERATIONS & PROCESS"
+  },
+  {
+    "moduleCode": "BE1402",
+    "title": "BUSINESS OPERATIONS & PROCESS"
+  },
+  {
+    "moduleCode": "BE2501",
+    "title": "INTERNATIONAL BUSINESS ENVIRONMENT"
+  },
+  {
+    "moduleCode": "BE2601",
+    "title": "MANAGEMENT PRINCIPLES, SKILLS & COMPETENCIES"
+  },
+  {
+    "moduleCode": "BE2602",
+    "title": "MANAGEMENT PRINCIPLES, SKILLS & COMPETENCIES"
+  },
+  {
+    "moduleCode": "BF2100",
+    "title": "ETHICS IN THE INVESTMENT PROFESSION"
+  },
+  {
+    "moduleCode": "BF2201",
+    "title": "INVESTMENTS"
+  },
+  {
+    "moduleCode": "BF2206",
+    "title": "WEALTH MANAGEMENT"
+  },
+  {
+    "moduleCode": "BF2209",
+    "title": "DERIVATIVE SECURITIES"
+  },
+  {
+    "moduleCode": "BF2213",
+    "title": "INTRODUCTION TO COMPLIANCE"
+  },
+  {
+    "moduleCode": "BF2214",
+    "title": "FINTECH IN INVESTMENT MANAGEMENT"
+  },
+  {
+    "moduleCode": "BF2216",
+    "title": "TRADE INCOTERMS & SHIP CHARTERING"
+  },
+  {
+    "moduleCode": "BF2219",
+    "title": "INVESTMENTS"
+  },
+  {
+    "moduleCode": "BF2220",
+    "title": "WEALTH MANAGEMENT"
+  },
+  {
+    "moduleCode": "BF2221",
+    "title": "DERIVATIVE SECURITIES & HEDGING STRATEGIES"
+  },
+  {
+    "moduleCode": "BF2222",
+    "title": "INTRODUCTION TO COMPLIANCE"
+  },
+  {
+    "moduleCode": "BF2223",
+    "title": "FINTECH IN INVESTMENT MANAGEMENT"
+  },
+  {
+    "moduleCode": "BF2225",
+    "title": "RELATIONSHIP MANAGEMENT"
+  },
+  {
+    "moduleCode": "BF2226",
+    "title": "TRADE INCOTERMS & SHIP CHARTERING"
+  },
+  {
+    "moduleCode": "BF2227",
+    "title": "COMMODITY MARKETS"
+  },
+  {
+    "moduleCode": "BF2228",
+    "title": "SUSTAINABLE FINANCE"
+  },
+  {
+    "moduleCode": "BF2229",
+    "title": "GLOBAL FINANCIAL MARKETS & INSTITUTIONS"
+  },
+  {
+    "moduleCode": "BF2230",
+    "title": "MODERN BANKING"
+  },
+  {
+    "moduleCode": "BF2302",
+    "title": "INTERNATIONAL TAX & TRADING LAW"
+  },
+  {
+    "moduleCode": "BF3121",
+    "title": "IMPACT INVESTING"
+  },
+  {
+    "moduleCode": "BF3122",
+    "title": "CARBON MARKETS & PRICING FUNDAMENTALS"
+  },
+  {
+    "moduleCode": "BF3123",
+    "title": "MACHINE LEARNING IN FINANCE"
+  },
+  {
+    "moduleCode": "BF3124",
+    "title": "DIGITAL ASSETS IN FINANCE"
+  },
+  {
+    "moduleCode": "BF3201",
+    "title": "CORPORATE FINANCE & STRATEGY"
+  },
+  {
+    "moduleCode": "BF3202",
+    "title": "FIXED INCOME SECURITIES"
+  },
+  {
+    "moduleCode": "BF3203",
+    "title": "EQUITY SECURITIES"
+  },
+  {
+    "moduleCode": "BF3204",
+    "title": "FINANCIAL MODELLING"
+  },
+  {
+    "moduleCode": "BF3212",
+    "title": "TRADE, STRUCTURED & SUPPLY CHAIN FINANCE"
+  },
+  {
+    "moduleCode": "BF3213",
+    "title": "ENTERPRISE RISK MANAGEMENT IN COMMODITY MARKETS"
+  },
+  {
+    "moduleCode": "BF3214",
+    "title": "COMMODITIES TRADING"
+  },
+  {
+    "moduleCode": "BF3215",
+    "title": "CORPORATE FINANCE & STRATEGY"
+  },
+  {
+    "moduleCode": "BF3216",
+    "title": "FIXED INCOME SECURITIES"
+  },
+  {
+    "moduleCode": "BF3217",
+    "title": "EQUITY VALUATION"
+  },
+  {
+    "moduleCode": "BF3218",
+    "title": "FINANCIAL MODELLING"
+  },
+  {
+    "moduleCode": "BF3224",
+    "title": "EQUITY INVESTING WITH BIG DATA"
+  },
+  {
+    "moduleCode": "BF3226",
+    "title": "STRATEGIC MANAGEMENT IN COMMODITY MARKET"
+  },
+  {
+    "moduleCode": "BF3228",
+    "title": "EQUITY INVESTING WITH BIG DATA"
+  },
+  {
+    "moduleCode": "BF4201",
+    "title": "ETHICS & REGULATIONS FOR DIGITAL FINANCE"
+  },
+  {
+    "moduleCode": "BF4202",
+    "title": "APPLIED RESEARCH PROJECT (FINTECH)"
+  },
+  {
+    "moduleCode": "BG1141",
+    "title": "CELLULAR & MOLECULAR BIOLOGY FOR BIOENGINEERS"
+  },
+  {
+    "moduleCode": "BG1801",
+    "title": "BIOENGINEERING LAB 1A"
+  },
+  {
+    "moduleCode": "BG2119",
+    "title": "ANATOMY & PHYSIOLOGY"
+  },
+  {
+    "moduleCode": "BG2131",
+    "title": "BIOMATERIALS"
+  },
+  {
+    "moduleCode": "BG2142",
+    "title": "BIOLOGICAL THERMODYNAMICS"
+  },
+  {
+    "moduleCode": "BG2211",
+    "title": "INTRODUCTION TO COMPUTATIONAL THINKING"
+  },
+  {
+    "moduleCode": "BG2801",
+    "title": "BIOENGINEERING LAB 2A"
+  },
+  {
+    "moduleCode": "BG3102",
+    "title": "CONTROL IN BIOSYSTEMS"
+  },
+  {
+    "moduleCode": "BG3104",
+    "title": "BIOMEDICAL IMAGING"
+  },
+  {
+    "moduleCode": "BG3105",
+    "title": "BIOMEDICAL INSTRUMENTATION"
+  },
+  {
+    "moduleCode": "BG3112",
+    "title": "CARDIOVASCULAR ENGINEERING"
+  },
+  {
+    "moduleCode": "BG3801",
+    "title": "BIOENGINEERING LAB 3"
+  },
+  {
+    "moduleCode": "BG4104",
+    "title": "MACHINE LEARNING & OPTIMISATION FOR BIOENGINEERS"
+  },
+  {
+    "moduleCode": "BG4122",
+    "title": "MEDICAL DEVICE DESIGN"
+  },
+  {
+    "moduleCode": "BG4211",
+    "title": "CNYSP OVERSEAS FINAL YEAR PROJECT"
+  },
+  {
+    "moduleCode": "BG4215",
+    "title": "BIOMEDICAL NANOTECHNOLOGY"
+  },
+  {
+    "moduleCode": "BG4231",
+    "title": "ADVANCED BIOMATERIALS"
+  },
+  {
+    "moduleCode": "BG4341",
+    "title": "FUNDAMENTALS OF INTELLECTUAL PROPERTY IN BIOMEDICAL ENGINEER"
+  },
+  {
+    "moduleCode": "BH2601",
+    "title": "STRATEGIC HR MANAGEMENT & CONSULTING"
+  },
+  {
+    "moduleCode": "BH2603",
+    "title": "TALENT SOURCING & ACQUISITION"
+  },
+  {
+    "moduleCode": "BH2605",
+    "title": "STRATEGIC HUMAN RESOURCE MANAGEMENT & CONSULTING"
+  },
+  {
+    "moduleCode": "BH2607",
+    "title": "TALENT SOURCING & ACQUISITION"
+  },
+  {
+    "moduleCode": "BH3601",
+    "title": "TALENT DEVELOPMENT & MANAGEMENT"
+  },
+  {
+    "moduleCode": "BH3603",
+    "title": "CULTURAL INTELLIGENCE AT WORK"
+  },
+  {
+    "moduleCode": "BH3604",
+    "title": "DRIVING STRATEGIC CHANGE IN THE DIGITAL AGE"
+  },
+  {
+    "moduleCode": "BH3605",
+    "title": "TALENT DEVELOPMENT & MANAGEMENT"
+  },
+  {
+    "moduleCode": "BH3607",
+    "title": "DRIVING STRATEGIC CHANGE IN THE DIGITAL AGE"
+  },
+  {
+    "moduleCode": "BL5305",
+    "title": "ADVANCED TAXATION"
+  },
+  {
+    "moduleCode": "BM2501",
+    "title": "MARKET BEHAVIOUR"
+  },
+  {
+    "moduleCode": "BM2502",
+    "title": "MARKETING INTELLIGENCE: AI & DATA-DRIVEN INSIGHTS"
+  },
+  {
+    "moduleCode": "BM2504",
+    "title": "INTEGRATED MARKETING COMMUNICATIONS"
+  },
+  {
+    "moduleCode": "BM2506",
+    "title": "DIGITAL MARKETING:CONNECTING WITH CUSTOMERS IN TODAY'S WORLD"
+  },
+  {
+    "moduleCode": "BM2507",
+    "title": "MARKETING ANALYTICS"
+  },
+  {
+    "moduleCode": "BM2508",
+    "title": "MODERN TECHNOLOGIES IN MARKETING"
+  },
+  {
+    "moduleCode": "BM2509",
+    "title": "CONSUMER INSIGHTS"
+  },
+  {
+    "moduleCode": "BM2510",
+    "title": "MARKETING INTELLIGENCE: AI & DATA-DRIVEN INSIGHTS"
+  },
+  {
+    "moduleCode": "BM2512",
+    "title": "INTEGRATED MARKETING COMMUNICATIONS"
+  },
+  {
+    "moduleCode": "BM2514",
+    "title": "DIGITAL MARKETING"
+  },
+  {
+    "moduleCode": "BM2515",
+    "title": "MARKETING ANALYTICS"
+  },
+  {
+    "moduleCode": "BM2516",
+    "title": "MODERN TECHNOLOGIES IN MARKETING"
+  },
+  {
+    "moduleCode": "BM2518",
+    "title": "TECH-POWERED MARKETING STRATEGIES FOR FMCG BRANDS"
+  },
+  {
+    "moduleCode": "BM3506",
+    "title": "STRATEGIC BRAND MANAGEMENT"
+  },
+  {
+    "moduleCode": "BM3509",
+    "title": "STRATEGIC BRAND MANAGEMENT"
+  },
+  {
+    "moduleCode": "BM3510",
+    "title": "DEVELOPING SOCIAL IMPACT BUSINESS"
+  },
+  {
+    "moduleCode": "BR2207",
+    "title": "QUANTITATIVE ANALYSIS"
+  },
+  {
+    "moduleCode": "BR2208",
+    "title": "FOUNDATION OF RISK MANAGEMENT"
+  },
+  {
+    "moduleCode": "BR3212",
+    "title": "COMPUTING SOLUTIONS FOR RISK MANAGEMENT & INSURANCE"
+  },
+  {
+    "moduleCode": "BR3213",
+    "title": "VALUATION & RISK MODELS"
+  },
+  {
+    "moduleCode": "BS0004",
+    "title": "INTRODUCTION TO DATA SCIENCE"
+  },
+  {
+    "moduleCode": "BS1001",
+    "title": "INTRODUCTORY BIOLOGY"
+  },
+  {
+    "moduleCode": "BS1008",
+    "title": "BIOSTATISTICS"
+  },
+  {
+    "moduleCode": "BS1010",
+    "title": "ESSENTIAL LAB SKILLS, TECHNIQUES & SAFETY"
+  },
+  {
+    "moduleCode": "BS1012",
+    "title": "FOUNDATIONS OF CHEMISTRY I"
+  },
+  {
+    "moduleCode": "BS1016",
+    "title": "PHYSIOLOGY"
+  },
+  {
+    "moduleCode": "BS1022",
+    "title": "LABORATORY FOR FOUNDATIONS OF CHEMISTRY I"
+  },
+  {
+    "moduleCode": "BS1103",
+    "title": "CHINESE MEDICINE FOUNDATIONAL THEORIES"
+  },
+  {
+    "moduleCode": "BS1104",
+    "title": "ANCIENT CHINESE LITERATURE STUDIES"
+  },
+  {
+    "moduleCode": "BS1200",
+    "title": "UNDERSTANDING SINGAPORE HEALTHCARE SYSTEM"
+  },
+  {
+    "moduleCode": "BS2002",
+    "title": "MICROBIOLOGY"
+  },
+  {
+    "moduleCode": "BS2003",
+    "title": "BIOCHEMISTRY II"
+  },
+  {
+    "moduleCode": "BS2023",
+    "title": "REGULATORY CONTROL OF HEALTHCARE PRODUCTS & MEDICAL DEVICES"
+  },
+  {
+    "moduleCode": "BS2024",
+    "title": "EVOLUTION IN HEALTH & DISEASE"
+  },
+  {
+    "moduleCode": "BS2028",
+    "title": "INSTRUMENTATION FOR THE ANALYSIS OF BIOLOGICAL SYSTEMS"
+  },
+  {
+    "moduleCode": "BS2029",
+    "title": "INTRODUCTION TO LABORATORY MEDICINE"
+  },
+  {
+    "moduleCode": "BS2100",
+    "title": "MOLECULAR & CELL BIOLOGY TECHNIQUES LEVEL 2"
+  },
+  {
+    "moduleCode": "BS2101",
+    "title": "ANATOMY"
+  },
+  {
+    "moduleCode": "BS2108",
+    "title": "CLINICAL ACUPUNCTURE"
+  },
+  {
+    "moduleCode": "BS2109",
+    "title": "CM CLASSIC EMPEROR?S CANON OF INTERNAL MEDICINE"
+  },
+  {
+    "moduleCode": "BS2110",
+    "title": "MATERIAL MEDICA OF CHINESE MEDICINE"
+  },
+  {
+    "moduleCode": "BS2111",
+    "title": "CM CLINICAL TRAINING 2"
+  },
+  {
+    "moduleCode": "BS3003",
+    "title": "DEVELOPMENTAL BIOLOGY"
+  },
+  {
+    "moduleCode": "BS3004",
+    "title": "CANCER BIOLOGY & THERAPY"
+  },
+  {
+    "moduleCode": "BS3018",
+    "title": "PLANT BIOLOGY"
+  },
+  {
+    "moduleCode": "BS3021",
+    "title": "BIOIMAGING TECHNIQUES IN EM"
+  },
+  {
+    "moduleCode": "BS3027",
+    "title": "LIGHT & BIOMOLECULE BEHAVIOR IN HEALTH & DISEASE"
+  },
+  {
+    "moduleCode": "BS3038",
+    "title": "INTELLECTUAL PROPERTY RIGHTS RELATED TO BIOBUSINESS"
+  },
+  {
+    "moduleCode": "BS3110",
+    "title": "INTERNAL MEDICINE OF CHINESE MEDICINE I"
+  },
+  {
+    "moduleCode": "BS3111",
+    "title": "CM CLASSIC: TREATISE ON FEBRILE DISEASES"
+  },
+  {
+    "moduleCode": "BS3112",
+    "title": "CHINESE MEDICINE MAINTENANCE"
+  },
+  {
+    "moduleCode": "BS3113",
+    "title": "CHINESE MEDICINE GYNECOLOGY"
+  },
+  {
+    "moduleCode": "BS3114",
+    "title": "CM CLINICAL TRAINING 4"
+  },
+  {
+    "moduleCode": "BS3201",
+    "title": "INTELLECTUAL PROPERTY RIGHTS REL TO BIOBUSINESS & THEIR APPN"
+  },
+  {
+    "moduleCode": "BS3202",
+    "title": "COMMERCIALIZATION OF MOLECULAR & CELL BIOLOGY TECHNIQUES"
+  },
+  {
+    "moduleCode": "BS3203",
+    "title": "RESHAPING HEALTHCARE WITH ENGINEERING & DIGITAL REVOLUTION"
+  },
+  {
+    "moduleCode": "BS3331",
+    "title": "UAEB WORKSHOP (SERIES I) - APPLIED IMMUNOLOGY"
+  },
+  {
+    "moduleCode": "BS3338",
+    "title": "UAEB II - EFFECT OF ANTI-MITOTIC DRUGS ON CANCER CELLS"
+  },
+  {
+    "moduleCode": "BS3342",
+    "title": "UAEB II -ROLE OF ACTIN CYTOSKELETON REGULATORS IN METASTASIS"
+  },
+  {
+    "moduleCode": "BS3344",
+    "title": "UAEB II - MACROMOLECULAR CRYSTALLOGRAPHY"
+  },
+  {
+    "moduleCode": "BS3351",
+    "title": "UAEB (SERIES I) - PLANT TAXONOMY & MOLECULAR PHYLOGENETICS"
+  },
+  {
+    "moduleCode": "BS3354",
+    "title": "UAEB-NEW CRISPR-CAS SYSTEMS FOR PRECISION GENOME ENGINEERING"
+  },
+  {
+    "moduleCode": "BS4002",
+    "title": "CURRENT TOPICS IN CELL BIOLOGY"
+  },
+  {
+    "moduleCode": "BS4010",
+    "title": "SYNTHETIC BIOLOGY"
+  },
+  {
+    "moduleCode": "BS4014",
+    "title": "MOLECULAR BASIS OF DISEASES"
+  },
+  {
+    "moduleCode": "BS4015",
+    "title": "PLANT BIOTECHNOLOGY"
+  },
+  {
+    "moduleCode": "BS5811",
+    "title": "DEEP, BIOLOGICALLY"
+  },
+  {
+    "moduleCode": "BT2403",
+    "title": "SERVICES OPERATIONS MANAGEMENT"
+  },
+  {
+    "moduleCode": "BT2404",
+    "title": "SERVICES OPERATIONS MANAGEMENT"
+  },
+  {
+    "moduleCode": "BU5101",
+    "title": "ACCOUNTING: A USER PERSPECTIVE"
+  },
+  {
+    "moduleCode": "BU5201",
+    "title": "BUSINESS FINANCE"
+  },
+  {
+    "moduleCode": "BU5203",
+    "title": "FINANCIAL SERVICES AI IMMERSION PROGRAM"
+  },
+  {
+    "moduleCode": "BU5401",
+    "title": "MANAGEMENT DECISION TOOLS"
+  },
+  {
+    "moduleCode": "BU5501",
+    "title": "MARKETING FOR THE 21ST CENTURY"
+  },
+  {
+    "moduleCode": "BU5544",
+    "title": "MARKETING HEALTH: CONSUMERS' PURSUIT OF WELLNESS"
+  },
+  {
+    "moduleCode": "BU5546",
+    "title": "LUXURY MARKETING"
+  },
+  {
+    "moduleCode": "BU5601",
+    "title": "FUNDAMENTALS OF MANAGEMENT"
+  },
+  {
+    "moduleCode": "BU5603",
+    "title": "NEGOTIATION: STRATEGY & PRACTICE"
+  },
+  {
+    "moduleCode": "BU5604",
+    "title": "LEADERSHIP IN ORGANISATIONS"
+  },
+  {
+    "moduleCode": "BU5641",
+    "title": "CULTURAL INTELLIGENCE: HOW TO BE AN EXPLORER OF THE WORLD"
+  },
+  {
+    "moduleCode": "BU5643",
+    "title": "CULTURAL INTELLIGENCE: MAKING THE WORLD YOUR CLASSROOM"
+  },
+  {
+    "moduleCode": "BU5644",
+    "title": "SMARTER BRAIN? THE SCIENCE OF DECISION MAKING"
+  },
+  {
+    "moduleCode": "BU5703",
+    "title": "INTERNATIONAL BUSINESS ENVIRONMENT"
+  },
+  {
+    "moduleCode": "CB1102",
+    "title": "INTRO TO CHEMISTRY, CHEM ENG & BIOMED ENG"
+  },
+  {
+    "moduleCode": "CB1131",
+    "title": "INTRODUCTION TO BIOMOLECULAR ENGINEERING"
+  },
+  {
+    "moduleCode": "CB4248",
+    "title": "ADVANCED SEMICONDUCTOR PROCESSES"
+  },
+  {
+    "moduleCode": "CC0001",
+    "title": "INQUIRY & COMMUNICATION IN AN INTERDISCIPLINARY WORLD"
+  },
+  {
+    "moduleCode": "CC0002",
+    "title": "NAVIGATING THE DIGITAL WORLD"
+  },
+  {
+    "moduleCode": "CC0003",
+    "title": "ETHICS & CIVICS IN A MULTICULTURAL WORLD"
+  },
+  {
+    "moduleCode": "CC0005",
+    "title": "HEALTHY LIVING & WELLBEING"
+  },
+  {
+    "moduleCode": "CC0006",
+    "title": "SUSTAINABILITY: SOCIETY, ECONOMY & ENVIRONMENT"
+  },
+  {
+    "moduleCode": "CC0007",
+    "title": "SCIENCE & TECHNOLOGY FOR HUMANITY"
+  },
+  {
+    "moduleCode": "CC0015",
+    "title": "HEALTH & WELLBEING"
+  },
+  {
+    "moduleCode": "CH1801",
+    "title": "CHEMICAL & BIOMOLECULAR ENGINEERING LABORATORY 1A"
+  },
+  {
+    "moduleCode": "CH2010",
+    "title": "ENGINEERING STATISTICS"
+  },
+  {
+    "moduleCode": "CH2103",
+    "title": "FLUID SYSTEMS"
+  },
+  {
+    "moduleCode": "CH2107",
+    "title": "INTRODUCTION TO COMPUTATIONAL THINKING"
+  },
+  {
+    "moduleCode": "CH2108",
+    "title": "THERMODYNAMICS"
+  },
+  {
+    "moduleCode": "CH2801",
+    "title": "CHEMICAL & BIOMOLECULAR ENGINEERING LABORATORY 2A"
+  },
+  {
+    "moduleCode": "CH3104",
+    "title": "BIOCHEMICAL ENGINEERING"
+  },
+  {
+    "moduleCode": "CH3109",
+    "title": "DECISION TOOLS FOR ENGINEERING BUSINESS"
+  },
+  {
+    "moduleCode": "CH3111",
+    "title": "PROCESS CONTROL & DYNAMICS"
+  },
+  {
+    "moduleCode": "CH3121",
+    "title": "CHEMICAL, BIOLOGICAL & PLANT SAFETY"
+  },
+  {
+    "moduleCode": "CH3140",
+    "title": "UNIT OPERATIONS: FLUID-FLUID SEPARATION"
+  },
+  {
+    "moduleCode": "CH3802",
+    "title": "CHEMICAL & BIOMOLECULAR ENGINEERING LABORATORY 5"
+  },
+  {
+    "moduleCode": "CH4102",
+    "title": "PROJECT MANAGEMENT FOR ENGINEERS"
+  },
+  {
+    "moduleCode": "CH4106",
+    "title": "FORMULATION OF ACTIVE PHARMACEUTICAL INGREDIENTS DOSAGE FORM"
+  },
+  {
+    "moduleCode": "CH4211",
+    "title": "CNYSP OVERSEAS FINAL YEAR PROJECT"
+  },
+  {
+    "moduleCode": "CH4223",
+    "title": "PETROLEUM REFINING"
+  },
+  {
+    "moduleCode": "CH4244",
+    "title": "NUMERICAL METHODS & DATA ANALYTICS"
+  },
+  {
+    "moduleCode": "CH4303",
+    "title": "BIOSEPARATIONS"
+  },
+  {
+    "moduleCode": "CH4306",
+    "title": "BIOANALYTICAL TECHNIQUES"
+  },
+  {
+    "moduleCode": "CH4341",
+    "title": "FUNDAMENTALS OF INTELLECTUAL PROPERTY IN CHEMICAL ENG"
+  },
+  {
+    "moduleCode": "CH4702",
+    "title": "INDEPENDENT RESEARCH PROJECT 1"
+  },
+  {
+    "moduleCode": "CH4703",
+    "title": "INDEPENDENT RESEARCH PROJECT 2"
+  },
+  {
+    "moduleCode": "CH4801",
+    "title": "FINAL YEAR DESIGN PROJECT"
+  },
+  {
+    "moduleCode": "CH5221",
+    "title": "FOOD INDUSTRY SEMINAR SERIES"
+  },
+  {
+    "moduleCode": "CL0103",
+    "title": "LEARNING WITH CHILDREN THROUGH SERVICE-LEARNING"
+  },
+  {
+    "moduleCode": "CL0104",
+    "title": "ENGAGING WITH YOUTHS THROUGH SERVICE-LEARNING"
+  },
+  {
+    "moduleCode": "CL0105",
+    "title": "CONNECTING WITH SENIORS THROUGH SERVICE-LEARNING"
+  },
+  {
+    "moduleCode": "CL0106",
+    "title": "LEARNING IN INCLUSIVE COMMUNITIES THROUGH SERVICE-LEARNING"
+  },
+  {
+    "moduleCode": "CM1001",
+    "title": "FOUNDATIONS OF CHEMISTRY I"
+  },
+  {
+    "moduleCode": "CM2011",
+    "title": "ANALYTICAL CHEMISTRY"
+  },
+  {
+    "moduleCode": "CM2021",
+    "title": "INORGANIC & BIOINORGANIC CHEMISTRY"
+  },
+  {
+    "moduleCode": "CM2061",
+    "title": "CHEMISTRY & BIOLOGICAL CHEMISTRY LABORATORY 1"
+  },
+  {
+    "moduleCode": "CM3011",
+    "title": "CHEMICAL SPECTROSCOPY & APPLICATIONS"
+  },
+  {
+    "moduleCode": "CM3021",
+    "title": "ORGANOMETALLIC CHEMISTRY"
+  },
+  {
+    "moduleCode": "CM3031",
+    "title": "ORGANIC REACTION MECHANISMS & SYNTHESIS"
+  },
+  {
+    "moduleCode": "CM3041",
+    "title": "PHYSICAL & BIOPHYSICAL CHEMISTRY 2"
+  },
+  {
+    "moduleCode": "CM3062",
+    "title": "CHEMISTRY & BIOLOGICAL CHEMISTRY LABORATORY 4"
+  },
+  {
+    "moduleCode": "CM4012",
+    "title": "STRUCTURAL DETERMINATION"
+  },
+  {
+    "moduleCode": "CM4013",
+    "title": "CURRENT TOPICS IN ANALYTICAL CHEMISTRY"
+  },
+  {
+    "moduleCode": "CM4044",
+    "title": "ARTIFICIAL INTELLIGENCE IN CHEMISTRY"
+  },
+  {
+    "moduleCode": "CM4053",
+    "title": "PHARMACEUTICAL CHEMISTRY"
+  },
+  {
+    "moduleCode": "CM4062",
+    "title": "POLYMER CHEMISTRY"
+  },
+  {
+    "moduleCode": "CM4063",
+    "title": "NANOSCIENCE & NANOTECHNOLOGY"
+  },
+  {
+    "moduleCode": "CM5013",
+    "title": "SCENT CREATION: THE ART & SCIENCE OF PERFUMERY"
+  },
+  {
+    "moduleCode": "CM5081",
+    "title": "MEDICINAL CHEMISTRY"
+  },
+  {
+    "moduleCode": "CM5101",
+    "title": "FOOD CHEMISTRY & NUTRITION"
+  },
+  {
+    "moduleCode": "CS0102",
+    "title": "MAKING SENSE OF BIG DATA"
+  },
+  {
+    "moduleCode": "CS0201",
+    "title": "FOUNDATIONS OF COMMUNICATION STUDIES"
+  },
+  {
+    "moduleCode": "CS0204",
+    "title": "BASIC MEDIA WRITING"
+  },
+  {
+    "moduleCode": "CS0209",
+    "title": "MEDIA LAW, ETHICS & POLICY"
+  },
+  {
+    "moduleCode": "CS2008",
+    "title": "FUNDAMENTALS OF RESEARCH"
+  },
+  {
+    "moduleCode": "CS2021",
+    "title": "NEWS REPORTING & WRITING"
+  },
+  {
+    "moduleCode": "CS2022",
+    "title": "MULTIMEDIA WRITING IN CHINESE"
+  },
+  {
+    "moduleCode": "CS2023",
+    "title": "PRINT & DIGITAL PUBLICATIONS"
+  },
+  {
+    "moduleCode": "CS2024",
+    "title": "WEB DESIGN & TECHNOLOGIES"
+  },
+  {
+    "moduleCode": "CS2025",
+    "title": "IMAGE & SOUND PRODUCTION"
+  },
+  {
+    "moduleCode": "CS2027",
+    "title": "GENRE & NARRATIVE STRATEGIES"
+  },
+  {
+    "moduleCode": "CS2028",
+    "title": "PRODUCTION MANAGEMENT FOR TV & CINEMA"
+  },
+  {
+    "moduleCode": "CS2030",
+    "title": "AUDIO IN MEDIA"
+  },
+  {
+    "moduleCode": "CS2033",
+    "title": "CORPORATE COMMUNICATIONS MANAGEMENT"
+  },
+  {
+    "moduleCode": "CS2044",
+    "title": "PHOTOJOURNALISM"
+  },
+  {
+    "moduleCode": "CS2054",
+    "title": "INTERPERSONAL COMMUNICATION"
+  },
+  {
+    "moduleCode": "CS2056",
+    "title": "PSYCHOLOGY &  COMMUNICATION"
+  },
+  {
+    "moduleCode": "CS2057",
+    "title": "MEDIA EFFECTS"
+  },
+  {
+    "moduleCode": "CS2058",
+    "title": "INTEGRATED MARKETING COMMUNICATION"
+  },
+  {
+    "moduleCode": "CS2059",
+    "title": "SOCIAL CONSEQUENCES OF MOBILE COMMUNICATION"
+  },
+  {
+    "moduleCode": "CS2063",
+    "title": "SHORT OVERSEAS JOURNALISM PRACTICUM"
+  },
+  {
+    "moduleCode": "CS2066",
+    "title": "FILM FESTIVAL PRACTICUM"
+  },
+  {
+    "moduleCode": "CS2075",
+    "title": "REGIONAL STRATEGIC COMMUNICATION MANAGEMENT"
+  },
+  {
+    "moduleCode": "CS2090",
+    "title": "DIGITAL MEDIA ENTREPRENEURSHIP"
+  },
+  {
+    "moduleCode": "CS2101",
+    "title": "PUBLIC RELATIONS WRITING"
+  },
+  {
+    "moduleCode": "CS2103",
+    "title": "PUBLIC RELATIONS & COMMUNICATIONS MANAGEMENT"
+  },
+  {
+    "moduleCode": "CS2166",
+    "title": "FILM FESTIVAL PRACTICUM"
+  },
+  {
+    "moduleCode": "CS2191",
+    "title": "SINGAPORE CINEMA"
+  },
+  {
+    "moduleCode": "CS2300",
+    "title": "ACTING &  DIRECTING FOR TV &  FILM"
+  },
+  {
+    "moduleCode": "CS2400",
+    "title": "FOUNDATION OF INFORMATION ANALYTICS"
+  },
+  {
+    "moduleCode": "CS2403",
+    "title": "TELLING STORIES WITH DATA"
+  },
+  {
+    "moduleCode": "CS2405",
+    "title": "DATA MINING"
+  },
+  {
+    "moduleCode": "CS2409",
+    "title": "MEDIA, EMOTIONS, & MEANINGFULNESS"
+  },
+  {
+    "moduleCode": "CS4018",
+    "title": "SPECIALISED JOURNALISM:BUSINESS & ECONOMICS"
+  },
+  {
+    "moduleCode": "CS4020",
+    "title": "FEATURE WRITING"
+  },
+  {
+    "moduleCode": "CS4023",
+    "title": "ADVANCED PHOTOJOURNALISM"
+  },
+  {
+    "moduleCode": "CS4024",
+    "title": "WRITING FOR CINEMA & TV"
+  },
+  {
+    "moduleCode": "CS4026",
+    "title": "DOCUMENTARY PRODUCTION: CONCEPTS & APPLICATIONS"
+  },
+  {
+    "moduleCode": "CS4027",
+    "title": "NARRATIVE FILM & TV:CONCEPTS & APPLICATIONS"
+  },
+  {
+    "moduleCode": "CS4029",
+    "title": "ADVERTISING CREATIVITY & COPYWRITING"
+  },
+  {
+    "moduleCode": "CS4030",
+    "title": "CRISIS MANAGEMENT"
+  },
+  {
+    "moduleCode": "CS4031",
+    "title": "MEDIA PLANNING & STRATEGIES"
+  },
+  {
+    "moduleCode": "CS4032",
+    "title": "COMMUNICATION CAMPAIGNS"
+  },
+  {
+    "moduleCode": "CS4034",
+    "title": "BRAND MANAGEMENT"
+  },
+  {
+    "moduleCode": "CS4037",
+    "title": "AUDIENCE RESEARCH METHODS"
+  },
+  {
+    "moduleCode": "CS4053",
+    "title": "POPULAR CINEMA"
+  },
+  {
+    "moduleCode": "CS4058",
+    "title": "INTERCULTURAL COMMUNICATION"
+  },
+  {
+    "moduleCode": "CS4059",
+    "title": "PUBLIC OPINION"
+  },
+  {
+    "moduleCode": "CS4061",
+    "title": "GLOBAL MEDIA ISSUES &  POLICY"
+  },
+  {
+    "moduleCode": "CS4066",
+    "title": "ISSUES IN PUBLIC RELATIONS"
+  },
+  {
+    "moduleCode": "CS4068",
+    "title": "ISSUES IN CINEMA STUDIES"
+  },
+  {
+    "moduleCode": "CS4074",
+    "title": "CONSUMER BEHAVIOR"
+  },
+  {
+    "moduleCode": "CS4075",
+    "title": "SELECTED TOPICS IN PR:EVALUATING & PRODUCING CAMPAIGN RESULT"
+  },
+  {
+    "moduleCode": "CS4085",
+    "title": "FILM FESTIVAL PRACTICUM"
+  },
+  {
+    "moduleCode": "CS4090",
+    "title": "GOING OVERSEAS FOR ADVANCED REPORTING"
+  },
+  {
+    "moduleCode": "CS4092",
+    "title": "NEW MEDIA &  SOCIETY"
+  },
+  {
+    "moduleCode": "CS4131",
+    "title": "RISK COMMUNICATION"
+  },
+  {
+    "moduleCode": "CS4150",
+    "title": "HEALTH COMMUNICATION"
+  },
+  {
+    "moduleCode": "CS4185",
+    "title": "FILM FESTIVAL PRACTICUM"
+  },
+  {
+    "moduleCode": "CS4197",
+    "title": "WAR & CINEMA"
+  },
+  {
+    "moduleCode": "CS4260",
+    "title": "FILM FESTIVALS: HISTORY & THEORY"
+  },
+  {
+    "moduleCode": "CS4267",
+    "title": "EFFECTS OF VIRTUAL REALITY TECHNOLOGIES"
+  },
+  {
+    "moduleCode": "CS4269",
+    "title": "BOTS WITH PERSONALITY-DESIGNING AI AGENTS FOR COMMUNICATION"
+  },
+  {
+    "moduleCode": "CS4271",
+    "title": "HUMAN-AI INTERACTION & COMMUNICATION"
+  },
+  {
+    "moduleCode": "CS4272",
+    "title": "FILMMAKING FOR THE COMMERCIAL WORLD"
+  },
+  {
+    "moduleCode": "CS4273",
+    "title": "AUDIO & VIDEO PODCASTING"
+  },
+  {
+    "moduleCode": "CS4311",
+    "title": "PROMOTING SUSTAINABILITY"
+  },
+  {
+    "moduleCode": "CS4315",
+    "title": "SOCIAL MEDIA, SELF & SOCIETY"
+  },
+  {
+    "moduleCode": "CS4321",
+    "title": "DIGITAL INCLUSION & DISABILITY:TECH, INCL. DES & SOC FUTURES"
+  },
+  {
+    "moduleCode": "CS4329",
+    "title": "DIGITAL ADVERTISING ESSENTIALS"
+  },
+  {
+    "moduleCode": "CS5081",
+    "title": "INTRODUCTION TO KOREA STUDIES"
+  },
+  {
+    "moduleCode": "CT2001",
+    "title": "DATA STRUCTURES & ALGORITHMS"
+  },
+  {
+    "moduleCode": "CT2002",
+    "title": "INTRODUCTION TO COMPUTER ARCHITECTURE & NETWORKS"
+  },
+  {
+    "moduleCode": "CT2003",
+    "title": "OBJECT ORIENTED DESIGN & PROGRAMMING"
+  },
+  {
+    "moduleCode": "CT2004",
+    "title": "SOFTWARE ENGINEERING"
+  },
+  {
+    "moduleCode": "CT2005",
+    "title": "PRINCIPLES OF OPERATING SYSTEMS"
+  },
+  {
+    "moduleCode": "CT2009",
+    "title": "DESIGN THINKING"
+  },
+  {
+    "moduleCode": "CT2010",
+    "title": "PROJECT MANAGEMENT (BUSINESS NEEDS ANALYSIS & RISK ANALYSIS)"
+  },
+  {
+    "moduleCode": "CT2011",
+    "title": "DATA ANALYSIS & MARKET SENSING (BUSINESS INTELLIGENCE)"
+  },
+  {
+    "moduleCode": "CT2079",
+    "title": "MINI CAPSTONE (FULL STACK) PROJECT"
+  },
+  {
+    "moduleCode": "CV0003",
+    "title": "INTRODUCTION TO DATA SCIENCE & ARTIFICIAL INTELLIGENCE"
+  },
+  {
+    "moduleCode": "CV1011",
+    "title": "MECHANICS OF MATERIALS"
+  },
+  {
+    "moduleCode": "CV1012",
+    "title": "FLUID MECHANICS"
+  },
+  {
+    "moduleCode": "CV1711",
+    "title": "ENGINEERING DRAWING  & 3D BUILDING INFORMATION MODELLING"
+  },
+  {
+    "moduleCode": "CV2011",
+    "title": "STRUCTURAL ANALYSIS I"
+  },
+  {
+    "moduleCode": "CV2013",
+    "title": "ENGINEERING GEOLOGY & SOIL MECHANICS"
+  },
+  {
+    "moduleCode": "CV2711",
+    "title": "CIVIL ENGINEERING LABORATORY A"
+  },
+  {
+    "moduleCode": "CV3011",
+    "title": "REINFORCED CONCRETE DESIGN"
+  },
+  {
+    "moduleCode": "CV3013",
+    "title": "FOUNDATION ENGINEERING"
+  },
+  {
+    "moduleCode": "CV3014",
+    "title": "TRANSPORTATION ENGINEERING"
+  },
+  {
+    "moduleCode": "CV3017",
+    "title": "URBAN WATER CIRCULARITY"
+  },
+  {
+    "moduleCode": "CV4012",
+    "title": "PROJECT PLANNING & MANAGEMENT"
+  },
+  {
+    "moduleCode": "CV4102",
+    "title": "ADVANCED STEEL DESIGN"
+  },
+  {
+    "moduleCode": "CV4107",
+    "title": "SUSTAINABLE PROJECT ECONOMICS & FINANCE"
+  },
+  {
+    "moduleCode": "CV4111",
+    "title": "GROUND ENGINEERING"
+  },
+  {
+    "moduleCode": "CV4112",
+    "title": "TRAFFIC ENGINEERING"
+  },
+  {
+    "moduleCode": "CV4711",
+    "title": "SEMINARS ON BUILT ENVIRONMENT"
+  },
+  {
+    "moduleCode": "CY0001",
+    "title": "LANGUAGE & LOGIC"
+  },
+  {
+    "moduleCode": "CY1001",
+    "title": "THE SYSTEMS ARCHITECTURE OF LIFE"
+  },
+  {
+    "moduleCode": "CY1101",
+    "title": "MOLECULE"
+  },
+  {
+    "moduleCode": "CY1308",
+    "title": "PHYSICS"
+  },
+  {
+    "moduleCode": "CY1601",
+    "title": "MATHEMATICS I"
+  },
+  {
+    "moduleCode": "DA1000",
+    "title": "THINKING & COMMUNICATING VISUALLY I"
+  },
+  {
+    "moduleCode": "DA2002",
+    "title": "THINKING & COMMUNICATING VISUALLY II"
+  },
+  {
+    "moduleCode": "DA3000",
+    "title": "THINKING & COMMUNICATING VISUALLY III"
+  },
+  {
+    "moduleCode": "DA5000",
+    "title": "APPLIED DRAWING"
+  },
+  {
+    "moduleCode": "DA5001",
+    "title": "PAINTING"
+  },
+  {
+    "moduleCode": "DA5002",
+    "title": "WATERMEDIA LANDSCAPE PAINTING"
+  },
+  {
+    "moduleCode": "DA5005",
+    "title": "COMPOSITIONAL STUDY - SHAPES, SPACE & COLOR INTERACTION"
+  },
+  {
+    "moduleCode": "DA5007",
+    "title": "DRAWING FOR ANIMATION"
+  },
+  {
+    "moduleCode": "DD0003",
+    "title": "INFORMATION VISUALIZATION"
+  },
+  {
+    "moduleCode": "DD1100",
+    "title": "CRITICAL THINKING & PRACTICE IN ART, DESIGN & MEDIA"
+  },
+  {
+    "moduleCode": "DD1101",
+    "title": "ETHICS & INTEGRITY FOR CREATIVE PRACTICES"
+  },
+  {
+    "moduleCode": "DD1102",
+    "title": "GLOBAL PERSPECTIVES ON VISUAL CULTURE"
+  },
+  {
+    "moduleCode": "DD3016",
+    "title": "HISTORY OF DESIGN"
+  },
+  {
+    "moduleCode": "DD4005",
+    "title": "MEDIA ART INTERDISCIPLINARY SEMINAR"
+  },
+  {
+    "moduleCode": "DD4006",
+    "title": "DESIGN ART INTERDISCIPLINARY SEMINAR"
+  },
+  {
+    "moduleCode": "DF2000",
+    "title": "DIGITAL FILM PRODUCTION I"
+  },
+  {
+    "moduleCode": "DF2003",
+    "title": "CINEMATOGRAPHY  I"
+  },
+  {
+    "moduleCode": "DF2005",
+    "title": "WRITING FOR FILM"
+  },
+  {
+    "moduleCode": "DF2011",
+    "title": "SOUND FOR FILM"
+  },
+  {
+    "moduleCode": "DF3010",
+    "title": "EXPERIMENTAL FILM PRODUCTION"
+  },
+  {
+    "moduleCode": "DF3012",
+    "title": "FILM DIRECTING"
+  },
+  {
+    "moduleCode": "DF3013",
+    "title": "SUSTAINABLE PRODUCING FOR FILM & MEDIA"
+  },
+  {
+    "moduleCode": "DF5001",
+    "title": "DOCUMENTARY FILMMAKING"
+  },
+  {
+    "moduleCode": "DM2000",
+    "title": "INTERACTIVE I"
+  },
+  {
+    "moduleCode": "DM2008",
+    "title": "PROGRAMMING FOR INTERACTION"
+  },
+  {
+    "moduleCode": "DM2012",
+    "title": "EXPLORATIONS IN A.I. GENERATED ART"
+  },
+  {
+    "moduleCode": "DM3008",
+    "title": "GENERATIVE ART"
+  },
+  {
+    "moduleCode": "DM3013",
+    "title": "INTERACTIVE SPACES"
+  },
+  {
+    "moduleCode": "DM3014",
+    "title": "INTERACTIVE DEVICES"
+  },
+  {
+    "moduleCode": "DP2001",
+    "title": "DIGITAL PHOTOGRAPHY"
+  },
+  {
+    "moduleCode": "DP2002",
+    "title": "HISTORY OF PHOTOGRAPHY"
+  },
+  {
+    "moduleCode": "DP2006",
+    "title": "PRINCIPLES OF LIGHTING"
+  },
+  {
+    "moduleCode": "DP2008",
+    "title": "EXPERIMENTAL PHOTOGRAPHY"
+  },
+  {
+    "moduleCode": "DP3000",
+    "title": "PHOTOGRAPHIC MEDIA & PRESENTATION"
+  },
+  {
+    "moduleCode": "DP3010",
+    "title": "MOVING IMAGE FOR MEDIA ARTISTS"
+  },
+  {
+    "moduleCode": "DP5000",
+    "title": "BLACK & WHITE FILM PHOTOGRAPHY"
+  },
+  {
+    "moduleCode": "DR2001",
+    "title": "PRODUCT DESIGN I"
+  },
+  {
+    "moduleCode": "DR2002",
+    "title": "EMERGING PRODUCT DESIGN PRACTICES"
+  },
+  {
+    "moduleCode": "DR2005",
+    "title": "COMPUTER AIDED DESIGN WORKSHOP I"
+  },
+  {
+    "moduleCode": "DR3006",
+    "title": "PRODUCT DESIGN III"
+  },
+  {
+    "moduleCode": "DR3007",
+    "title": "STUDIES IN FORM"
+  },
+  {
+    "moduleCode": "DR5003",
+    "title": "INTRODUCTION TO DESIGN"
+  },
+  {
+    "moduleCode": "DT2000",
+    "title": "BASIC PRINCIPLES OF MOTION"
+  },
+  {
+    "moduleCode": "DT2001",
+    "title": "3D PRODUCTION"
+  },
+  {
+    "moduleCode": "DT2007",
+    "title": "HISTORY & CULTURE OF ANIMATION, VFX & GAME"
+  },
+  {
+    "moduleCode": "DT2010",
+    "title": "DIGITAL COMPOSITING"
+  },
+  {
+    "moduleCode": "DT2011",
+    "title": "STOP MOTION PRINCIPLES"
+  },
+  {
+    "moduleCode": "DT2017",
+    "title": "WRITING FOR ANIMATION"
+  },
+  {
+    "moduleCode": "DT2018",
+    "title": "ANIMATION FOR GAMES I"
+  },
+  {
+    "moduleCode": "DT2020",
+    "title": "GAME DESIGN I"
+  },
+  {
+    "moduleCode": "DT2021",
+    "title": "GAME ASSETS DESIGN"
+  },
+  {
+    "moduleCode": "DT3004",
+    "title": "RIGGING FOR ANIMATION"
+  },
+  {
+    "moduleCode": "DT3009",
+    "title": "CINEMATIC CONCEPTS & MOTION CAPTURE APPLICATIONS"
+  },
+  {
+    "moduleCode": "DT3010",
+    "title": "VISUAL EFFECTS I"
+  },
+  {
+    "moduleCode": "DT3013",
+    "title": "ANIMATION SEMINAR"
+  },
+  {
+    "moduleCode": "DT3017",
+    "title": "GAME SEMINAR"
+  },
+  {
+    "moduleCode": "DT5001",
+    "title": "GRAPHIC STORYTELLING"
+  },
+  {
+    "moduleCode": "DT5002",
+    "title": "ISSUES IN ANIMATION PRACTICE"
+  },
+  {
+    "moduleCode": "DT5003",
+    "title": "DIGITAL PAINTING"
+  },
+  {
+    "moduleCode": "DV2000",
+    "title": "TYPOGRAPHY I"
+  },
+  {
+    "moduleCode": "DV2001",
+    "title": "VISUAL COMMUNICATION I"
+  },
+  {
+    "moduleCode": "DV2002",
+    "title": "ILLUSTRATION FOR DESIGNERS"
+  },
+  {
+    "moduleCode": "DV2003",
+    "title": "BEYOND THE LOGO: INTRODUCTION TO BRANDING"
+  },
+  {
+    "moduleCode": "DV2008",
+    "title": "INTERFACE DESIGN"
+  },
+  {
+    "moduleCode": "DV3002",
+    "title": "EDITORIAL DESIGN"
+  },
+  {
+    "moduleCode": "DV3010",
+    "title": "VISUAL COMMUNICATION III"
+  },
+  {
+    "moduleCode": "DV3011",
+    "title": "TYPOGRAPHY III"
+  },
+  {
+    "moduleCode": "DV5001",
+    "title": "DESIGN IN MOTION"
+  },
+  {
+    "moduleCode": "EE1102",
+    "title": "PHYSICS FOUNDATION FOR ELECTRICAL & ELECTRONIC ENGINEERING"
+  },
+  {
+    "moduleCode": "EE2005",
+    "title": "ELECTRICAL DEVICES & MACHINES"
+  },
+  {
+    "moduleCode": "EE2073",
+    "title": "INTRODUCTION TO EEE DESIGN & PROJECT"
+  },
+  {
+    "moduleCode": "EE2101",
+    "title": "CIRCUIT ANALYSIS"
+  },
+  {
+    "moduleCode": "EE2102",
+    "title": "ANALOG ELECTRONICS"
+  },
+  {
+    "moduleCode": "EE2103",
+    "title": "SEMICONDUCTOR FUNDAMENTALS"
+  },
+  {
+    "moduleCode": "EE3011",
+    "title": "MODELLING & CONTROL"
+  },
+  {
+    "moduleCode": "EE3013",
+    "title": "SEMICONDUCTOR DEVICES & PROCESSING"
+  },
+  {
+    "moduleCode": "EE3015",
+    "title": "POWER SYSTEMS & CONVERSION"
+  },
+  {
+    "moduleCode": "EE3018",
+    "title": "INTRODUCTION TO PHOTONICS TECHNOLOGIES"
+  },
+  {
+    "moduleCode": "EE3019",
+    "title": "INTEGRATED ELECTRONICS"
+  },
+  {
+    "moduleCode": "EE3101",
+    "title": "ENGINEERING ELECTROMAGNETICS"
+  },
+  {
+    "moduleCode": "EE3180",
+    "title": "DESIGN & INNOVATION PROJECT"
+  },
+  {
+    "moduleCode": "EE4227",
+    "title": "CONTROL ENGINEERING DESIGN"
+  },
+  {
+    "moduleCode": "EE4268",
+    "title": "ROBOTICS & AUTOMATION"
+  },
+  {
+    "moduleCode": "EE4323",
+    "title": "MIXED-SIGNAL IC DESIGN"
+  },
+  {
+    "moduleCode": "EE4341",
+    "title": "ADVANCED ANALOG CIRCUITS"
+  },
+  {
+    "moduleCode": "EE4523",
+    "title": "POWER ENGINEERING DESIGN"
+  },
+  {
+    "moduleCode": "EE4530",
+    "title": "POWER SYSTEM ANALYSIS & CONTROL"
+  },
+  {
+    "moduleCode": "EE4532",
+    "title": "POWER ELECTRONICS & DRIVES"
+  },
+  {
+    "moduleCode": "EE4623",
+    "title": "CMOS PROCESS & DEVICE SIMULATION"
+  },
+  {
+    "moduleCode": "EE4647",
+    "title": "MICROELECTRONIC DEVICES"
+  },
+  {
+    "moduleCode": "EE4903",
+    "title": "PHYSIOLOGICAL SYSTEMS ANALYSIS"
+  },
+  {
+    "moduleCode": "EE5081",
+    "title": "INNOVATION & TECHNOLOGY MANAGEMENT"
+  },
+  {
+    "moduleCode": "EE5083",
+    "title": "FROM PASSION TO ACTION: SIX KEY STEPS TO A START-UP!"
+  },
+  {
+    "moduleCode": "EE5094",
+    "title": "IMPACT OF ELECTROMAGNETIC RADIATION ON HUMANS"
+  },
+  {
+    "moduleCode": "EE6108",
+    "title": "COMPUTER NETWORKS"
+  },
+  {
+    "moduleCode": "EE6111",
+    "title": "5G COMMUNICATION & BEYOND"
+  },
+  {
+    "moduleCode": "EE6225",
+    "title": "MULTIVARIABLE CONTROL SYSTEMS ANALYSIS & DESIGN"
+  },
+  {
+    "moduleCode": "EE6301",
+    "title": "SMART BIOSENSORS & SYSTEMS FOR HEALTHCARE"
+  },
+  {
+    "moduleCode": "EE6311",
+    "title": "INTEGRATED NANOPHOTONIC DEVICES"
+  },
+  {
+    "moduleCode": "EE6405",
+    "title": "NATURAL LANGUAGE PROCESSING"
+  },
+  {
+    "moduleCode": "EE6610",
+    "title": "INTEGRATED CIRCUIT (IC) PACKAGING"
+  },
+  {
+    "moduleCode": "EG1001",
+    "title": "ENGINEERS IN SOCIETY"
+  },
+  {
+    "moduleCode": "EG2810",
+    "title": "MATHEMATICS A"
+  },
+  {
+    "moduleCode": "EM5109",
+    "title": "ENVIRONMENTAL ISSUES & SUSTAINABILITY"
+  },
+  {
+    "moduleCode": "EN1001",
+    "title": "ENVIRONMENTAL CHEMISTRY"
+  },
+  {
+    "moduleCode": "EN2004",
+    "title": "GEO-ENVIRONMENT & SOIL MECHANICS"
+  },
+  {
+    "moduleCode": "EN2711",
+    "title": "ENVIRONMENTAL ENGINEERING LABORATORY A"
+  },
+  {
+    "moduleCode": "EN3001",
+    "title": "SOLID & HAZARDOUS WASTE MANAGEMENT"
+  },
+  {
+    "moduleCode": "EN3002",
+    "title": "WASTEWATER ENGINEERING"
+  },
+  {
+    "moduleCode": "EN3004",
+    "title": "AIR POLLUTION CONTROL ENGINEERING"
+  },
+  {
+    "moduleCode": "EN3006",
+    "title": "ENERGY RESOURCES ENGINEERING"
+  },
+  {
+    "moduleCode": "EN4001",
+    "title": "ENVIRONMENTAL IMPACT ASSESSMENT & MONITORING"
+  },
+  {
+    "moduleCode": "EN4104",
+    "title": "ENVIRONMENTAL HYDRAULICS"
+  },
+  {
+    "moduleCode": "EN4107",
+    "title": "SUSTAINABILITY MANAGEMENT & REPORTING"
+  },
+  {
+    "moduleCode": "EN4711",
+    "title": "SEMINARS ON BUILT ENVIRONMENT"
+  },
+  {
+    "moduleCode": "ES0138",
+    "title": "INTRODUCTION TO SCIENTIFIC WRITING"
+  },
+  {
+    "moduleCode": "ES1001",
+    "title": "E2S2: ENVIRONMENT & SOCIETY"
+  },
+  {
+    "moduleCode": "ES2001",
+    "title": "COMPUTATIONAL EARTH SYSTEMS SCIENCE"
+  },
+  {
+    "moduleCode": "ES2802",
+    "title": "GIS & THE EARTH SYSTEM"
+  },
+  {
+    "moduleCode": "ES3003",
+    "title": "INTRODUCTION TO GEOCHEMISTRY"
+  },
+  {
+    "moduleCode": "ES3006",
+    "title": "SPACE GEODESY"
+  },
+  {
+    "moduleCode": "ES3202",
+    "title": "NATURE-BASED SOLUTIONS FOR URBAN SYSTEM"
+  },
+  {
+    "moduleCode": "ES3203",
+    "title": "THE GENOME & SOCIETY"
+  },
+  {
+    "moduleCode": "ES3306",
+    "title": "GLOBAL CHANGE ECOLOGY"
+  },
+  {
+    "moduleCode": "ES3307",
+    "title": "EXPERIMENTAL DESIGN & ANALYSIS FOR ECOLOGY"
+  },
+  {
+    "moduleCode": "ES3801",
+    "title": "BIOGEOCHEMISTRY"
+  },
+  {
+    "moduleCode": "ES4201",
+    "title": "ENVIRONMENTAL MANAGEMENT & VALUATION"
+  },
+  {
+    "moduleCode": "ES4301",
+    "title": "CONSERVATION BIOLOGY & BIODIVERSITY"
+  },
+  {
+    "moduleCode": "ES4303",
+    "title": "MARINE & AQUATIC ECOLOGY"
+  },
+  {
+    "moduleCode": "ES4304",
+    "title": "EYES ON EARTH - SATELLITE REMOTE SENSING"
+  },
+  {
+    "moduleCode": "ES4906",
+    "title": "ENVIRONMENTAL HYDROLOGY"
+  },
+  {
+    "moduleCode": "ES5001",
+    "title": "NATURAL HAZARDS & SOCIETY"
+  },
+  {
+    "moduleCode": "ES5003",
+    "title": "BLUE PLANET: HOW THE OCEAN WORKS"
+  },
+  {
+    "moduleCode": "ES5005",
+    "title": "ENVIRONMENTAL EARTH SYSTEMS SCIENCE"
+  },
+  {
+    "moduleCode": "ES5008",
+    "title": "BIODIVERSITY & NATURAL HISTORY OF SINGAPORE"
+  },
+  {
+    "moduleCode": "ES5100",
+    "title": "SUSTAINABILITY CAPSTONE PROJECT"
+  },
+  {
+    "moduleCode": "ET0001",
+    "title": "ENTERPRISE & INNOVATION"
+  },
+  {
+    "moduleCode": "ET5101",
+    "title": "DEEP DIVE INTO ENTREPRENEURSHIP"
+  },
+  {
+    "moduleCode": "ET5122",
+    "title": "E-STARTUPS & SOCIAL MEDIA STRATEGIES"
+  },
+  {
+    "moduleCode": "ET5131",
+    "title": "VENTURING INTO ENTREPRENEURSHIP"
+  },
+  {
+    "moduleCode": "ET5132",
+    "title": "NEW VENTURE FINANCING"
+  },
+  {
+    "moduleCode": "ET5133",
+    "title": "MANAGING GROWING ENTERPRISES"
+  },
+  {
+    "moduleCode": "ET5134",
+    "title": "ENTERPRISE STRATEGY"
+  },
+  {
+    "moduleCode": "ET5135",
+    "title": "BUSINESS VENTURE IMPLEMENTATION"
+  },
+  {
+    "moduleCode": "ET5211",
+    "title": "ENTREPRENEURIAL MINDSET & TECHNOLOGY INNOVATION"
+  },
+  {
+    "moduleCode": "ET5212",
+    "title": "ENTREPRENEURIAL ECOSYSTEM"
+  },
+  {
+    "moduleCode": "ET5213",
+    "title": "MANAGING NEW VENTURES"
+  },
+  {
+    "moduleCode": "ET5215",
+    "title": "ENTREPRENEURIAL BUSINESS DEVELOPMENT"
+  },
+  {
+    "moduleCode": "ET5216",
+    "title": "VENTURE CAPITAL INVESTMENT & PRACTICES"
+  },
+  {
+    "moduleCode": "ET5217",
+    "title": "DESIGN & SYSTEMS THINKING FOR ENTREPRENEURS"
+  },
+  {
+    "moduleCode": "ET5218",
+    "title": "INNOVATION & COMMERCIALIZATION OF TECHNOLOGIES"
+  },
+  {
+    "moduleCode": "FE1073",
+    "title": "AN INTRODUCTION TO ENGINEERING & PRACTICES"
+  },
+  {
+    "moduleCode": "FL5001",
+    "title": "INTRODUCTION TO FILM STUDIES"
+  },
+  {
+    "moduleCode": "HA1001",
+    "title": "INTRODUCTION TO INTERNATIONAL RELATIONS & FOREIGN POLICY"
+  },
+  {
+    "moduleCode": "HA1002",
+    "title": "INTRODUCTION TO POLITICAL THEORY"
+  },
+  {
+    "moduleCode": "HA1003",
+    "title": "INTRODUCTION TO PUBLIC ADMINISTRATION & POLICY"
+  },
+  {
+    "moduleCode": "HA1012",
+    "title": "FUNDAMENTALS OF POLITICS"
+  },
+  {
+    "moduleCode": "HA2001",
+    "title": "PHILOSOPHY, POLITICS & ECONOMICS"
+  },
+  {
+    "moduleCode": "HA2003",
+    "title": "POLITICS & GOVERNMENT IN SOUTHEAST ASIA"
+  },
+  {
+    "moduleCode": "HA2004",
+    "title": "THEORIES IN INTERNATIONAL RELATIONS"
+  },
+  {
+    "moduleCode": "HA2014",
+    "title": "PUBLIC ORGANIZATION THEORY"
+  },
+  {
+    "moduleCode": "HA2023",
+    "title": "RESEARCH METHODOLOGY IN SOCIAL SCIENCES"
+  },
+  {
+    "moduleCode": "HA2028",
+    "title": "ETHICS IN PUBLIC POLICY MAKING & IMPLEMENTATION"
+  },
+  {
+    "moduleCode": "HA2029",
+    "title": "LEFT, RIGHT, & CENTER"
+  },
+  {
+    "moduleCode": "HA3014",
+    "title": "SINGAPORE'S FOREIGN POLICY"
+  },
+  {
+    "moduleCode": "HA3022",
+    "title": "THE ORIGINS OF MODERN POLITICAL THOUGHT"
+  },
+  {
+    "moduleCode": "HA3090",
+    "title": "SPECIAL TOPICS IN GLOBAL AFFAIRS"
+  },
+  {
+    "moduleCode": "HA3093",
+    "title": "NON-WESTERN & GLOBAL INTERNATIONAL RELATIONS THEORIES"
+  },
+  {
+    "moduleCode": "HA3094",
+    "title": "INTERNATIONAL RELATIONS OF NORTHEAST ASIA"
+  },
+  {
+    "moduleCode": "HA4001",
+    "title": "ASEAN IN THE 21ST CENTURY"
+  },
+  {
+    "moduleCode": "HA4019",
+    "title": "METHODS IN POLITICAL THEORY"
+  },
+  {
+    "moduleCode": "HA4021",
+    "title": "COMPARATIVE POLITICS IN ASIA"
+  },
+  {
+    "moduleCode": "HA4022",
+    "title": "INTERNATIONAL POLITICS OF THE ASIA-PACIFIC"
+  },
+  {
+    "moduleCode": "HA4044",
+    "title": "POLICY VALUES & DEBATES"
+  },
+  {
+    "moduleCode": "HA4046",
+    "title": "CULTURE, ARTS & POLITICS"
+  },
+  {
+    "moduleCode": "HA4067",
+    "title": "GEOPOLITICS & GEOECONOMICS OF THE MEKONG REGION"
+  },
+  {
+    "moduleCode": "HA4068",
+    "title": "POLITICS IN THAILAND"
+  },
+  {
+    "moduleCode": "HC1001",
+    "title": "INTRODUCTION TO THE STUDY OF LITERATURE & CULTURE"
+  },
+  {
+    "moduleCode": "HC1002",
+    "title": "INTRODUCTION TO CHINESE LANGUAGE"
+  },
+  {
+    "moduleCode": "HC1060",
+    "title": "HISTORY OF SINGAPORE &  MALAYSIAN CHINESE"
+  },
+  {
+    "moduleCode": "HC2006",
+    "title": "INTRODUCTION TO CHINESE HISTORY"
+  },
+  {
+    "moduleCode": "HC2007",
+    "title": "DIRECTED READINGS OF LITERARY WORKS: PRE- QIN TO TANG"
+  },
+  {
+    "moduleCode": "HC2018",
+    "title": "BOOK CULTURE, CHINESE PRINT HISTORY, & TECHNOLOGY"
+  },
+  {
+    "moduleCode": "HC2040",
+    "title": "UNDERSTANDING CHINA"
+  },
+  {
+    "moduleCode": "HC2053",
+    "title": "VARIETIES OF CHINESE"
+  },
+  {
+    "moduleCode": "HC3018",
+    "title": "POSTHUMANISM IN CHINESE LITERATURE, FILM & CULTURE"
+  },
+  {
+    "moduleCode": "HC3063",
+    "title": "CRITICAL STUDY OF SINGAPORE SOCIETY & CULTURE"
+  },
+  {
+    "moduleCode": "HC3065",
+    "title": "CHINESE LITERATURE IN SINGAPORE"
+  },
+  {
+    "moduleCode": "HC4010",
+    "title": "CLASSICAL CHINESE LITERARY THEORY"
+  },
+  {
+    "moduleCode": "HC4013",
+    "title": "GENDER & SEXUALITY IN CHINESE LITERATURE"
+  },
+  {
+    "moduleCode": "HC4024",
+    "title": "TEXT & IMAGE STUDIES ON AIGC (AI GENERATED CONTENT)"
+  },
+  {
+    "moduleCode": "HC4035",
+    "title": "WESTERN INFLUENCES ON MODERN CHINESE THOUGHT"
+  },
+  {
+    "moduleCode": "HC4044",
+    "title": "LATE IMPERIAL & MODERN CHINA: HISTORY & SOCIAL CHANGE"
+  },
+  {
+    "moduleCode": "HC4065",
+    "title": "OVERSEAS CHINESE IN THE UNITED STATES"
+  },
+  {
+    "moduleCode": "HD0103",
+    "title": "DIGITAL HUMANITIES: ART, ART HISTORY & CULTURAL HERITAGE"
+  },
+  {
+    "moduleCode": "HE1001",
+    "title": "MICROECONOMICS I"
+  },
+  {
+    "moduleCode": "HE1002",
+    "title": "MACROECONOMICS I"
+  },
+  {
+    "moduleCode": "HE1004",
+    "title": "MATHEMATICS FOR ECONOMISTS"
+  },
+  {
+    "moduleCode": "HE2003",
+    "title": "ECONOMETRICS I"
+  },
+  {
+    "moduleCode": "HE3001",
+    "title": "MICROECONOMICS III"
+  },
+  {
+    "moduleCode": "HE3002",
+    "title": "MACROECONOMICS III"
+  },
+  {
+    "moduleCode": "HE3020",
+    "title": "INTERNATIONAL ECONOMICS"
+  },
+  {
+    "moduleCode": "HE3022",
+    "title": "PUBLIC ECONOMICS"
+  },
+  {
+    "moduleCode": "HE3024",
+    "title": "ENVIRONMENTAL ECONOMICS"
+  },
+  {
+    "moduleCode": "HE3027",
+    "title": "HOUSING ECONOMICS"
+  },
+  {
+    "moduleCode": "HE3031",
+    "title": "INDUSTRIAL ORGANIZATION & BUSINESS STRATEGIES"
+  },
+  {
+    "moduleCode": "HE3032",
+    "title": "GAME THEORY"
+  },
+  {
+    "moduleCode": "HE3033",
+    "title": "THE CHINESE ECONOMY"
+  },
+  {
+    "moduleCode": "HE3040",
+    "title": "RATIONAL & IRRATIONAL DECISION MAKING"
+  },
+  {
+    "moduleCode": "HE3112",
+    "title": "FINANCIAL ACCOUNTING FOR ECONOMISTS"
+  },
+  {
+    "moduleCode": "HE3125",
+    "title": "ECONOMICS OF MENTAL HEALTH & WELL-BEING"
+  },
+  {
+    "moduleCode": "HE3602",
+    "title": "GAME THEORY"
+  },
+  {
+    "moduleCode": "HE4040",
+    "title": "BEHAVIORAL ECONOMICS"
+  },
+  {
+    "moduleCode": "HE4044",
+    "title": "GROWTH THEORY & EMPIRICS"
+  },
+  {
+    "moduleCode": "HE4045",
+    "title": "QUANTITATIVE ECONOMICS WITH DATA SCIENCE"
+  },
+  {
+    "moduleCode": "HE4140",
+    "title": "EXPERIMENTAL ECONOMICS"
+  },
+  {
+    "moduleCode": "HE5091",
+    "title": "PRINCIPLES OF ECONOMICS"
+  },
+  {
+    "moduleCode": "HE5093",
+    "title": "ENVIRONMENTAL CHALLENGES, ENERGY TRANSITION & SUSTAINABILITY"
+  },
+  {
+    "moduleCode": "HF5101",
+    "title": "INTRODUCTION TO CHINESE CREATIVE WRITING"
+  },
+  {
+    "moduleCode": "HF5201",
+    "title": "CREATIVE WRITING: CHINESE PROSE"
+  },
+  {
+    "moduleCode": "HF5301",
+    "title": "CREATIVE WRITING: CHINESE FICTION"
+  },
+  {
+    "moduleCode": "HF5601",
+    "title": "CREATIVE WRITING: CHINESE CROSSMEDIA WRITING"
+  },
+  {
+    "moduleCode": "HG1001",
+    "title": "MIND & MEANING"
+  },
+  {
+    "moduleCode": "HG2001",
+    "title": "MORPHOLOGY & SYNTAX"
+  },
+  {
+    "moduleCode": "HG2002",
+    "title": "SEMANTICS & PRAGMATICS"
+  },
+  {
+    "moduleCode": "HG2013",
+    "title": "CHILD LANGUAGE"
+  },
+  {
+    "moduleCode": "HG2020",
+    "title": "LANGUAGE IN SOCIETY"
+  },
+  {
+    "moduleCode": "HG2021",
+    "title": "INTERCULTURAL COMMUNICATION"
+  },
+  {
+    "moduleCode": "HG2033",
+    "title": "INTRODUCTION TO CONVERSATION ANALYSIS"
+  },
+  {
+    "moduleCode": "HG2034",
+    "title": "STRUCTURE OF MODERN ENGLISH"
+  },
+  {
+    "moduleCode": "HG2035",
+    "title": "SINGAPORE'S LANGUAGES"
+  },
+  {
+    "moduleCode": "HG2051",
+    "title": "LANGUAGE & THE COMPUTER"
+  },
+  {
+    "moduleCode": "HG2052",
+    "title": "LANGUAGE, TECHNOLOGY & THE INTERNET"
+  },
+  {
+    "moduleCode": "HG2054",
+    "title": "PRAGMATICS OF AI LANGUAGE"
+  },
+  {
+    "moduleCode": "HG3005",
+    "title": "STATISTICS FOR PSYCHOLINGUISTICS"
+  },
+  {
+    "moduleCode": "HG3023",
+    "title": "ANTHROPOLOGICAL LINGUISTICS"
+  },
+  {
+    "moduleCode": "HG3043",
+    "title": "MALAY LINGUISTICS 1 - HISTORY & STRUCTURE"
+  },
+  {
+    "moduleCode": "HG4020",
+    "title": "LANGUAGE CONTACT"
+  },
+  {
+    "moduleCode": "HG4048",
+    "title": "COMPARATIVE CHINESE DIALECTOLOGY"
+  },
+  {
+    "moduleCode": "HG4052",
+    "title": "SPEECH SYNTHESIS & RECOGNITION"
+  },
+  {
+    "moduleCode": "HG4054",
+    "title": "LANGUAGE & SOCIETY THROUGH DATA ANALYTICS"
+  },
+  {
+    "moduleCode": "HG4062",
+    "title": "LANGUAGE, CULTURE & SOCIETY IN SOUTHEAST ASIA"
+  },
+  {
+    "moduleCode": "HH1001",
+    "title": "WHAT IS HISTORY?"
+  },
+  {
+    "moduleCode": "HH1002",
+    "title": "ASIA-PACIFIC IN GLOBAL HISTORY: PRE-1800"
+  },
+  {
+    "moduleCode": "HH1004",
+    "title": "SCIENCE & TECHNOLOGY IN HISTORICAL PERSPECTIVE"
+  },
+  {
+    "moduleCode": "HH2009",
+    "title": "CHINA IN REVOLUTION & REFORM"
+  },
+  {
+    "moduleCode": "HH2033",
+    "title": "TOTAL WAR IN ASIA & THE PACIFIC, 1931-1951"
+  },
+  {
+    "moduleCode": "HH2046",
+    "title": "URBAN HISTORY"
+  },
+  {
+    "moduleCode": "HH2090",
+    "title": "SPECIAL TOPICS IN HISTORY I"
+  },
+  {
+    "moduleCode": "HH2125",
+    "title": "THE WORLD IN 12 OBJECTS"
+  },
+  {
+    "moduleCode": "HH3001",
+    "title": "HISTORIOGRAPHY: THEORY & METHODS"
+  },
+  {
+    "moduleCode": "HH3005",
+    "title": "SEISMIC JAPAN: HISTORY, CULTURE & SOCIETY"
+  },
+  {
+    "moduleCode": "HH3007",
+    "title": "SOUTHEAST ASIAN-CHINA INTERACTIONS"
+  },
+  {
+    "moduleCode": "HH3017",
+    "title": "WORLD ENVIRONMENTAL HISTORY"
+  },
+  {
+    "moduleCode": "HH3019",
+    "title": "HISTORY OF THE BODY"
+  },
+  {
+    "moduleCode": "HH3090",
+    "title": "SPECIAL TOPICS IN HISTORY II"
+  },
+  {
+    "moduleCode": "HH4003",
+    "title": "THE SILK ROAD: OLD & NEW"
+  },
+  {
+    "moduleCode": "HH4010",
+    "title": "ANTICOLONIAL RESISTANCE IN THE BRITISH EMPIRE"
+  },
+  {
+    "moduleCode": "HH4020",
+    "title": "SCIENCE, TECHNOLOGY, & SCIENCE FICTION"
+  },
+  {
+    "moduleCode": "HH4029",
+    "title": "HISTORY OF MODERN CHINA & COLONIAL HONG KONG, C.1945-1997"
+  },
+  {
+    "moduleCode": "HH4046",
+    "title": "THE URBAN COAST"
+  },
+  {
+    "moduleCode": "HH4092",
+    "title": "SPECIAL TOPICS IN HISTORY- WORLD HISTORY"
+  },
+  {
+    "moduleCode": "HL1001",
+    "title": "INTRODUCTION TO THE STUDY OF LITERATURE"
+  },
+  {
+    "moduleCode": "HL1002",
+    "title": "SURVEY OF ENGLISH LITERATURE 1"
+  },
+  {
+    "moduleCode": "HL1006",
+    "title": "INTRODUCTION TO AMERICAN LITERATURE"
+  },
+  {
+    "moduleCode": "HL2002",
+    "title": "RENAISSANCE LITERATURE"
+  },
+  {
+    "moduleCode": "HL2006",
+    "title": "MODERNISM"
+  },
+  {
+    "moduleCode": "HL2007",
+    "title": "CONTEMPORARY LITERATURE & CULTURE"
+  },
+  {
+    "moduleCode": "HL2009",
+    "title": "SOUTHEAST ASIAN LITERATURE & CULTURE"
+  },
+  {
+    "moduleCode": "HL2012",
+    "title": "ASIAN-AMERICAN LITERATURE"
+  },
+  {
+    "moduleCode": "HL2020",
+    "title": "CREATIVE WRITING WORKSHOP"
+  },
+  {
+    "moduleCode": "HL2027",
+    "title": "EARLY AMERICAN LITERATURE"
+  },
+  {
+    "moduleCode": "HL2030",
+    "title": "POST 1945 AMERICAN LITERATURE & CULTURE"
+  },
+  {
+    "moduleCode": "HL2041",
+    "title": "ASIAN HISTORICAL FICTION"
+  },
+  {
+    "moduleCode": "HL2042",
+    "title": "CHILDREN'S LITERATURE"
+  },
+  {
+    "moduleCode": "HL3001",
+    "title": "FILM THEORY"
+  },
+  {
+    "moduleCode": "HL3006",
+    "title": "MODERN DRAMA"
+  },
+  {
+    "moduleCode": "HL3012",
+    "title": "THE DISCOURSE OF LOVE"
+  },
+  {
+    "moduleCode": "HL3037",
+    "title": "THE ENVIRONMENT & CULTURAL PRODUCTION"
+  },
+  {
+    "moduleCode": "HL3042",
+    "title": "GOTHIC LITERATURE"
+  },
+  {
+    "moduleCode": "HL3044",
+    "title": "THE LEGENDS OF KING ARTHUR"
+  },
+  {
+    "moduleCode": "HL3047",
+    "title": "THE ART OF POETRY"
+  },
+  {
+    "moduleCode": "HL4009",
+    "title": "POPULAR LITERATURE & CULTURE"
+  },
+  {
+    "moduleCode": "HL4013",
+    "title": "ADVANCED STUDIES IN LITERATURE & CULTURE"
+  },
+  {
+    "moduleCode": "HL4020",
+    "title": "ADVANCED STUDIES IN MODERNIST LITERATURE"
+  },
+  {
+    "moduleCode": "HL4028",
+    "title": "SCIENCE & LITERATURE"
+  },
+  {
+    "moduleCode": "HL4033",
+    "title": "MAJOR AUTHOR STUDY: JAMES JOYCE"
+  },
+  {
+    "moduleCode": "HL4038",
+    "title": "ADVANCED STUDIES IN POSTCOLONIAL LITERATURE"
+  },
+  {
+    "moduleCode": "HL4039",
+    "title": "ADVANCED STUDIES IN CHILDREN'S LITERATURE"
+  },
+  {
+    "moduleCode": "HL4042",
+    "title": "BEING HUMAN IN FILM & LITERATURE"
+  },
+  {
+    "moduleCode": "HN5010",
+    "title": "SINGAPORE: IMAGINING THE NEXT 50 YEARS"
+  },
+  {
+    "moduleCode": "HP1000",
+    "title": "INTRODUCTION TO PSYCHOLOGY"
+  },
+  {
+    "moduleCode": "HP1100",
+    "title": "FUNDAMENTALS OF SOCIAL SCIENCE RESEARCH"
+  },
+  {
+    "moduleCode": "HP2200",
+    "title": "BIOLOGICAL PSYCHOLOGY"
+  },
+  {
+    "moduleCode": "HP2500",
+    "title": "PERSONALITY & INDIVIDUAL DIFFERENCES"
+  },
+  {
+    "moduleCode": "HP3005",
+    "title": "\"FUN WILL NOW COMMENCE\": THE PSYCHOLOGY OF LEISURE"
+  },
+  {
+    "moduleCode": "HP3204",
+    "title": "AN APE'S GUIDE TO HUMAN LANGUAGE"
+  },
+  {
+    "moduleCode": "HP3502",
+    "title": "PSYCHOLOGY OF EMOTION"
+  },
+  {
+    "moduleCode": "HP3702",
+    "title": "CHILD PSYCHOPATHOLOGY"
+  },
+  {
+    "moduleCode": "HP3807",
+    "title": "OCCUPATIONAL HEALTH PSYCHOLOGY"
+  },
+  {
+    "moduleCode": "HP3901",
+    "title": "CULTURAL PSYCHOLOGY"
+  },
+  {
+    "moduleCode": "HP3902",
+    "title": "COMMUNITY PSYCHOLOGY"
+  },
+  {
+    "moduleCode": "HP4012",
+    "title": "APPLIED MULTIVARIATE METHODS FOR PSYCHOLOGICAL RESEARCH"
+  },
+  {
+    "moduleCode": "HP4031",
+    "title": "LABORATORY IN DEVELOPMENTAL PSYCHOLOGY"
+  },
+  {
+    "moduleCode": "HP4041",
+    "title": "LABORATORY IN SOCIAL PSYCHOLOGY"
+  },
+  {
+    "moduleCode": "HP4051",
+    "title": "LABORATORY IN PERSONALITY & INDIVIDUAL DIFFERENCES"
+  },
+  {
+    "moduleCode": "HP4063",
+    "title": "RESEARCH LAB IN LANGUAGE IN PERCEPTION & THOUGHT"
+  },
+  {
+    "moduleCode": "HP4081",
+    "title": "LABORATORY IN INDUSTRIAL & ORGANIZATIONAL PSYCHOLOGY"
+  },
+  {
+    "moduleCode": "HP4101",
+    "title": "LEGAL & COURTROOM PSYCHOLOGY"
+  },
+  {
+    "moduleCode": "HP4104",
+    "title": "EVIDENCE-BASED PRACTICE IN CLINICAL PSYCHOLOGY"
+  },
+  {
+    "moduleCode": "HP4107",
+    "title": "INDUSTRIAL-ORGANISATIONAL PSYCHOLOGY IN PRACTICE"
+  },
+  {
+    "moduleCode": "HP4108",
+    "title": "PSYCHOLOGICAL THERAPIES & COUNSELLING"
+  },
+  {
+    "moduleCode": "HP4232",
+    "title": "PSYCHOLOGY OF SELF-REGULATION"
+  },
+  {
+    "moduleCode": "HP4242",
+    "title": "ADVANCED TOPICS IN SOCIAL COGNITION"
+  },
+  {
+    "moduleCode": "HP4251",
+    "title": "HUMAN MOTIVATION"
+  },
+  {
+    "moduleCode": "HP4262",
+    "title": "MULTISENSORY INTEGRATION"
+  },
+  {
+    "moduleCode": "HP4273",
+    "title": "INTRODUCTION TO FUNCTIONAL NEUROIMAGING"
+  },
+  {
+    "moduleCode": "HP4274",
+    "title": "THE LAST DANCE: PERSPECTIVES OF DEATH, DYING & BEREAVEMENT"
+  },
+  {
+    "moduleCode": "HP4281",
+    "title": "SEMINAR IN SELECTED TOPICS: PSYCHOLOGY OF LEADERSHIP"
+  },
+  {
+    "moduleCode": "HR1001",
+    "title": "WAYS OF SEEING: EXPLORING VISUAL CULTURE"
+  },
+  {
+    "moduleCode": "HR1003",
+    "title": "INTRODUCTION TO THE HISTORIES OF ART I"
+  },
+  {
+    "moduleCode": "HR2001",
+    "title": "INTRODUCTION TO THE HISTORIES OF SOUTHEAST ASIAN ART"
+  },
+  {
+    "moduleCode": "HR2003",
+    "title": "THE ART &  ARCHITECTURE OF 'THE LONG CENTURY':1789-1914"
+  },
+  {
+    "moduleCode": "HR2009",
+    "title": "CONTEMPORARY CURATING"
+  },
+  {
+    "moduleCode": "HR2010",
+    "title": "INTRODUCTION TO MUSEUM STUDIES"
+  },
+  {
+    "moduleCode": "HR3005",
+    "title": "FANTASY & THE FANTASTIC IN THE ARTS"
+  },
+  {
+    "moduleCode": "HR3010",
+    "title": "WEIRD ART WRITING"
+  },
+  {
+    "moduleCode": "HR3012",
+    "title": "DANCING CULTURES: ART, BODY, & PERFORMANCE"
+  },
+  {
+    "moduleCode": "HR4003",
+    "title": "FROM COLONIALISM  TO TOURISM: EARLY PHOTOGRAPHY IN ASIA"
+  },
+  {
+    "moduleCode": "HR7003",
+    "title": "ADVANCED STUDIES IN SOUTHEAST ASIAN ART HISTORIES"
+  },
+  {
+    "moduleCode": "HS0101",
+    "title": "DIGITAL LITERACY, CULTURE & SOCIETY"
+  },
+  {
+    "moduleCode": "HS1001",
+    "title": "PERSON & SOCIETY"
+  },
+  {
+    "moduleCode": "HS1002",
+    "title": "SINGAPORE SOCIETY IN TRANSITION"
+  },
+  {
+    "moduleCode": "HS2001",
+    "title": "CLASSICAL SOCIAL THEORY"
+  },
+  {
+    "moduleCode": "HS2008",
+    "title": "SOCIAL CLASS & INEQUALITY"
+  },
+  {
+    "moduleCode": "HS2009",
+    "title": "SOCIOLOGY OF THE LIFE COURSE"
+  },
+  {
+    "moduleCode": "HS2013",
+    "title": "MIGRATION & MULTICULTURALISM"
+  },
+  {
+    "moduleCode": "HS2026",
+    "title": "DEVIANCE & SOCIETY"
+  },
+  {
+    "moduleCode": "HS2029",
+    "title": "SOCIAL POLICY & SOCIAL CHANGE"
+  },
+  {
+    "moduleCode": "HS3002",
+    "title": "UNDERSTANDING SOCIAL STATISTICS"
+  },
+  {
+    "moduleCode": "HS3004",
+    "title": "CITIES & URBAN LIFE"
+  },
+  {
+    "moduleCode": "HS3017",
+    "title": "SOCIOLOGY OF TOURISM"
+  },
+  {
+    "moduleCode": "HS4001",
+    "title": "RESEARCH PRACTICUM I: QUALITATIVE SOCIAL RESEARCH"
+  },
+  {
+    "moduleCode": "HS4002",
+    "title": "RESEARCH PRACTICUM II: QUANTITATIVE SOCIAL RESEARCH"
+  },
+  {
+    "moduleCode": "HS4015",
+    "title": "SOCIOLOGY OF REPRODUCTION"
+  },
+  {
+    "moduleCode": "HS4026",
+    "title": "GODS,GHOSTS & ANCESTORS:EXPLORATIONS IN CHINESE RELIGIONS"
+  },
+  {
+    "moduleCode": "HS4028",
+    "title": "MIGRATION & DEVELOPMENT IN A GLOBALIZING WORLD"
+  },
+  {
+    "moduleCode": "HS4039",
+    "title": "MEDICAL SOCIOLOGY"
+  },
+  {
+    "moduleCode": "HS4080",
+    "title": "HONOURS SEMINAR IN APPLIED SOCIOLOGY"
+  },
+  {
+    "moduleCode": "HS4901",
+    "title": "RESEARCH PRACTICUM I: QUALITATIVE SOCIAL RESEARCH"
+  },
+  {
+    "moduleCode": "HS4902",
+    "title": "RESEARCH PRACTICUM II: QUANTITATIVE SOCIAL RESEARCH"
+  },
+  {
+    "moduleCode": "HT5101",
+    "title": "TRANSLATION: HISTORIES, THEORIES & PRINCIPLES"
+  },
+  {
+    "moduleCode": "HT5102",
+    "title": "LANGUAGE FOUNDATION FOR TRANSLATION"
+  },
+  {
+    "moduleCode": "HT5301",
+    "title": "LINGUISTICS, CULTURE & TRANSLATION"
+  },
+  {
+    "moduleCode": "HT5305",
+    "title": "CULTURAL TRANSLATION & NATIONAL DISCOURSE: EILEEN CHANG"
+  },
+  {
+    "moduleCode": "HT5401",
+    "title": "TRANSLATION: APPRECIATION, CRITICISM & EVALUATION"
+  },
+  {
+    "moduleCode": "HW0001",
+    "title": "INTRODUCTION TO ACADEMIC COMMUNICATION"
+  },
+  {
+    "moduleCode": "HW0205",
+    "title": "ACADEMIC COMMUNICATION IN THE HUMANITIES"
+  },
+  {
+    "moduleCode": "HW0206",
+    "title": "ACADEMIC COMMUNICATION IN CHINESE STUDIES"
+  },
+  {
+    "moduleCode": "HW0207",
+    "title": "ACADEMIC COMMUNICATION IN LINGUISTICS"
+  },
+  {
+    "moduleCode": "HW0208",
+    "title": "ACADEMIC COMMUNICATION IN THE SOCIAL SCIENCES"
+  },
+  {
+    "moduleCode": "HW0218",
+    "title": "COMMUNICATION ACROSS THE SCIENCES"
+  },
+  {
+    "moduleCode": "HW0288",
+    "title": "ENGINEERING COMMUNICATION"
+  },
+  {
+    "moduleCode": "HY0001",
+    "title": "ETHICS & MORAL REASONING"
+  },
+  {
+    "moduleCode": "HY1001",
+    "title": "INTRODUCTION TO PHILOSOPHY"
+  },
+  {
+    "moduleCode": "HY1002",
+    "title": "SYMBOLIC LOGIC"
+  },
+  {
+    "moduleCode": "HY3010",
+    "title": "PHILOSOPHY OF SCIENCE"
+  },
+  {
+    "moduleCode": "HY3012",
+    "title": "PHILOSOPHY OF TECHNOLOGY"
+  },
+  {
+    "moduleCode": "HY3024",
+    "title": "VIRTUE ETHICS"
+  },
+  {
+    "moduleCode": "HY3910",
+    "title": "PHILOSOPHY OF SCIENCE"
+  },
+  {
+    "moduleCode": "HY3912",
+    "title": "PHILOSOPHY OF TECHNOLOGY"
+  },
+  {
+    "moduleCode": "HY4005",
+    "title": "HISTORY OF ANALYTIC PHILOSOPHY"
+  },
+  {
+    "moduleCode": "HY4015",
+    "title": "PHILOSOPHICAL METHODOLOGIES"
+  },
+  {
+    "moduleCode": "HY4021",
+    "title": "PRACTICAL RATIONALITY"
+  },
+  {
+    "moduleCode": "HY4046",
+    "title": "HISTORY & PHILOSOPHY OF SPACE & TIME"
+  },
+  {
+    "moduleCode": "HY4110",
+    "title": "SPECIAL TOPICS IN PHILOSOPHY OF SCIENCE"
+  },
+  {
+    "moduleCode": "HY4113",
+    "title": "SPECIAL TOPICS IN CHINESE PHILOSOPHY"
+  },
+  {
+    "moduleCode": "HY4116",
+    "title": "PHENOMENOLOGY"
+  },
+  {
+    "moduleCode": "HZ5101",
+    "title": "INTRODUCTION TO CREATIVE WRITING"
+  },
+  {
+    "moduleCode": "HZ5201",
+    "title": "CREATIVE WRITING:POETRY"
+  },
+  {
+    "moduleCode": "HZ5202",
+    "title": "CREATIVE WRITING:FICTION"
+  },
+  {
+    "moduleCode": "HZ5203",
+    "title": "CREATIVE WRITING: NON FICTION PROSE"
+  },
+  {
+    "moduleCode": "HZ5204",
+    "title": "CREATIVE WRITING: PLAYWRITING"
+  },
+  {
+    "moduleCode": "IE0005",
+    "title": "INTRODUCTION TO DATA SCIENCE & ARTIFICIAL INTELLIGENCE"
+  },
+  {
+    "moduleCode": "IE1005",
+    "title": "FROM COMPUTATIONAL THINKING TO PROGRAMMING"
+  },
+  {
+    "moduleCode": "IE2104",
+    "title": "DIGITAL ELECTRONICS"
+  },
+  {
+    "moduleCode": "IE2106",
+    "title": "ENGINEERING MATHEMATICS I"
+  },
+  {
+    "moduleCode": "IE2107",
+    "title": "ENGINEERING MATHEMATICS II"
+  },
+  {
+    "moduleCode": "IE2108",
+    "title": "DATA STRUCTURES & ALGORITHMS IN PYTHON"
+  },
+  {
+    "moduleCode": "IE2110",
+    "title": "SIGNALS & SYSTEMS"
+  },
+  {
+    "moduleCode": "IE3012",
+    "title": "COMMUNICATION PRINCIPLES"
+  },
+  {
+    "moduleCode": "IE3014",
+    "title": "DIGITAL SIGNAL PROCESSING"
+  },
+  {
+    "moduleCode": "IE3017",
+    "title": "COMPUTER COMMUNICATIONS"
+  },
+  {
+    "moduleCode": "IE3102",
+    "title": "MICROPROCESSORS"
+  },
+  {
+    "moduleCode": "IE4120",
+    "title": "OPTICAL COMMUNICATION SYSTEM DESIGN"
+  },
+  {
+    "moduleCode": "IE4154",
+    "title": "DIGITAL & TELECOMMUNICATIONS SYSTEMS"
+  },
+  {
+    "moduleCode": "IE4422",
+    "title": "MULTIMODAL LARGE LANGUAGE MODELS - THEORY & APPLICATIONS"
+  },
+  {
+    "moduleCode": "IE4476",
+    "title": "IMAGE PROCESSING & COMPUTER VISION"
+  },
+  {
+    "moduleCode": "IE4483",
+    "title": "ARTIFICIAL INTELLIGENCE & DATA MINING"
+  },
+  {
+    "moduleCode": "IE4497",
+    "title": "PATTERN RECOGNITION & DEEP LEARNING"
+  },
+  {
+    "moduleCode": "IE4727",
+    "title": "WEB APPLICATION DESIGN"
+  },
+  {
+    "moduleCode": "IE4758",
+    "title": "INFORMATION SECURITY"
+  },
+  {
+    "moduleCode": "IM3180",
+    "title": "DESIGN & INNOVATION PROJECT"
+  },
+  {
+    "moduleCode": "LA5001",
+    "title": "ARABIC LANGUAGE LEVEL 1"
+  },
+  {
+    "moduleCode": "LA5002",
+    "title": "ARABIC LANGUAGE LEVEL 2"
+  },
+  {
+    "moduleCode": "LA5003",
+    "title": "ARABIC LANGUAGE LEVEL 3"
+  },
+  {
+    "moduleCode": "LA5004",
+    "title": "ARABIC LANGUAGE LEVEL 4"
+  },
+  {
+    "moduleCode": "LA5101",
+    "title": "ADVANCED ARABIC LANGUAGE"
+  },
+  {
+    "moduleCode": "LB5001",
+    "title": "BAHASA INDONESIA LEVEL 1"
+  },
+  {
+    "moduleCode": "LB5002",
+    "title": "BAHASA INDONESIA LEVEL 2"
+  },
+  {
+    "moduleCode": "LC5001",
+    "title": "CHINESE LANGUAGE LEVEL 1"
+  },
+  {
+    "moduleCode": "LC5002",
+    "title": "CHINESE LANGUAGE LEVEL 2"
+  },
+  {
+    "moduleCode": "LC5003",
+    "title": "CHINESE LANGUAGE LEVEL 3"
+  },
+  {
+    "moduleCode": "LC5004",
+    "title": "CHINESE LANGUAGE LEVEL 4"
+  },
+  {
+    "moduleCode": "LC5005",
+    "title": "CHINESE LANGUAGE LEVEL 5"
+  },
+  {
+    "moduleCode": "LC5101",
+    "title": "BUSINESS CHINESE"
+  },
+  {
+    "moduleCode": "LF5001",
+    "title": "FRENCH LANGUAGE LEVEL 1"
+  },
+  {
+    "moduleCode": "LF5002",
+    "title": "FRENCH LANGUAGE LEVEL 2"
+  },
+  {
+    "moduleCode": "LF5003",
+    "title": "FRENCH LANGUAGE LEVEL 3"
+  },
+  {
+    "moduleCode": "LF5004",
+    "title": "FRENCH LANGUAGE LEVEL 4"
+  },
+  {
+    "moduleCode": "LF5005",
+    "title": "FRENCH LANGUAGE LEVEL 5"
+  },
+  {
+    "moduleCode": "LF5006",
+    "title": "FRENCH LANGUAGE LEVEL 6"
+  },
+  {
+    "moduleCode": "LF5007",
+    "title": "FRENCH LANGUAGE LEVEL 7"
+  },
+  {
+    "moduleCode": "LF5008",
+    "title": "FRENCH LANGUAGE LEVEL 8"
+  },
+  {
+    "moduleCode": "LF5101",
+    "title": "FRENCH FOR PROFESSIONAL PURPOSES"
+  },
+  {
+    "moduleCode": "LG5001",
+    "title": "GERMAN LANGUAGE LEVEL 1"
+  },
+  {
+    "moduleCode": "LG5002",
+    "title": "GERMAN LANGUAGE LEVEL 2"
+  },
+  {
+    "moduleCode": "LG5003",
+    "title": "GERMAN LANGUAGE LEVEL 3"
+  },
+  {
+    "moduleCode": "LG5004",
+    "title": "GERMAN LANGUAGE LEVEL 4"
+  },
+  {
+    "moduleCode": "LG5005",
+    "title": "GERMAN LANGUAGE LEVEL 5"
+  },
+  {
+    "moduleCode": "LH5001",
+    "title": "HINDI LANGUAGE LEVEL 1"
+  },
+  {
+    "moduleCode": "LH5002",
+    "title": "HINDI LANGUAGE LEVEL 2"
+  },
+  {
+    "moduleCode": "LI5001",
+    "title": "ITALIAN LANGUAGE LEVEL 1"
+  },
+  {
+    "moduleCode": "LI5002",
+    "title": "ITALIAN LANGUAGE LEVEL 2"
+  },
+  {
+    "moduleCode": "LJ5001",
+    "title": "JAPANESE LANGUAGE LEVEL 1"
+  },
+  {
+    "moduleCode": "LJ5002",
+    "title": "JAPANESE LANGUAGE LEVEL 2"
+  },
+  {
+    "moduleCode": "LJ5003",
+    "title": "JAPANESE LANGUAGE LEVEL 3"
+  },
+  {
+    "moduleCode": "LJ5004",
+    "title": "JAPANESE LANGUAGE LEVEL 4"
+  },
+  {
+    "moduleCode": "LJ5005",
+    "title": "JAPANESE LANGUAGE LEVEL 5"
+  },
+  {
+    "moduleCode": "LJ5006",
+    "title": "JAPANESE LANGUAGE LEVEL 6"
+  },
+  {
+    "moduleCode": "LJ5901",
+    "title": "JAPANESE CULTURE & SOCIETY 1"
+  },
+  {
+    "moduleCode": "LK5001",
+    "title": "KOREAN LANGUAGE LEVEL 1"
+  },
+  {
+    "moduleCode": "LK5002",
+    "title": "KOREAN LANGUAGE LEVEL 2"
+  },
+  {
+    "moduleCode": "LK5003",
+    "title": "KOREAN LANGUAGE LEVEL 3"
+  },
+  {
+    "moduleCode": "LK5004",
+    "title": "KOREAN LANGUAGE LEVEL 4"
+  },
+  {
+    "moduleCode": "LK5005",
+    "title": "KOREAN LANGUAGE LEVEL 5"
+  },
+  {
+    "moduleCode": "LK5006",
+    "title": "KOREAN LANGUAGE LEVEL 6"
+  },
+  {
+    "moduleCode": "LK5007",
+    "title": "KOREAN LANGUAGE LEVEL 7"
+  },
+  {
+    "moduleCode": "LK5101",
+    "title": "BUSINESS KOREAN 1"
+  },
+  {
+    "moduleCode": "LK5901",
+    "title": "KOREAN CULTURE & SOCIETY I"
+  },
+  {
+    "moduleCode": "LL5001",
+    "title": "SINGAPORE SIGN LANGUAGE LEVEL 1"
+  },
+  {
+    "moduleCode": "LL5002",
+    "title": "SINGAPORE SIGN LANGUAGE LEVEL 2"
+  },
+  {
+    "moduleCode": "LM5001",
+    "title": "MALAY LANGUAGE LEVEL 1"
+  },
+  {
+    "moduleCode": "LM5002",
+    "title": "MALAY LANGUAGE LEVEL 2"
+  },
+  {
+    "moduleCode": "LM5003",
+    "title": "MALAY LANGUAGE LEVEL 3"
+  },
+  {
+    "moduleCode": "LM5004",
+    "title": "MALAY LANGUAGE LEVEL 4"
+  },
+  {
+    "moduleCode": "LM5005",
+    "title": "MALAY LEVEL 5"
+  },
+  {
+    "moduleCode": "LS5001",
+    "title": "SPANISH LANGUAGE LEVEL 1"
+  },
+  {
+    "moduleCode": "LS5002",
+    "title": "SPANISH LANGUAGE LEVEL 2"
+  },
+  {
+    "moduleCode": "LS5003",
+    "title": "SPANISH LANGUAGE LEVEL 3"
+  },
+  {
+    "moduleCode": "LS5004",
+    "title": "SPANISH LANGUAGE LEVEL 4"
+  },
+  {
+    "moduleCode": "LS5005",
+    "title": "SPANISH LANGUAGE LEVEL 5"
+  },
+  {
+    "moduleCode": "LT5001",
+    "title": "THAI LANGUAGE LEVEL 1"
+  },
+  {
+    "moduleCode": "LT5002",
+    "title": "THAI LANGUAGE LEVEL 2"
+  },
+  {
+    "moduleCode": "LT5003",
+    "title": "THAI LANGUAGE LEVEL 3"
+  },
+  {
+    "moduleCode": "LT5004",
+    "title": "THAI LANGUAGE LEVEL 4"
+  },
+  {
+    "moduleCode": "LV5001",
+    "title": "VIETNAMESE LANGUAGE LEVEL 1"
+  },
+  {
+    "moduleCode": "LV5002",
+    "title": "VIETNAMESE LANGUAGE LEVEL 2"
+  },
+  {
+    "moduleCode": "LZ5001",
+    "title": "TAMIL LANGUAGE LEVEL 1"
+  },
+  {
+    "moduleCode": "MA0218",
+    "title": "INTRODUCTION TO DATA SCIENCE & ARTIFICIAL INTELLIGENCE"
+  },
+  {
+    "moduleCode": "MA1001",
+    "title": "DYNAMICS"
+  },
+  {
+    "moduleCode": "MA1008",
+    "title": "INTRODUCTION TO COMPUTATIONAL THINKING"
+  },
+  {
+    "moduleCode": "MA1601",
+    "title": "INTRODUCTION TO ROBOTICS"
+  },
+  {
+    "moduleCode": "MA2001",
+    "title": "MECHANICS OF MATERIALS"
+  },
+  {
+    "moduleCode": "MA2002",
+    "title": "THEORY OF MECHANISM"
+  },
+  {
+    "moduleCode": "MA2003",
+    "title": "INTRODUCTION TO THERMO-FLUIDS"
+  },
+  {
+    "moduleCode": "MA2005",
+    "title": "ENGINEERING GRAPHICS"
+  },
+  {
+    "moduleCode": "MA2006",
+    "title": "ENGINEERING MATHEMATICS"
+  },
+  {
+    "moduleCode": "MA2007",
+    "title": "THERMODYNAMICS"
+  },
+  {
+    "moduleCode": "MA2009",
+    "title": "INTRODUCTION TO ELECTRICAL CIRCUITS & ELECTRONIC DEVICES"
+  },
+  {
+    "moduleCode": "MA2011",
+    "title": "MECHATRONICS SYSTEM INTERFACING"
+  },
+  {
+    "moduleCode": "MA2024",
+    "title": "ENGINEERING MATERIALS & MANUFACTURING PROCESSES"
+  },
+  {
+    "moduleCode": "MA2071",
+    "title": "LABORATORY EXPERIMENTS (ME)"
+  },
+  {
+    "moduleCode": "MA2072",
+    "title": "LABORATORY EXPERIMENTS (AE)"
+  },
+  {
+    "moduleCode": "MA2079",
+    "title": "ENGINEERING INNOVATION & DESIGN"
+  },
+  {
+    "moduleCode": "MA2601",
+    "title": "SENSING & SENSORS"
+  },
+  {
+    "moduleCode": "MA2701",
+    "title": "FLIGHT PERFORMANCE"
+  },
+  {
+    "moduleCode": "MA3001",
+    "title": "MACHINE ELEMENT DESIGN"
+  },
+  {
+    "moduleCode": "MA3002",
+    "title": "SOLID MECHANICS & VIBRATION"
+  },
+  {
+    "moduleCode": "MA3003",
+    "title": "HEAT TRANSFER"
+  },
+  {
+    "moduleCode": "MA3004",
+    "title": "MATHEMATICAL METHODS IN ENGINEERING"
+  },
+  {
+    "moduleCode": "MA3005",
+    "title": "CONTROL THEORY"
+  },
+  {
+    "moduleCode": "MA3006",
+    "title": "FLUID MECHANICS"
+  },
+  {
+    "moduleCode": "MA3010",
+    "title": "THERMODYNAMICS & HEAT TRANSFER"
+  },
+  {
+    "moduleCode": "MA3071",
+    "title": "ENGINEERING EXPERIMENTS (ME)"
+  },
+  {
+    "moduleCode": "MA3072",
+    "title": "ENGINEERING EXPERIMENTS (AE)"
+  },
+  {
+    "moduleCode": "MA3700",
+    "title": "AIRCRAFT STRUCTURES I"
+  },
+  {
+    "moduleCode": "MA3701",
+    "title": "AERODYNAMICS"
+  },
+  {
+    "moduleCode": "MA3702",
+    "title": "AIRCRAFT PROPULSION"
+  },
+  {
+    "moduleCode": "MA3703",
+    "title": "FLIGHT DYNAMICS"
+  },
+  {
+    "moduleCode": "MA3704",
+    "title": "AIRCRAFT ELECTRICAL DEVICES"
+  },
+  {
+    "moduleCode": "MA3705",
+    "title": "AEROSPACE CONTROL THEORY"
+  },
+  {
+    "moduleCode": "MA4001",
+    "title": "ENGINEERING DESIGN"
+  },
+  {
+    "moduleCode": "MA4002",
+    "title": "FLUID DYNAMICS"
+  },
+  {
+    "moduleCode": "MA4012",
+    "title": "MECHATRONICS ENGINEERING DESIGN"
+  },
+  {
+    "moduleCode": "MA4701",
+    "title": "AIRCRAFT DESIGN"
+  },
+  {
+    "moduleCode": "MA4702",
+    "title": "AIRCRAFT STRUCTURES II"
+  },
+  {
+    "moduleCode": "MA4704",
+    "title": "AEROELASTICITY"
+  },
+  {
+    "moduleCode": "MA4705",
+    "title": "AIRCRAFT NAVIGATION & FLIGHT COMPUTERS"
+  },
+  {
+    "moduleCode": "MA4804",
+    "title": "OPTIMIZATION THEORY & APPLICATIONS"
+  },
+  {
+    "moduleCode": "MA4811",
+    "title": "PSYCHROMETRY & AIR CONDITIONING"
+  },
+  {
+    "moduleCode": "MA4814",
+    "title": "COMPUTATIONAL FLUID DYNAMICS"
+  },
+  {
+    "moduleCode": "MA4822",
+    "title": "MEASUREMENTS & SENSING SYSTEMS"
+  },
+  {
+    "moduleCode": "MA4825",
+    "title": "ROBOTICS"
+  },
+  {
+    "moduleCode": "MA4832",
+    "title": "MICROPROCESSOR SYSTEMS"
+  },
+  {
+    "moduleCode": "MA4842",
+    "title": "ENGINEERING METROLOGY &  MATERIALS CHARACTERIZATION"
+  },
+  {
+    "moduleCode": "MA4849",
+    "title": "OPERATIONS RESEARCH"
+  },
+  {
+    "moduleCode": "MA4856",
+    "title": "NAVAL ARCHITECTURE & MARINE ENGINEERING"
+  },
+  {
+    "moduleCode": "MA4858",
+    "title": "PRODUCT DESIGN"
+  },
+  {
+    "moduleCode": "MA4880",
+    "title": "AIRPORT OPERATIONS & SYSTEMS"
+  },
+  {
+    "moduleCode": "MA4881",
+    "title": "AIR TRAFFIC MANAGEMENT"
+  },
+  {
+    "moduleCode": "MA4882",
+    "title": "ADVANCED MANUFACTURING & MATERIALS PROCESSING"
+  },
+  {
+    "moduleCode": "MA4884",
+    "title": "SYSTEMS THINKING & SYSTEMS ENGINEERING"
+  },
+  {
+    "moduleCode": "MA4890",
+    "title": "AUTONOMOUS DRIVING"
+  },
+  {
+    "moduleCode": "MH1100",
+    "title": "CALCULUS I"
+  },
+  {
+    "moduleCode": "MH1200",
+    "title": "LINEAR ALGEBRA I"
+  },
+  {
+    "moduleCode": "MH1300",
+    "title": "FOUNDATIONS OF MATHEMATICS"
+  },
+  {
+    "moduleCode": "MH1802",
+    "title": "CALCULUS FOR THE SCIENCES"
+  },
+  {
+    "moduleCode": "MH1805",
+    "title": "CALCULUS"
+  },
+  {
+    "moduleCode": "MH1810",
+    "title": "MATHEMATICS 1"
+  },
+  {
+    "moduleCode": "MH1811",
+    "title": "MATHEMATICS 2"
+  },
+  {
+    "moduleCode": "MH1812",
+    "title": "DISCRETE MATHEMATICS"
+  },
+  {
+    "moduleCode": "MH2100",
+    "title": "CALCULUS III"
+  },
+  {
+    "moduleCode": "MH2500",
+    "title": "PROBABILITY"
+  },
+  {
+    "moduleCode": "MH2802",
+    "title": "LINEAR ALGEBRA FOR SCIENTISTS"
+  },
+  {
+    "moduleCode": "MH2811",
+    "title": "MATHEMATICS II"
+  },
+  {
+    "moduleCode": "MH2814",
+    "title": "PROBABILITY & STATISTICS"
+  },
+  {
+    "moduleCode": "MH3100",
+    "title": "REAL ANALYSIS I"
+  },
+  {
+    "moduleCode": "MH3101",
+    "title": "COMPLEX ANALYSIS"
+  },
+  {
+    "moduleCode": "MH3210",
+    "title": "NUMBER THEORY"
+  },
+  {
+    "moduleCode": "MH3220",
+    "title": "ALGEBRA II"
+  },
+  {
+    "moduleCode": "MH3300",
+    "title": "GRAPH THEORY"
+  },
+  {
+    "moduleCode": "MH3510",
+    "title": "REGRESSION ANALYSIS"
+  },
+  {
+    "moduleCode": "MH3512",
+    "title": "STOCHASTIC PROCESSES"
+  },
+  {
+    "moduleCode": "MH3520",
+    "title": "MATHEMATICS OF DEEP LEARNING"
+  },
+  {
+    "moduleCode": "MH3702",
+    "title": "GEOMETRIC METHODS IN MATHEMATICAL PHYSICS"
+  },
+  {
+    "moduleCode": "MH4310",
+    "title": "CODING THEORY"
+  },
+  {
+    "moduleCode": "MH4311",
+    "title": "CRYPTOGRAPHY"
+  },
+  {
+    "moduleCode": "MH4320",
+    "title": "COMPUTATIONAL ECONOMICS"
+  },
+  {
+    "moduleCode": "MH4510",
+    "title": "STATISTICAL LEARNING & DATA MINING"
+  },
+  {
+    "moduleCode": "MH4511",
+    "title": "SAMPLING & SURVEY"
+  },
+  {
+    "moduleCode": "MH4513",
+    "title": "SURVIVAL ANALYSIS"
+  },
+  {
+    "moduleCode": "MH4514",
+    "title": "FINANCIAL MATHEMATICS"
+  },
+  {
+    "moduleCode": "MH4521",
+    "title": "REINFORCEMENT LEARNING"
+  },
+  {
+    "moduleCode": "MH4700",
+    "title": "NUMERICAL ANALYSIS II"
+  },
+  {
+    "moduleCode": "MH4930",
+    "title": "SPECIAL TOPICS IN MATHEMATICS"
+  },
+  {
+    "moduleCode": "MH4931",
+    "title": "SPECIAL TOPICS IN APPLIED MATHEMATICS"
+  },
+  {
+    "moduleCode": "MH4932",
+    "title": "SPECIAL TOPICS IN STATISTICS"
+  },
+  {
+    "moduleCode": "MH5000",
+    "title": "MATHEMATICAL PROBLEM-SOLVING"
+  },
+  {
+    "moduleCode": "MH5100",
+    "title": "ADVANCED INVESTIGATIONS IN CALCULUS I"
+  },
+  {
+    "moduleCode": "MH5200",
+    "title": "ADVANCED INVESTIGATIONS IN LINEAR ALGEBRA I"
+  },
+  {
+    "moduleCode": "MH5301",
+    "title": "MODERN CRYPTOGRAPHY: REAL-WORLD APPLICATIONS & IMPACT"
+  },
+  {
+    "moduleCode": "ML0003",
+    "title": "KICKSTART YOUR CAREER SUCCESS"
+  },
+  {
+    "moduleCode": "ML0004",
+    "title": "CAREER DESIGN & WORKPLACE READINESS IN THE V.U.C.A WORLD"
+  },
+  {
+    "moduleCode": "MS1008",
+    "title": "INTRODUCTION TO COMPUTATIONAL THINKING"
+  },
+  {
+    "moduleCode": "MS1011",
+    "title": "MATERIALS MATTER"
+  },
+  {
+    "moduleCode": "MS1013",
+    "title": "MATERIALS CHEMISTRY I"
+  },
+  {
+    "moduleCode": "MS1016",
+    "title": "THERMODYNAMICS OF MATERIALS"
+  },
+  {
+    "moduleCode": "MS1017",
+    "title": "INTRODUCTION TO MATERIALS SCIENCE"
+  },
+  {
+    "moduleCode": "MS2012",
+    "title": "INTRODUCTION TO MANUFACTURING PROCESSES"
+  },
+  {
+    "moduleCode": "MS2015",
+    "title": "MECHANICAL BEHAVIOUR OF MATERIALS"
+  },
+  {
+    "moduleCode": "MS2016",
+    "title": "INTRODUCTION TO METALLURGY"
+  },
+  {
+    "moduleCode": "MS2083",
+    "title": "LABORATORY ON STRUCTURE-PROPERTY RELATIONSHIP IN POLYMERS"
+  },
+  {
+    "moduleCode": "MS3011",
+    "title": "METALS & CERAMICS"
+  },
+  {
+    "moduleCode": "MS3012",
+    "title": "MICRO/NANOELECTRONIC MATERIALS PROCESSING"
+  },
+  {
+    "moduleCode": "MS3013",
+    "title": "ELECTROCHEMICAL CORROSION"
+  },
+  {
+    "moduleCode": "MS3014",
+    "title": "ANALYSIS OF MATERIALS"
+  },
+  {
+    "moduleCode": "MS3015",
+    "title": "INDUSTRIAL DESIGN"
+  },
+  {
+    "moduleCode": "MS3082",
+    "title": "DESIGN LAB"
+  },
+  {
+    "moduleCode": "MS4012",
+    "title": "QUALITY CONTROL"
+  },
+  {
+    "moduleCode": "MS4013",
+    "title": "BIOMATERIALS"
+  },
+  {
+    "moduleCode": "MS4610",
+    "title": "ADVANCED BIOMATERIALS"
+  },
+  {
+    "moduleCode": "MS4621",
+    "title": "SELECTED TOPICS ON APPLIED POLYMER MATERIALS"
+  },
+  {
+    "moduleCode": "MS4623",
+    "title": "POROUS MATERIALS FOR INDUSTRIAL & SUSTAINABLE TECH"
+  },
+  {
+    "moduleCode": "MS4631",
+    "title": "CORROSION ENGINEERING"
+  },
+  {
+    "moduleCode": "MS4640",
+    "title": "ADVANCED ANALYSIS OF MATERIALS"
+  },
+  {
+    "moduleCode": "MS4642",
+    "title": "ADDITIVE MANUFACTURING OF MATERIALS"
+  },
+  {
+    "moduleCode": "MS4651",
+    "title": "THIN FILM TECHNOLOGY"
+  },
+  {
+    "moduleCode": "MS4660",
+    "title": "FUNDAMENTALS OF INTELLECTUAL PROPERTY IN MATLS SCI & ENG"
+  },
+  {
+    "moduleCode": "MS4666",
+    "title": "ENVIRONMENTAL DEGRADATION OF PLASTICS"
+  },
+  {
+    "moduleCode": "MS4667",
+    "title": "INTRODUCTION TO SUSTAINABLE MATERIALS"
+  },
+  {
+    "moduleCode": "MS4672",
+    "title": "MACHINE LEARNING FOR MATERIALS DESIGN"
+  },
+  {
+    "moduleCode": "MS4681",
+    "title": "CARBON MARKETS: TOWARDS A LOW-CARBON FUTURE"
+  },
+  {
+    "moduleCode": "MS4682",
+    "title": "MATERIALS FOR HYDROGEN FUEL"
+  },
+  {
+    "moduleCode": "MT0001",
+    "title": "SHIPPING & THE ENVIRONMENT"
+  },
+  {
+    "moduleCode": "MT1001",
+    "title": "MATHEMATICS I FOR MARITIME STUDIES"
+  },
+  {
+    "moduleCode": "MT1003",
+    "title": "TRADE PRACTICE & INCOTERMS"
+  },
+  {
+    "moduleCode": "MT2002",
+    "title": "SHIPPING ECONOMICS"
+  },
+  {
+    "moduleCode": "MT3001",
+    "title": "MARITIME LAW"
+  },
+  {
+    "moduleCode": "MT3002",
+    "title": "INTRODUCTION TO MARINE INSURANCE"
+  },
+  {
+    "moduleCode": "MT3003",
+    "title": "ORGANISATION OF A SHIP OWNING ENTITY"
+  },
+  {
+    "moduleCode": "MT3004",
+    "title": "SHIPPING MANAGEMENT"
+  },
+  {
+    "moduleCode": "MT3006",
+    "title": "SHIP CHARTERING"
+  },
+  {
+    "moduleCode": "MT4001",
+    "title": "SHIPPING LOGISTICS"
+  },
+  {
+    "moduleCode": "MT4002",
+    "title": "ESSENTIALS OF PROJECT MANAGEMENT"
+  },
+  {
+    "moduleCode": "MT4101",
+    "title": "INTERMODAL TRANSPORTATION"
+  },
+  {
+    "moduleCode": "NH0001",
+    "title": "TECH-FOR-GOOD SERVICE LEARNING"
+  },
+  {
+    "moduleCode": "NH0003",
+    "title": "ETHICS & SOCIETY IN A CHANGING WORLD"
+  },
+  {
+    "moduleCode": "NH0007",
+    "title": "CRITICAL PERSPECTIVES ON TECHNOLOGY & SOCIETY"
+  },
+  {
+    "moduleCode": "NH5001",
+    "title": "STARTUP SPRINT: ENTREPRENEURSHIP IN ACTION"
+  },
+  {
+    "moduleCode": "PH1011",
+    "title": "PHYSICS"
+  },
+  {
+    "moduleCode": "PH1012",
+    "title": "PHYSICS A"
+  },
+  {
+    "moduleCode": "PH1104",
+    "title": "MECHANICS"
+  },
+  {
+    "moduleCode": "PH1105",
+    "title": "OPTICS, VIBRATIONS & WAVES"
+  },
+  {
+    "moduleCode": "PH1198",
+    "title": "PHYSICS LABORATORY IA"
+  },
+  {
+    "moduleCode": "PH2102",
+    "title": "ELECTROMAGNETISM"
+  },
+  {
+    "moduleCode": "PH2103",
+    "title": "THERMAL PHYSICS"
+  },
+  {
+    "moduleCode": "PH2104",
+    "title": "ANALYTICAL MECHANICS"
+  },
+  {
+    "moduleCode": "PH2198",
+    "title": "PHYSICS LABORATORY IIA"
+  },
+  {
+    "moduleCode": "PH3101",
+    "title": "QUANTUM MECHANICS II"
+  },
+  {
+    "moduleCode": "PH3102",
+    "title": "CONDENSED MATTER PHYSICS I"
+  },
+  {
+    "moduleCode": "PH3103",
+    "title": "TECHNOLOGICAL APPLICATIONS OF QUANTUM MECHANICS"
+  },
+  {
+    "moduleCode": "PH3199",
+    "title": "PHYSICS LAB IIIA"
+  },
+  {
+    "moduleCode": "PH3301",
+    "title": "INTRODUCTION TO BIOIMAGING & BIOSENSING TECHNIQUES"
+  },
+  {
+    "moduleCode": "PH3403",
+    "title": "ASTROPHYSICS & COSMOLOGY"
+  },
+  {
+    "moduleCode": "PH3409",
+    "title": "GEOMETRIC METHODS IN MATHEMATICAL PHYSICS"
+  },
+  {
+    "moduleCode": "PH3601",
+    "title": "FABRICATION OF MICRO-& NANOELECTRONIC DEVICES"
+  },
+  {
+    "moduleCode": "PH3602",
+    "title": "PHOTONICS"
+  },
+  {
+    "moduleCode": "PH4408",
+    "title": "NUCLEAR PHYSICS"
+  },
+  {
+    "moduleCode": "PH4411",
+    "title": "INTRODUCTION TO EXPERIMENTAL PARTICLE PHYSICS"
+  },
+  {
+    "moduleCode": "PH4423",
+    "title": "ADVANCED TOPICS IN ASTROPHYSICS"
+  },
+  {
+    "moduleCode": "PH4603",
+    "title": "SOFT CONDENSED MATTER PHYSICS"
+  },
+  {
+    "moduleCode": "PH4610",
+    "title": "IONISING RADIATION-BASED IMAGING"
+  },
+  {
+    "moduleCode": "PH4611",
+    "title": "MEDICAL PHYSICS BEAM MODELLING & DOSIMETRY"
+  },
+  {
+    "moduleCode": "PS0001",
+    "title": "INTRODUCTION TO COMPUTATIONAL THINKING"
+  },
+  {
+    "moduleCode": "PS5886",
+    "title": "MAKING & TINKERING (LITE I)"
+  },
+  {
+    "moduleCode": "RE0003",
+    "title": "COMMUNICATING AS A 21ST CENTURY ENGINEER"
+  },
+  {
+    "moduleCode": "RE0011",
+    "title": "WRITING ACROSS THE DISCIPLINES"
+  },
+  {
+    "moduleCode": "RE1011",
+    "title": "MATHEMATICS I"
+  },
+  {
+    "moduleCode": "RE1013",
+    "title": "MATERIALS & MANUFACTURING"
+  },
+  {
+    "moduleCode": "RE1014",
+    "title": "ELECTRONIC & INFORMATION ENGINEERING"
+  },
+  {
+    "moduleCode": "RE1015",
+    "title": "BIO- & CHEMICAL ENGINEERING FUNDAMENTALS & APPLICATIONS"
+  },
+  {
+    "moduleCode": "RE1101",
+    "title": "FUNDAMENTALS OF MANAGEMENT"
+  },
+  {
+    "moduleCode": "RE1401",
+    "title": "FINANCIAL MANAGEMENT"
+  },
+  {
+    "moduleCode": "RE2011",
+    "title": "RENAISSANCE DESIGN I"
+  },
+  {
+    "moduleCode": "SC1001",
+    "title": "INTRODUCTION TO COMPUTATIONAL THINKING & PROGRAMMING"
+  },
+  {
+    "moduleCode": "SC1003",
+    "title": "INTRODUCTION TO COMPUTATIONAL THINKING & PROGRAMMING"
+  },
+  {
+    "moduleCode": "SC1004",
+    "title": "LINEAR ALGEBRA FOR COMPUTING"
+  },
+  {
+    "moduleCode": "SC1005",
+    "title": "DIGITAL LOGIC"
+  },
+  {
+    "moduleCode": "SC1006",
+    "title": "COMPUTER ORGANISATION & ARCHITECTURE"
+  },
+  {
+    "moduleCode": "SC1007",
+    "title": "DATA STRUCTURES & ALGORITHMS"
+  },
+  {
+    "moduleCode": "SC1008",
+    "title": "C & C++ PROGRAMMING"
+  },
+  {
+    "moduleCode": "SC1013",
+    "title": "PHYSICS FOR COMPUTING"
+  },
+  {
+    "moduleCode": "SC1123",
+    "title": "MATH 1: LINEAR ALGEBRA & CALCULUS FOR COMPUTING"
+  },
+  {
+    "moduleCode": "SC1301",
+    "title": "LANGUAGE & LOGIC"
+  },
+  {
+    "moduleCode": "SC1303",
+    "title": "PROGRAMMING WITH DATA STRUCTURES & ALGORITHMS"
+  },
+  {
+    "moduleCode": "SC2000",
+    "title": "PROBABILITY & STATISTICS FOR COMPUTING"
+  },
+  {
+    "moduleCode": "SC2001",
+    "title": "ALGORITHM DESIGN & ANALYSIS"
+  },
+  {
+    "moduleCode": "SC2002",
+    "title": "OBJECT ORIENTED DESIGN & PROGRAMMING"
+  },
+  {
+    "moduleCode": "SC2005",
+    "title": "OPERATING SYSTEMS"
+  },
+  {
+    "moduleCode": "SC2006",
+    "title": "SOFTWARE ENGINEERING"
+  },
+  {
+    "moduleCode": "SC2008",
+    "title": "COMPUTER NETWORK"
+  },
+  {
+    "moduleCode": "SC2079",
+    "title": "MULTIDISCIPLINARY DESIGN PROJECT"
+  },
+  {
+    "moduleCode": "SC2103",
+    "title": "DIGITAL SYSTEMS DESIGN"
+  },
+  {
+    "moduleCode": "SC2104",
+    "title": "SENSORS, INTERFACING & DIGITAL CONTROL"
+  },
+  {
+    "moduleCode": "SC2107",
+    "title": "MICROPROCESSOR SYSTEM DESIGN & DEVELOPMENT"
+  },
+  {
+    "moduleCode": "SC2203",
+    "title": "AUTOMATA, COMPUTABILITY & COMPLEXITY"
+  },
+  {
+    "moduleCode": "SC2207",
+    "title": "INTRODUCTION TO DATABASES"
+  },
+  {
+    "moduleCode": "SC2301",
+    "title": "ALGORITHM DESIGN & ANALYSIS"
+  },
+  {
+    "moduleCode": "SC2302",
+    "title": "OBJECT ORIENTED DESIGN & PROGRAMMING"
+  },
+  {
+    "moduleCode": "SC2304",
+    "title": "ETHICAL ARTIFICIAL INTELLIGENCE"
+  },
+  {
+    "moduleCode": "SC3000",
+    "title": "ARTIFICIAL INTELLIGENCE"
+  },
+  {
+    "moduleCode": "SC3010",
+    "title": "COMPUTER SECURITY"
+  },
+  {
+    "moduleCode": "SC3020",
+    "title": "DATABASE SYSTEM PRINCIPLES"
+  },
+  {
+    "moduleCode": "SC3030",
+    "title": "ADVANCED COMPUTER NETWORKS"
+  },
+  {
+    "moduleCode": "SC3040",
+    "title": "ADVANCED SOFTWARE ENGINEERING"
+  },
+  {
+    "moduleCode": "SC3050",
+    "title": "ADVANCED COMPUTER ARCHITECTURE"
+  },
+  {
+    "moduleCode": "SC3060",
+    "title": "COMPUTER GRAPHICS & VISUALISATION"
+  },
+  {
+    "moduleCode": "SC3061",
+    "title": "HUMAN COMPUTER INTERACTION"
+  },
+  {
+    "moduleCode": "SC3098",
+    "title": "DESIGN PROJECT - AI IN SOCIETY"
+  },
+  {
+    "moduleCode": "SC3099",
+    "title": "CAPSTONE PROJECT"
+  },
+  {
+    "moduleCode": "SC3102",
+    "title": "SIGNALS, SYSTEMS & TRANSFORMS"
+  },
+  {
+    "moduleCode": "SC3103",
+    "title": "EMBEDDED PROGRAMMING"
+  },
+  {
+    "moduleCode": "SC3270",
+    "title": "REASONING ABOUT PROGRAMS"
+  },
+  {
+    "moduleCode": "SC3271",
+    "title": "LOGIC, PROOF, & THE FOUNDATIONS OF CALCULUS"
+  },
+  {
+    "moduleCode": "SC4000",
+    "title": "MACHINE LEARNING"
+  },
+  {
+    "moduleCode": "SC4001",
+    "title": "NEURAL NETWORK & DEEP LEARNING"
+  },
+  {
+    "moduleCode": "SC4002",
+    "title": "NATURAL LANGUAGE PROCESSING"
+  },
+  {
+    "moduleCode": "SC4010",
+    "title": "APPLIED CRYPTOGRAPHY"
+  },
+  {
+    "moduleCode": "SC4011",
+    "title": "SECURITY MANAGEMENT"
+  },
+  {
+    "moduleCode": "SC4013",
+    "title": "APPLICATION SECURITY"
+  },
+  {
+    "moduleCode": "SC4016",
+    "title": "CYBER THREAT INTELLIGENCE"
+  },
+  {
+    "moduleCode": "SC4017",
+    "title": "DATA PRIVACY & SECURITY"
+  },
+  {
+    "moduleCode": "SC4020",
+    "title": "DATA ANALYTICS & MINING"
+  },
+  {
+    "moduleCode": "SC4024",
+    "title": "DATA VISUALISATION"
+  },
+  {
+    "moduleCode": "SC4025",
+    "title": "DIGITAL PRODUCT MANAGEMENT"
+  },
+  {
+    "moduleCode": "SC4030",
+    "title": "WIRELESS & MOBILE NETWORKS"
+  },
+  {
+    "moduleCode": "SC4040",
+    "title": "ADVANCED TOPICS IN ALGORITHMS"
+  },
+  {
+    "moduleCode": "SC4050",
+    "title": "PARALLEL COMPUTING"
+  },
+  {
+    "moduleCode": "SC4053",
+    "title": "BLOCKCHAIN TECHNOLOGY"
+  },
+  {
+    "moduleCode": "SC4055",
+    "title": "INTRODUCTION TO QUANTUM COMPUTING"
+  },
+  {
+    "moduleCode": "SC4061",
+    "title": "COMPUTER VISION"
+  },
+  {
+    "moduleCode": "SC4090",
+    "title": "APPLICATIONS OF DATA SCIENCE & AI IN ACCOUNTING"
+  },
+  {
+    "moduleCode": "SC5002",
+    "title": "ARTIFICIAL INTELLIGENCE FUNDAMENTALS & APPLICATIONS"
+  },
+  {
+    "moduleCode": "SC5006",
+    "title": "COMPUTER VISION & APPLICATIONS"
+  },
+  {
+    "moduleCode": "SC5008",
+    "title": "DECODE THE INDUSTRY: INSIGHTS & SKILLS FOR CAREER SUCCESS"
+  },
+  {
+    "moduleCode": "SC5401",
+    "title": "MASTER CLASS 1 (TURING ON COMPUTABILITY & INTELLIGENCE)"
+  },
+  {
+    "moduleCode": "SP0001",
+    "title": "LANGUAGE & LOGIC"
+  },
+  {
+    "moduleCode": "SP0008",
+    "title": "BEING & BECOMING"
+  },
+  {
+    "moduleCode": "SP0041",
+    "title": "DEEP DRAMA"
+  },
+  {
+    "moduleCode": "SP0047",
+    "title": "AESTHETICS & PHILOSOPHY OF ART"
+  },
+  {
+    "moduleCode": "SP0051",
+    "title": "ASTRONOMY"
+  },
+  {
+    "moduleCode": "SP0054",
+    "title": "A LIFE: BETWEEN CARE, SUFFERING, & RESILIENCE"
+  },
+  {
+    "moduleCode": "SP0061",
+    "title": "SCIENCE & TECHNOLOGY FOR HUMANITY"
+  },
+  {
+    "moduleCode": "SS5003",
+    "title": "INTRODUCTION TO PILATES MATWORK & HATHA YOGA"
+  },
+  {
+    "moduleCode": "SS5101",
+    "title": "BADMINTON"
+  },
+  {
+    "moduleCode": "SS5102",
+    "title": "TENNIS"
+  },
+  {
+    "moduleCode": "SS5103",
+    "title": "SQUASH"
+  },
+  {
+    "moduleCode": "SS5104",
+    "title": "BASKETBALL"
+  },
+  {
+    "moduleCode": "SS5105",
+    "title": "VOLLEYBALL"
+  },
+  {
+    "moduleCode": "SS5106",
+    "title": "NETBALL"
+  },
+  {
+    "moduleCode": "SS5107",
+    "title": "TABLE TENNIS"
+  },
+  {
+    "moduleCode": "SS5202",
+    "title": "SOCCER"
+  },
+  {
+    "moduleCode": "SS5203",
+    "title": "HOCKEY"
+  },
+  {
+    "moduleCode": "SS5204",
+    "title": "FLOORBALL"
+  },
+  {
+    "moduleCode": "SS5205",
+    "title": "RUGBY"
+  },
+  {
+    "moduleCode": "SS5206",
+    "title": "TCHOUKBALL"
+  },
+  {
+    "moduleCode": "SS5303",
+    "title": "INTRODUCTION TO HIP-HOP & ITS DANCES"
+  },
+  {
+    "moduleCode": "SS5305",
+    "title": "INTRODUCTION TO DANCES OF AMERICAN ORIGIN"
+  },
+  {
+    "moduleCode": "SS5601",
+    "title": "HUMAN ANATOMY & PHYSIOLOGY"
+  },
+  {
+    "moduleCode": "SS5605",
+    "title": "PSYCHOSOCIAL ASPECTS OF SPORT & EXERCISE"
+  },
+  {
+    "moduleCode": "SS5611",
+    "title": "PHYSICAL ACTIVITY IN LIFE COURSE WELLNESS"
+  },
+  {
+    "moduleCode": "SU3001",
+    "title": "INTEGRATED URBAN MANAGEMENT"
+  }
+]

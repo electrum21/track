@@ -41,6 +41,16 @@ public class CourseController {
         );
     }
 
+    @GetMapping("/catalog")
+    public ResponseEntity<List<CourseResponse>> getModuleCatalog() {
+        return ResponseEntity.ok(
+            courseService.getModuleCatalog()
+                .stream()
+                .map(CourseResponse::from)
+                .toList()
+        );
+    }
+
     @PostMapping
     public ResponseEntity<CourseResponse> createCourse(
             HttpServletRequest request,

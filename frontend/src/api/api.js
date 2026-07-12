@@ -83,6 +83,11 @@ export const deleteCourse = async (id) => {
   })
 }
 
+export const getCourseCatalog = async () => {
+  const res = await fetch(`${BASE_URL}/courses/catalog`, { headers: authHeaders() })
+  return res.json()
+}
+
 export const uploadCourseFile = async (file) => {
   const formData = new FormData()
   formData.append('file', file)

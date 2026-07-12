@@ -21,7 +21,7 @@ public class CourseResponse {
     public static CourseResponse from(Course course) {
         CourseResponse dto = new CourseResponse();
         dto.id = course.getId();
-        dto.userId = course.getUser().getId();
+        dto.userId = course.getUser() != null ? course.getUser().getId() : null;
         dto.moduleCode = course.getModuleCode();
         dto.name = course.getName();
         dto.prof = course.getProf();
