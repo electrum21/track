@@ -120,6 +120,14 @@ async def link(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = str(update.message.chat.id)
 
     if not context.args:
+        existing = await get_user_by_chat_id(chat_id)
+        if existing:
+            await update.message.reply_text(
+                f"This chat is already linked to {existing['email']}. "
+                "Unlink first (in NTUTrack Settings) if you want to connect a different account."
+            )
+            return
+
         await update.message.reply_text(
             "Usage: /link <code>\nGenerate a code from NTUTrack's Settings panel first."
         )
