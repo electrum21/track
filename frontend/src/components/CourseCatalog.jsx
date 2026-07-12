@@ -1,8 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 import { getCourseCatalog } from '../api/api'
 
-const RESULTS_CAP = 60
-
 function CourseCatalog({ courses, onAdd }) {
   const [allModules, setAllModules] = useState([])
   const [loading, setLoading] = useState(true)
@@ -24,16 +22,8 @@ function CourseCatalog({ courses, onAdd }) {
 
   const results = useMemo(() => {
     const q = query.trim().toUpperCase()
-    if (!q) return []
-    return allModules
-      .filter(m => m.moduleCode.toUpperCase().includes(q) || (m.name || '').toUpperCase().includes(q))
-      .slice(0, RESULTS_CAP)
-  }, [allModules, query])
-
-  const totalMatches = useMemo(() => {
-    const q = query.trim().toUpperCase()
-    if (!q) return 0
-    return allModules.filter(m => m.moduleCode.toUpperCase().includes(q) || (m.name || '').toUpperCase().includes(q)).length
+    if (!q) return allModules
+    return allModules.filter(m => m.moduleCode.toUpperCase().includes(q) || (m.name || '').toUpperCase().includes(q))
   }, [allModules, query])
 
   const handleAdd = async (mod) => {
@@ -66,52 +56,63 @@ function CourseCatalog({ courses, onAdd }) {
       )}
 
       {!loading && loadError && (
-        <div className="mb-4 px-4 py-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-sm text-red-700 dark:text-red-400">
+        <div className="px-4 py-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-sm text-red-700 dark:text-red-400">
           {loadError}
         </div>
       )}
 
-      {!loading && !loadError && query.trim() === '' && (
-        <div className="text-center py-16 text-gray-400 dark:text-gray-600 text-sm">
-          Start typing to search {allModules.length.toLocaleString()} NTU modules
+      {!loading && !loadError && (
+        <div className="border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
+          <div className="max-h-[65vh] overflow-y-auto">
+            <table className="w-full text-sm border-collapse">
+              <thead className="sticky top-0 z-10 bg-gray-50 dark:bg-gray-800">
+                <tr>
+                  <th className="text-left px-4 py-2.5 text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Code</th>
+                  <th className="text-left px-4 py-2.5 text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Title</th>
+                  <th className="px-4 py-2.5" />
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+                {results.length === 0 ? (
+                  <tr>
+                    <td colSpan={3} className="px-4 py-10 text-center text-sm text-gray-400 dark:text-gray-600">
+                      No modules match "{query.trim()}"
+                    </td>
+                  </tr>
+                ) : (
+                  results.map(mod => {
+                    const isAdded = registeredCodes.has(mod.moduleCode)
+                    const isAdding = addingCode === mod.moduleCode
+                    return (
+                      <tr key={mod.moduleCode} className="bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                        <td className="px-4 py-2.5 font-medium text-gray-900 dark:text-gray-100 whitespace-nowrap align-top">{mod.moduleCode}</td>
+                        <td className="px-4 py-2.5 text-gray-500 dark:text-gray-400 align-top">{mod.name}</td>
+                        <td className="px-4 py-2.5 text-right align-top">
+                          <button
+                            onClick={() => handleAdd(mod)}
+                            disabled={isAdded || isAdding}
+                            className={`text-xs px-3 py-1.5 rounded-lg font-medium transition-all duration-150 whitespace-nowrap ${
+                              isAdded
+                                ? 'border border-gray-100 dark:border-gray-800 text-gray-300 dark:text-gray-600 cursor-default'
+                                : 'border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 active:scale-95 cursor-pointer'
+                            }`}
+                          >
+                            {isAdded ? 'Added' : isAdding ? 'Adding...' : '+ Add'}
+                          </button>
+                        </td>
+                      </tr>
+                    )
+                  })
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 
-      {!loading && !loadError && query.trim() !== '' && results.length === 0 && (
-        <div className="text-center py-16 text-gray-400 dark:text-gray-600 text-sm">No modules match "{query.trim()}"</div>
-      )}
-
-      {!loading && !loadError && results.length > 0 && (
-        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl divide-y divide-gray-100 dark:divide-gray-800 overflow-hidden">
-          {results.map(mod => {
-            const isAdded = registeredCodes.has(mod.moduleCode)
-            const isAdding = addingCode === mod.moduleCode
-            return (
-              <div key={mod.moduleCode} className="flex items-center justify-between gap-3 px-4 py-3">
-                <div className="min-w-0">
-                  <div className="text-sm font-medium text-gray-900 dark:text-gray-100">{mod.moduleCode}</div>
-                  <div className="text-xs text-gray-400 dark:text-gray-500 truncate">{mod.name}</div>
-                </div>
-                <button
-                  onClick={() => handleAdd(mod)}
-                  disabled={isAdded || isAdding}
-                  className={`text-xs px-3 py-1.5 rounded-lg font-medium transition-all duration-150 flex-shrink-0 ${
-                    isAdded
-                      ? 'border border-gray-100 dark:border-gray-800 text-gray-300 dark:text-gray-600 cursor-default'
-                      : 'border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 active:scale-95 cursor-pointer'
-                  }`}
-                >
-                  {isAdded ? 'Added' : isAdding ? 'Adding...' : '+ Add'}
-                </button>
-              </div>
-            )
-          })}
-        </div>
-      )}
-
-      {!loading && !loadError && totalMatches > RESULTS_CAP && (
+      {!loading && !loadError && (
         <div className="text-xs text-gray-300 dark:text-gray-600 text-center mt-3">
-          Showing {RESULTS_CAP} of {totalMatches} matches — refine your search to narrow it down
+          {results.length.toLocaleString()} of {allModules.length.toLocaleString()} modules
         </div>
       )}
     </div>
