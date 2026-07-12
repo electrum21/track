@@ -63,7 +63,7 @@ function CourseCatalog({ courses, onAdd }) {
 
       {!loading && !loadError && (
         <div className="border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
-          <div className="max-h-[65vh] overflow-y-auto">
+          <div className="max-h-[54vh] overflow-y-auto">
             <table className="w-full text-sm border-collapse">
               <thead className="sticky top-0 z-10 bg-gray-50 dark:bg-gray-800">
                 <tr>
