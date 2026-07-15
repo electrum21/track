@@ -60,6 +60,7 @@ function Course() {
       setSelectedMod(newCourses[0].moduleCode)
     } catch (err) {
       console.error('Upload error:', err)
+      setUploadError(err.message || 'Upload failed. Please try again.')
     }
     setExtracting(false)
   }

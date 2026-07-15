@@ -78,19 +78,47 @@ public class UploadController {
             String weekContext = academicCalendarService.buildWeekContext(user.getId());
             DocumentService.CourseAndTasks result = documentService.extractCourseAndTasksFromFile(file, weekContext);
 
+            // Every module code the file references, from extracted course info and from tasks.
+            java.util.Set<String> referencedCodes = new java.util.HashSet<>();
+            result.courses().stream()
+                    .map(Course::getModuleCode)
+                    .filter(code -> code != null && !code.isBlank())
+                    .forEach(referencedCodes::add);
+            result.tasks().stream()
+                    .map(Task::getModuleCode)
+                    .filter(code -> code != null && !code.isBlank())
+                    .forEach(referencedCodes::add);
+
+            // The user's own added courses are the source of truth for what they're allowed to upload for.
+            java.util.Set<String> ownedCodes = courseService.getCoursesByUser(user.getId()).stream()
+                    .map(Course::getModuleCode)
+                    .collect(java.util.stream.Collectors.toSet());
+
+            java.util.Set<String> notAdded = referencedCodes.stream()
+                    .filter(code -> !ownedCodes.contains(code))
+                    .collect(java.util.stream.Collectors.toCollection(java.util.TreeSet::new));
+
+            if (!notAdded.isEmpty()) {
+                String codesJoined = String.join(", ", notAdded);
+                String message = notAdded.size() == 1
+                        ? "This course (" + codesJoined + ") is currently not added to your courses. Please add it to your courses before reuploading the slides."
+                        : "These courses (" + codesJoined + ") are currently not added to your courses. Please add them to your courses before reuploading the slides.";
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of(
+                    "error", "COURSE_NOT_ADDED",
+                    "missingModules", notAdded,
+                    "message", message
+                ));
+            }
+
             List<Course> savedCourses = new java.util.ArrayList<>();
             for (Course course : result.courses()) {
-                course.setUser(user);
-                Course existing = courseService.getCourseByUserAndCode(user.getId(), course.getModuleCode()).orElse(null);
-                if (existing != null) {
-                    if (course.getName() != null)      existing.setName(course.getName());
-                    if (course.getProf() != null)      existing.setProf(course.getProf());
-                    if (course.getExamDate() != null)  existing.setExamDate(course.getExamDate());
-                    if (course.getExamVenue() != null) existing.setExamVenue(course.getExamVenue());
-                    savedCourses.add(courseService.saveCourse(existing));
-                } else {
-                    savedCourses.add(courseService.saveCourse(course));
-                }
+                Course existing = courseService.getCourseByUserAndCode(user.getId(), course.getModuleCode())
+                        .orElseThrow(); // guaranteed present — checked above
+                if (course.getName() != null)      existing.setName(course.getName());
+                if (course.getProf() != null)      existing.setProf(course.getProf());
+                if (course.getExamDate() != null)  existing.setExamDate(course.getExamDate());
+                if (course.getExamVenue() != null) existing.setExamVenue(course.getExamVenue());
+                savedCourses.add(courseService.saveCourse(existing));
             }
 
             List<Task> tasks = result.tasks().stream()
@@ -98,14 +126,6 @@ public class UploadController {
                 .collect(java.util.stream.Collectors.toList());
             tasks.forEach(t -> t.setUser(user));
             List<Task> savedTasks = taskService.saveAll(tasks);
-
-            java.util.Set<String> savedCodes = savedCourses.stream()
-                    .map(Course::getModuleCode).collect(java.util.stream.Collectors.toSet());
-            savedTasks.stream()
-                    .map(Task::getModuleCode)
-                    .filter(code -> code != null && !code.isBlank() && !savedCodes.contains(code))
-                    .distinct()
-                    .forEach(code -> courseService.getOrCreate(user.getId(), code, user));
 
             return ResponseEntity.ok(Map.of(
                 "courses", savedCourses.stream().map(CourseResponse::from).toList(),

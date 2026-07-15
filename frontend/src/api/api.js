@@ -96,7 +96,14 @@ export const uploadCourseFile = async (file) => {
     headers: { 'Authorization': `Bearer ${getAuth().token}` },
     body: formData
   })
-  return res.json() // { course, tasks }
+  const data = await res.json() // { courses, tasks } on success, { error, message, missingModules } on failure
+  if (!res.ok) {
+    const err = new Error(data.message || 'Upload failed')
+    err.code = data.error
+    err.missingModules = data.missingModules
+    throw err
+  }
+  return data
 }
 
 export const getAcademicWeeks = async () => {
