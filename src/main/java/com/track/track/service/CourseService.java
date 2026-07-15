@@ -11,11 +11,15 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseService {
@@ -53,6 +57,20 @@ public class CourseService {
 
     public List<Course> getModuleCatalog() {
         return moduleCatalog;
+    }
+
+    public boolean isKnownModuleCode(String moduleCode) {
+        if (moduleCode == null || moduleCode.isBlank()) return false;
+        return moduleCatalog.stream().anyMatch(course -> moduleCode.equalsIgnoreCase(course.getModuleCode()));
+    }
+
+    public Set<String> findUnknownModuleCodes(Collection<String> moduleCodes) {
+        if (moduleCodes == null || moduleCodes.isEmpty()) return Set.of();
+        return moduleCodes.stream()
+                .filter(code -> code != null && !code.isBlank())
+                .map(String::toUpperCase)
+                .filter(code -> !isKnownModuleCode(code))
+                .collect(Collectors.toCollection(HashSet::new));
     }
 
     public List<Course> getCoursesByUser(UUID userId) {

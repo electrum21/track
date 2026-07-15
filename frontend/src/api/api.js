@@ -88,10 +88,10 @@ export const getCourseCatalog = async () => {
   return res.json()
 }
 
-export const uploadCourseFile = async (file) => {
+export const uploadCourseFile = async (file, { confirmMissingModules = false } = {}) => {
   const formData = new FormData()
   formData.append('file', file)
-  const res = await fetch(`${BASE_URL}/upload/course`, {
+  const res = await fetch(`${BASE_URL}/upload/course${confirmMissingModules ? '?confirmMissingModules=true' : ''}`, {
     method: 'POST',
     headers: { 'Authorization': `Bearer ${getAuth().token}` },
     body: formData
@@ -101,6 +101,8 @@ export const uploadCourseFile = async (file) => {
     const err = new Error(data.message || 'Upload failed')
     err.code = data.error
     err.missingModules = data.missingModules
+    err.invalidModules = data.invalidModules
+    err.requiresConfirmation = data.requiresConfirmation === true
     throw err
   }
   return data

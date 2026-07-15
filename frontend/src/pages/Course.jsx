@@ -10,6 +10,7 @@ function Course() {
   const [courses, setCourses] = useState([])
   const [selectedMod, setSelectedMod] = useState(null)
   const [extracting, setExtracting] = useState(false)
+  const [pendingUpload, setPendingUpload] = useState(null)
   const [uploadError, setUploadError] = useState(null)
   const [catalogAddError, setCatalogAddError] = useState(null)
   const [editingMod, setEditingMod] = useState(null)
@@ -22,6 +23,34 @@ function Course() {
     getTasks().then(data => setTasks(data))
     getCourses().then(data => setCourses(data))
   }, [])
+
+  const applyUploadResult = (result) => {
+    const { courses: newCourses, tasks: newTasks } = result
+    if (!newCourses || newCourses.length === 0) {
+      console.error('Upload failed: no courses returned', result)
+      return false
+    }
+
+    setCourses(prev => {
+      let updated = [...prev]
+      newCourses.forEach(course => {
+        const idx = updated.findIndex(c => c.id === course.id)
+        if (idx >= 0) updated[idx] = course
+        else updated.push(course)
+      })
+      return updated
+    })
+
+    if (newTasks && newTasks.length > 0) {
+      setTasks(prev => {
+        const existingIds = new Set(prev.map(t => t.id))
+        return [...prev, ...newTasks.filter(t => !existingIds.has(t.id))]
+      })
+    }
+
+    setSelectedMod(newCourses[0].moduleCode)
+    return true
+  }
 
   const modules = [...new Set([
     ...courses.map(c => c.moduleCode),
@@ -38,31 +67,41 @@ function Course() {
     setExtracting(true)
     try {
       const result = await uploadCourseFile(file)
-      const { courses: newCourses, tasks: newTasks } = result
-      if (!newCourses || newCourses.length === 0) { console.error('Upload failed: no courses returned', result); return }
-      // Upsert all courses in local state
-      setCourses(prev => {
-        let updated = [...prev]
-        newCourses.forEach(course => {
-          const idx = updated.findIndex(c => c.id === course.id)
-          if (idx >= 0) updated[idx] = course
-          else updated.push(course)
-        })
-        return updated
-      })
-      // Add new tasks
-      if (newTasks && newTasks.length > 0) {
-        setTasks(prev => {
-          const existingIds = new Set(prev.map(t => t.id))
-          return [...prev, ...newTasks.filter(t => !existingIds.has(t.id))]
-        })
-      }
-      setSelectedMod(newCourses[0].moduleCode)
+      applyUploadResult(result)
+      setPendingUpload(null)
     } catch (err) {
       console.error('Upload error:', err)
+      if (err.requiresConfirmation) {
+        setPendingUpload({ file, missingModules: err.missingModules || [] })
+        setUploadError(null)
+        return
+      }
       setUploadError(err.message || 'Upload failed. Please try again.')
+    } finally {
+      setExtracting(false)
     }
-    setExtracting(false)
+  }
+
+  const handleConfirmUpload = async () => {
+    if (!pendingUpload?.file) return
+    setUploadError(null)
+    setExtracting(true)
+    try {
+      const result = await uploadCourseFile(pendingUpload.file, { confirmMissingModules: true })
+      if (applyUploadResult(result)) {
+        setPendingUpload(null)
+      }
+    } catch (err) {
+      console.error('Confirmed upload error:', err)
+      setUploadError(err.message || 'Upload failed. Please try again.')
+    } finally {
+      setExtracting(false)
+    }
+  }
+
+  const handleCancelUploadPrompt = () => {
+    setPendingUpload(null)
+    setUploadError(null)
   }
 
   // Adds a course from the Course Catalog tab — replaces the old flow of
@@ -193,6 +232,43 @@ function Course() {
         <div className="mb-4 px-4 py-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-sm text-red-700 dark:text-red-400 flex items-center justify-between">
           {uploadError}
           <button onClick={() => setUploadError(null)} className="ml-3 text-red-400 hover:text-red-600 cursor-pointer">✕</button>
+        </div>
+      )}
+
+      {pendingUpload && activeTab === 'my' && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4" style={{ background: 'rgba(0,0,0,0.22)', backdropFilter: 'blur(3px)' }}>
+          <div className="w-full max-w-md rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 p-6 shadow-2xl" role="dialog" aria-modal="true" aria-label="Add module before import">
+            <div className="mb-4">
+              <div className="text-base font-medium text-gray-900 dark:text-gray-100 mb-1">Add this module to import the tasks?</div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">
+                The uploaded slides reference {pendingUpload.missingModules.length === 1 ? 'a module' : 'modules'} that exist in NTU’s catalog but are not in your courses yet.
+                If you add {pendingUpload.missingModules.length === 1 ? 'it' : 'them'} now, the tasks detected in the slides will be created too.
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-2 mb-5">
+              {pendingUpload.missingModules.map(mod => (
+                <span key={mod} className="text-xs px-2.5 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700">
+                  {mod}
+                </span>
+              ))}
+            </div>
+
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={handleCancelUploadPrompt}
+                className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 active:scale-95 transition-all duration-150 cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmUpload}
+                className="text-xs px-3 py-1.5 border border-gray-900 dark:border-gray-100 rounded-lg text-white dark:text-gray-900 bg-gray-900 dark:bg-gray-100 hover:opacity-90 active:scale-95 transition-all duration-150 cursor-pointer font-medium"
+              >
+                Add module and import tasks
+              </button>
+            </div>
+          </div>
         </div>
       )}
 
