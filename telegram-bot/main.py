@@ -245,6 +245,22 @@ async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(help_text, parse_mode="HTML")
 
 
+# Command to handle unknown commands
+async def unknown_commands(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text(
+        "Sorry, the command you have entered does not exist.\n"
+        "Use /help to view all available commands."
+    )
+
+
+# Command to handle general messages
+async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text(
+        "Sorry, messages will not be processed. Only commands are accepted.\n"
+        "Use /help to view all available commands."
+    )
+
+
 # Set the commands menu for the bot
 async def post_init(application: Application):
     commands = [
@@ -275,6 +291,12 @@ if __name__ == '__main__':
     app.add_handler(CommandHandler('unlink', unlink))
     app.add_handler(CommandHandler('tasks', fetch_tasks))
     app.add_handler(CallbackQueryHandler(handle_unlink_callback))
+
+    # Catch plain text (non-command) messages
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_messages))
+
+    # Catch unrecognized commands — must be added LAST
+    app.add_handler(MessageHandler(filters.COMMAND, unknown_commands))
 
     # Register error handler
     app.add_error_handler(log_error)
