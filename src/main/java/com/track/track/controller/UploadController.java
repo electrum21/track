@@ -23,10 +23,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/upload")
 public class UploadController {
+
+    private record UploadPreview(UUID userId, DocumentService.CourseAndTasks result, long createdAt) {}
+    private record PersistedUpload(List<Course> courses, List<Task> tasks) {}
 
     private final TaskService taskService;
     private final DocumentService documentService;
@@ -37,7 +41,9 @@ public class UploadController {
 
     // Simple per-user upload cooldown: 15 seconds between uploads
     private static final long UPLOAD_COOLDOWN_MS = 15_000;
+    private static final long PREVIEW_TTL_MS = 10 * 60 * 1000;
     private final ConcurrentHashMap<String, Long> lastUploadTime = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, UploadPreview> pendingUploads = new ConcurrentHashMap<>();
 
     private boolean isRateLimited(String userId) {
         long now = System.currentTimeMillis();
@@ -49,6 +55,42 @@ public class UploadController {
 
     private void markUploadTime(String userId) {
         lastUploadTime.put(userId, System.currentTimeMillis());
+    }
+
+    private String storePreview(UUID userId, DocumentService.CourseAndTasks result) {
+        String previewId = UUID.randomUUID().toString();
+        pendingUploads.put(previewId, new UploadPreview(userId, result, System.currentTimeMillis()));
+        return previewId;
+    }
+
+    private UploadPreview consumePreview(String previewId, UUID userId) {
+        UploadPreview preview = pendingUploads.remove(previewId);
+        if (preview == null) return null;
+        if (!preview.userId().equals(userId)) return null;
+        if (System.currentTimeMillis() - preview.createdAt() > PREVIEW_TTL_MS) return null;
+        return preview;
+    }
+
+    private PersistedUpload persistUploadResult(UUID userId, User user, DocumentService.CourseAndTasks result) {
+        List<Course> savedCourses = new java.util.ArrayList<>();
+        for (Course course : result.courses()) {
+            String moduleCode = course.getModuleCode() == null ? null : course.getModuleCode().toUpperCase();
+            if (moduleCode == null || moduleCode.isBlank()) continue;
+            Course existing = courseService.getCourseByUserAndCode(userId, moduleCode)
+                    .orElseGet(() -> courseService.getOrCreate(userId, moduleCode, user));
+            if (course.getName() != null)      existing.setName(course.getName());
+            if (course.getProf() != null)      existing.setProf(course.getProf());
+            if (course.getExamDate() != null)  existing.setExamDate(course.getExamDate());
+            if (course.getExamVenue() != null) existing.setExamVenue(course.getExamVenue());
+            savedCourses.add(courseService.saveCourse(existing));
+        }
+
+        List<Task> tasks = result.tasks().stream()
+                .filter(t -> t.getModuleCode() != null && !t.getModuleCode().isBlank())
+                .collect(java.util.stream.Collectors.toList());
+        tasks.forEach(t -> t.setUser(user));
+        List<Task> savedTasks = taskService.saveAll(tasks);
+        return new PersistedUpload(savedCourses, savedTasks);
     }
 
     public UploadController(TaskService taskService, DocumentService documentService,
@@ -75,11 +117,11 @@ public class UploadController {
     @PostMapping("/course")
     public ResponseEntity<Map<String, Object>> uploadCourseFile(
             HttpServletRequest request,
-            @RequestParam("file") MultipartFile file,
-            @RequestParam(name = "confirmMissingModules", defaultValue = "false") boolean confirmMissingModules) {
+            @RequestParam("file") MultipartFile file) {
         fileValidator.validate(file);
         try {
             User user = getUserFromRequest(request);
+            String userId = user.getId().toString();
             String weekContext = academicCalendarService.buildWeekContext(user.getId());
             DocumentService.CourseAndTasks result = documentService.extractCourseAndTasksFromFile(file, weekContext);
 
@@ -120,7 +162,6 @@ public class UploadController {
                 .collect(Collectors.toCollection(java.util.TreeSet::new));
 
             if (!notAdded.isEmpty()) {
-            if (!confirmMissingModules) {
                 String codesJoined = String.join(", ", notAdded);
                 String message = notAdded.size() == 1
                     ? "This module (" + codesJoined + ") is not in your courses yet. Add it now to create the tasks found in the slides too?"
@@ -129,52 +170,59 @@ public class UploadController {
                     "error", "MODULE_NOT_IN_COURSES",
                     "missingModules", notAdded,
                     "message", message,
-                    "requiresConfirmation", true
+                    "requiresConfirmation", true,
+                    "previewId", storePreview(user.getId(), result)
                 ));
             }
 
-                if (isRateLimited(user.getId().toString())) {
-                    throw new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS,
-                            "Please wait a moment before uploading again.");
-                }
-
-            for (Course course : result.courses()) {
-                String moduleCode = course.getModuleCode() == null ? null : course.getModuleCode().toUpperCase();
-                if (moduleCode == null || moduleCode.isBlank()) continue;
-                Course existing = courseService.getOrCreate(user.getId(), moduleCode, user);
-                if (course.getName() != null)      existing.setName(course.getName());
-                if (course.getProf() != null)      existing.setProf(course.getProf());
-                if (course.getExamDate() != null)  existing.setExamDate(course.getExamDate());
-                if (course.getExamVenue() != null) existing.setExamVenue(course.getExamVenue());
-                courseService.saveCourse(existing);
-            }
+            if (isRateLimited(userId)) {
+                throw new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS,
+                        "Please wait a moment before uploading again.");
             }
 
-            List<Course> savedCourses = new java.util.ArrayList<>();
-            for (Course course : result.courses()) {
-            String moduleCode = course.getModuleCode() == null ? null : course.getModuleCode().toUpperCase();
-            if (moduleCode == null || moduleCode.isBlank()) continue;
-            Course existing = courseService.getCourseByUserAndCode(user.getId(), moduleCode)
-                        .orElseThrow(); // guaranteed present — checked above
-                if (course.getName() != null)      existing.setName(course.getName());
-                if (course.getProf() != null)      existing.setProf(course.getProf());
-                if (course.getExamDate() != null)  existing.setExamDate(course.getExamDate());
-                if (course.getExamVenue() != null) existing.setExamVenue(course.getExamVenue());
-                savedCourses.add(courseService.saveCourse(existing));
-            }
-
-            List<Task> tasks = result.tasks().stream()
-                .filter(t -> t.getModuleCode() != null && !t.getModuleCode().isBlank())
-                .collect(java.util.stream.Collectors.toList());
-            tasks.forEach(t -> t.setUser(user));
-            List<Task> savedTasks = taskService.saveAll(tasks);
-
-            markUploadTime(user.getId().toString());
+            PersistedUpload saved = persistUploadResult(user.getId(), user, result);
+            markUploadTime(userId);
 
             return ResponseEntity.ok(Map.of(
-                "courses", savedCourses.stream().map(CourseResponse::from).toList(),
-                "tasks",   savedTasks.stream().map(TaskResponse::from).toList()
+                "courses", saved.courses().stream().map(CourseResponse::from).toList(),
+                "tasks",   saved.tasks().stream().map(TaskResponse::from).toList()
             ));
+        } catch (ResponseStatusException e) {
+            throw e;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("error", e.getMessage() != null ? e.getMessage() : e.getClass().getName()));
+        }
+    }
+
+    @PostMapping("/course/confirm")
+    public ResponseEntity<Map<String, Object>> confirmCourseUpload(
+            HttpServletRequest request,
+            @RequestParam("previewId") String previewId) {
+        try {
+            User user = getUserFromRequest(request);
+            String userId = user.getId().toString();
+            if (isRateLimited(userId)) {
+                throw new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS,
+                        "Please wait a moment before uploading again.");
+            }
+
+            UploadPreview preview = consumePreview(previewId, user.getId());
+            if (preview == null) {
+                throw new ResponseStatusException(HttpStatus.GONE,
+                        "This upload preview expired or is no longer available. Please upload the file again.");
+            }
+
+                PersistedUpload saved = persistUploadResult(user.getId(), user, preview.result());
+            markUploadTime(userId);
+
+            return ResponseEntity.ok(Map.of(
+                    "courses", saved.courses().stream().map(CourseResponse::from).toList(),
+                    "tasks", saved.tasks().stream().map(TaskResponse::from).toList()
+            ));
+            } catch (ResponseStatusException e) {
+                throw e;
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError()

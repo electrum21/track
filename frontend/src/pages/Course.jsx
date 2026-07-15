@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getTasks, updateTask, getCourses, createCourse, updateCourse, deleteCourse, deleteTask, uploadCourseFile } from '../api/api'
+import { getTasks, updateTask, getCourses, createCourse, updateCourse, deleteCourse, deleteTask, uploadCourseFile, confirmCourseUpload } from '../api/api'
 import { validateUploadFile } from '../utils/fileValidation'
 import TaskModal from '../components/TaskModal'
 import CourseCatalog from '../components/CourseCatalog'
@@ -72,7 +72,7 @@ function Course() {
     } catch (err) {
       console.error('Upload error:', err)
       if (err.requiresConfirmation) {
-        setPendingUpload({ file, missingModules: err.missingModules || [] })
+        setPendingUpload({ previewId: err.previewId, missingModules: err.missingModules || [] })
         setUploadError(null)
         return
       }
@@ -83,11 +83,11 @@ function Course() {
   }
 
   const handleConfirmUpload = async () => {
-    if (!pendingUpload?.file) return
+    if (!pendingUpload?.previewId) return
     setUploadError(null)
     setExtracting(true)
     try {
-      const result = await uploadCourseFile(pendingUpload.file, { confirmMissingModules: true })
+      const result = await confirmCourseUpload(pendingUpload.previewId)
       if (applyUploadResult(result)) {
         setPendingUpload(null)
       }
