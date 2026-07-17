@@ -88,9 +88,10 @@ export const getCourseCatalog = async () => {
   return res.json()
 }
 
-export const uploadCourseFile = async (file) => {
+export const uploadCourseFile = async (file, moduleCode) => {
   const formData = new FormData()
   formData.append('file', file)
+  if (moduleCode) formData.append('moduleCode', moduleCode)
   const res = await fetch(`${BASE_URL}/upload/course`, {
     method: 'POST',
     headers: { 'Authorization': `Bearer ${getAuth().token}` },
@@ -99,6 +100,8 @@ export const uploadCourseFile = async (file) => {
   // Success shapes:
   //  - saved immediately:  { courses, tasks }
   //  - needs confirmation: { needsConfirmation: true, missingModules, courses, tasks } (nothing saved yet)
+  //  - module mismatch:    { moduleMismatch: true, expectedModule, detectedModules, courses, tasks } (nothing saved yet,
+  //                          only returned when a moduleCode was passed and the file doesn't seem to reference it)
   // Failure shape: { error, message, invalidModules? }
   const data = await res.json()
   if (!res.ok) {

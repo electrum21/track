@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getTasks, updateTask, getCourses, createCourse, updateCourse, deleteCourse, deleteTask, uploadCourseFile, confirmCourseUpload } from '../api/api'
+import { getTasks, updateTask, getCourses, createCourse, createTask, updateCourse, deleteCourse, deleteTask, uploadCourseFile, confirmCourseUpload } from '../api/api'
 import { validateUploadFile } from '../utils/fileValidation'
 import TaskModal from '../components/TaskModal'
 import CourseCatalog from '../components/CourseCatalog'
@@ -19,11 +19,23 @@ function Course() {
   const [deregistering, setDeregistering] = useState(false)
   const [pendingUpload, setPendingUpload] = useState(null)
   const [confirmingAdd, setConfirmingAdd] = useState(false)
+  const [showAddMenu, setShowAddMenu] = useState(false)
+  const [showManualForm, setShowManualForm] = useState(false)
+  const [manualForm, setManualForm] = useState({ title: '', type: 'ASSIGNMENT', dueDate: '', dueTime: '', weightage: '', note: '' })
+  const [creatingTask, setCreatingTask] = useState(false)
+  const [moduleMismatch, setModuleMismatch] = useState(null)
+  const [confirmingMismatchAdd, setConfirmingMismatchAdd] = useState(false)
 
   useEffect(() => {
     getTasks().then(data => setTasks(data))
     getCourses().then(data => setCourses(data))
   }, [])
+
+  useEffect(() => {
+    const handleClickOutside = () => setShowAddMenu(false)
+    if (showAddMenu) document.addEventListener('click', handleClickOutside)
+    return () => document.removeEventListener('click', handleClickOutside)
+  }, [showAddMenu])
 
   const modules = [...new Set([
     ...courses.map(c => c.moduleCode),
@@ -55,12 +67,25 @@ function Course() {
     const file = e.target.files[0]
     if (!file) return
     e.target.value = ''
+    if (!selectedMod) return
     const err = validateUploadFile(file)
     if (err) { setUploadError(err); return }
     setUploadError(null)
     setExtracting(true)
     try {
-      const result = await uploadCourseFile(file)
+      const result = await uploadCourseFile(file, selectedMod)
+      if (result.moduleMismatch) {
+        // The file doesn't seem to reference the module we're viewing — nothing saved yet.
+        // Hold the extracted data and let the user decide whether to add it anyway.
+        setModuleMismatch({
+          expectedModule: result.expectedModule,
+          detectedModules: result.detectedModules || [],
+          courses: result.courses,
+          tasks: result.tasks
+        })
+        setExtracting(false)
+        return
+      }
       if (result.needsConfirmation) {
         // Nothing saved yet — hold the extracted data and ask the user to confirm.
         setPendingUpload({
@@ -79,6 +104,44 @@ function Course() {
       setUploadError(err.message || 'Upload failed. Please try again.')
     }
     setExtracting(false)
+  }
+
+  const handleConfirmMismatchAdd = async () => {
+    if (!moduleMismatch) return
+    setConfirmingMismatchAdd(true)
+    try {
+      const result = await confirmCourseUpload(moduleMismatch.courses, moduleMismatch.tasks)
+      applyUploadResult(result.courses || [], result.tasks || [])
+      setModuleMismatch(null)
+    } catch (err) {
+      console.error('Confirm mismatch add error:', err)
+      setUploadError(err.message || 'Could not add the tasks. Please try again.')
+      setModuleMismatch(null)
+    }
+    setConfirmingMismatchAdd(false)
+  }
+
+  const handleCreateManualTask = async () => {
+    if (!manualForm.title.trim() || !selectedMod) return
+    setCreatingTask(true)
+    try {
+      const saved = await createTask({
+        title: manualForm.title,
+        moduleCode: selectedMod,
+        type: manualForm.type,
+        dueDate: manualForm.dueDate || null,
+        dueTime: manualForm.dueTime ? manualForm.dueTime + ':00' : null,
+        weightage: manualForm.weightage ? parseFloat(manualForm.weightage) : null,
+        note: manualForm.note || null,
+        status: manualForm.dueDate ? 'CONFIRMED' : 'PENDING_DATE',
+      })
+      setTasks(prev => [...prev, saved])
+      setManualForm({ title: '', type: 'ASSIGNMENT', dueDate: '', dueTime: '', weightage: '', note: '' })
+      setShowManualForm(false)
+    } catch (err) {
+      console.error('Create task error:', err)
+    }
+    setCreatingTask(false)
   }
 
   const handleConfirmAddCourse = async () => {
@@ -206,12 +269,6 @@ function Course() {
     <div>
       <div className="flex justify-between items-center mb-5">
         <h1 className="text-xl font-medium text-gray-900 dark:text-gray-100">Courses</h1>
-        {activeTab === 'my' && (
-          <label className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 active:scale-95 text-gray-600 dark:text-gray-300 transition-all duration-150 cursor-pointer">
-            {extracting ? 'Uploading & parsing...' : 'Upload & Parse File'}
-            <input type="file" className="hidden" accept=".pdf,.docx,.pptx,image/*" onChange={handleFileUpload} />
-          </label>
-        )}
       </div>
 
       {/* Subtabs */}
@@ -219,13 +276,6 @@ function Course() {
         <button onClick={() => setActiveTab('my')} className={tabButtonClass('my')}>My Courses</button>
         <button onClick={() => setActiveTab('catalog')} className={tabButtonClass('catalog')}>Course Catalog</button>
       </div>
-
-      {uploadError && activeTab === 'my' && (
-        <div className="mb-4 px-4 py-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-sm text-red-700 dark:text-red-400 flex items-center justify-between">
-          {uploadError}
-          <button onClick={() => setUploadError(null)} className="ml-3 text-red-400 hover:text-red-600 cursor-pointer">✕</button>
-        </div>
-      )}
 
       {activeTab === 'catalog' && (
         <>
@@ -356,13 +406,106 @@ function Course() {
               </div>
             )}
 
+            {uploadError && (
+              <div className="mb-4 px-4 py-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-sm text-red-700 dark:text-red-400 flex items-center justify-between">
+                {uploadError}
+                <button onClick={() => setUploadError(null)} className="ml-3 text-red-400 hover:text-red-600 cursor-pointer">✕</button>
+              </div>
+            )}
+
+            {/* Add task controls */}
+            <div className="flex justify-between items-center mb-3">
+              <div className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Tasks</div>
+              <div className="relative">
+                <button
+                  onClick={(e) => { e.stopPropagation(); setShowAddMenu(prev => !prev) }}
+                  className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 active:scale-95 transition-all duration-150 text-gray-600 dark:text-gray-300 cursor-pointer"
+                >
+                  {extracting ? 'Uploading...' : '+ Add Task'}
+                </button>
+                {showAddMenu && (
+                  <div
+                    className="absolute right-0 top-8 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg z-10 overflow-hidden w-48"
+                    onClick={e => e.stopPropagation()}
+                  >
+                    <button
+                      onClick={() => { setShowAddMenu(false); setShowManualForm(true) }}
+                      className="block w-full text-left text-xs px-4 py-2.5 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-150 cursor-pointer"
+                    >
+                      Create manually
+                    </button>
+                    <label className="block text-xs px-4 py-2.5 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer transition-all duration-150 border-t border-gray-100 dark:border-gray-800">
+                      Upload file for this module
+                      <input
+                        type="file"
+                        className="hidden"
+                        accept=".pdf,.docx,.pptx,image/*"
+                        onChange={(e) => { setShowAddMenu(false); handleFileUpload(e) }}
+                      />
+                    </label>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Manual task creation form */}
+            {showManualForm && (
+              <div className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 mb-4">
+                <div className="flex justify-between items-center mb-3">
+                  <span className="text-xs font-medium text-gray-900 dark:text-gray-100">New task for {selectedMod}</span>
+                  <button onClick={() => setShowManualForm(false)} className="text-xs text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 cursor-pointer">✕</button>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+                  <div className="col-span-1 sm:col-span-2">
+                    <label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Title</label>
+                    <input type="text" value={manualForm.title} onChange={e => setManualForm(p => ({ ...p, title: e.target.value }))} placeholder="e.g. Assignment 1" className={inputClass} />
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Type</label>
+                    <select value={manualForm.type} onChange={e => setManualForm(p => ({ ...p, type: e.target.value }))} className={inputClass}>
+                      {['ASSIGNMENT', 'PROJECT', 'EXAM', 'QUIZ'].map(t => (
+                        <option key={t} value={t}>{t}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Due date</label>
+                    <input type="date" value={manualForm.dueDate} onChange={e => setManualForm(p => ({ ...p, dueDate: e.target.value }))} className={inputClass} />
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Due time</label>
+                    <input type="time" value={manualForm.dueTime} onChange={e => setManualForm(p => ({ ...p, dueTime: e.target.value }))} className={inputClass} />
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Weightage (%)</label>
+                    <input type="number" min="0" max="100" value={manualForm.weightage} onChange={e => setManualForm(p => ({ ...p, weightage: e.target.value }))} placeholder="e.g. 15" className={inputClass} />
+                  </div>
+                  <div className="col-span-1 sm:col-span-2">
+                    <label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Note</label>
+                    <input type="text" value={manualForm.note} onChange={e => setManualForm(p => ({ ...p, note: e.target.value }))} placeholder="Optional note" className={inputClass} />
+                  </div>
+                </div>
+                <div className="flex justify-end gap-2">
+                  <button onClick={() => setShowManualForm(false)} className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 active:scale-95 transition-all duration-150 cursor-pointer">
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleCreateManualTask}
+                    disabled={creatingTask || !manualForm.title.trim()}
+                    className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 active:scale-95 transition-all duration-150 font-medium cursor-pointer disabled:opacity-50"
+                  >
+                    {creatingTask ? 'Saving...' : 'Save task'}
+                  </button>
+                </div>
+              </div>
+            )}
+
             {modTasks.length === 0 && (
-              <div className="text-xs text-gray-300 dark:text-gray-600 text-center py-6">No tasks uploaded for this module yet</div>
+              <div className="text-xs text-gray-300 dark:text-gray-600 text-center py-6">No tasks yet for this module — add one above</div>
             )}
 
             {modTasks.length > 0 && (
               <div>
-                <div className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-2">Tasks</div>
                 {modTasks.sort((a, b) => {
                     if (!a.dueDate && !b.dueDate) return 0
                     if (!a.dueDate) return 1
@@ -529,6 +672,46 @@ function Course() {
                 className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 active:scale-95 transition-all duration-150 cursor-pointer font-medium"
               >
                 {confirmingAdd ? 'Adding...' : 'Add course'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Module mismatch confirmation modal — shown when an upload's content doesn't seem to match the selected module */}
+      {moduleMismatch && (
+        <div
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50 px-4"
+          onClick={() => !confirmingMismatchAdd && setModuleMismatch(null)}
+        >
+          <div
+            className="bg-white dark:bg-gray-900 rounded-2xl w-full max-w-sm p-6 border border-gray-200 dark:border-gray-800"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="mb-5">
+              <div className="text-base font-medium text-gray-900 dark:text-gray-100 mb-1">
+                This file doesn't look like {moduleMismatch.expectedModule}
+              </div>
+              <div className="text-sm text-gray-400 dark:text-gray-500">
+                {moduleMismatch.detectedModules.length > 0
+                  ? `It looks like it might be about ${moduleMismatch.detectedModules.join(', ')} instead. `
+                  : "We couldn't tell which module it's for. "}
+                Add the {moduleMismatch.tasks.length} task{moduleMismatch.tasks.length === 1 ? '' : 's'} found anyway, or cancel.
+              </div>
+            </div>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setModuleMismatch(null)}
+                disabled={confirmingMismatchAdd}
+                className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 active:scale-95 transition-all duration-150 cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmMismatchAdd}
+                disabled={confirmingMismatchAdd}
+                className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 active:scale-95 transition-all duration-150 cursor-pointer font-medium"
+              >
+                {confirmingMismatchAdd ? 'Adding...' : 'Add anyway'}
               </button>
             </div>
           </div>

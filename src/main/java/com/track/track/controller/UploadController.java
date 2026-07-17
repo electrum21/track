@@ -76,13 +76,27 @@ public class UploadController {
     @PostMapping("/course")
     public ResponseEntity<Map<String, Object>> uploadCourseFile(
             HttpServletRequest request,
-            @RequestParam("file") MultipartFile file) {
+            @RequestParam("file") MultipartFile file,
+            @RequestParam(value = "moduleCode", required = false) String moduleCodeHint) {
         fileValidator.validate(file);
         try {
             User user = getUserFromRequest(request);
             checkRateLimit(user.getId().toString());
             String weekContext = academicCalendarService.buildWeekContext(user.getId());
             DocumentService.CourseAndTasks result = documentService.extractCourseAndTasksFromFile(file, weekContext);
+
+            String hint = (moduleCodeHint != null && !moduleCodeHint.isBlank())
+                    ? moduleCodeHint.trim().toUpperCase()
+                    : null;
+
+            // Uploads made from within a specific module's page (Course page) pass a moduleCode
+            // hint. Any extracted task without a detected module code is assumed to belong to
+            // that module, rather than being silently dropped later on.
+            if (hint != null) {
+                result.tasks().stream()
+                        .filter(t -> t.getModuleCode() == null || t.getModuleCode().isBlank())
+                        .forEach(t -> t.setModuleCode(hint));
+            }
 
             // Every module code the file references — from extracted course info and from tasks.
             Set<String> referencedCodes = new HashSet<>();
@@ -94,6 +108,20 @@ public class UploadController {
                     .map(Task::getModuleCode)
                     .filter(code -> code != null && !code.isBlank())
                     .forEach(referencedCodes::add);
+
+            // If we know which module this upload is supposed to be for, and nothing extracted
+            // from the file actually references that module, don't save anything — the file
+            // is probably for a different module entirely. Hold the extracted data client-side
+            // (same pattern as the missing-module confirmation below) and let the user decide.
+            if (hint != null && !referencedCodes.isEmpty() && !referencedCodes.contains(hint)) {
+                return ResponseEntity.ok(Map.of(
+                    "moduleMismatch", true,
+                    "expectedModule", hint,
+                    "detectedModules", new TreeSet<>(referencedCodes),
+                    "courses", result.courses().stream().map(CourseResponse::from).toList(),
+                    "tasks", result.tasks().stream().map(TaskResponse::from).toList()
+                ));
+            }
 
             // The user's own added courses are the source of truth for what they're allowed to upload for.
             Set<String> ownedCodes = courseService.getCoursesByUser(user.getId()).stream()

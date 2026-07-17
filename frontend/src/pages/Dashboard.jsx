@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
-import { uploadCourseFile, createTask, getCourses, updateTask } from '../api/api'
+import { createTask, getCourses, updateTask } from '../api/api'
 import { useTasks } from '../hooks/useTasks.jsx'
-import { validateUploadFile } from '../utils/fileValidation'
 import TaskModal from '../components/TaskModal'
 
 function SkeletonCard() {
@@ -18,9 +17,7 @@ function SkeletonCard() {
 }
 
 function Dashboard() {
-  const { tasks, loading, updateTaskInState, deleteTaskFromState, addTasksToState, addTaskToState } = useTasks()
-  const [uploading, setUploading] = useState(false)
-  const [uploadError, setUploadError] = useState(null)
+  const { tasks, loading, updateTaskInState, deleteTaskFromState, addTaskToState } = useTasks()
   const [selectedTask, setSelectedTask] = useState(null)
   const [showCreateForm, setShowCreateForm] = useState(false)
   const [createForm, setCreateForm] = useState({
@@ -28,15 +25,8 @@ function Dashboard() {
     dueDate: '', dueTime: '', weightage: '', note: ''
   })
   const [creating, setCreating] = useState(false)
-  const [showTaskOptions, setShowTaskOptions] = useState(false)
   const [courses, setCourses] = useState([])
   const [showModuleDropdown, setShowModuleDropdown] = useState(false)
-
-  useEffect(() => {
-    const handleClickOutside = () => setShowTaskOptions(false)
-    if (showTaskOptions) document.addEventListener('click', handleClickOutside)
-    return () => document.removeEventListener('click', handleClickOutside)
-  }, [showTaskOptions])
 
   useEffect(() => {
     getCourses().then(data => setCourses(data)).catch(() => {})
@@ -80,37 +70,6 @@ function Dashboard() {
   const completedTasks = tasks.filter(task =>
     task.status === 'COMPLETED' && (!task.dueDate || new Date(task.dueDate) >= today)
   )
-
-  const handleUpload = async (e) => {
-    const file = e.target.files[0]
-    if (!file) return
-    e.target.value = ''
-    const err = validateUploadFile(file)
-    if (err) { setUploadError(err); return }
-    setUploadError(null)
-    setUploading(true)
-    try {
-      const result = await uploadCourseFile(file)
-      const { courses: newCourses, tasks: newTasks } = result
-      if (newCourses && newCourses.length > 0) {
-        setCourses(prev => {
-          let updated = [...prev]
-          newCourses.forEach(course => {
-            const idx = updated.findIndex(c => c.id === course.id)
-            if (idx >= 0) updated[idx] = course
-            else updated.push(course)
-          })
-          return updated
-        })
-      }
-      if (newTasks && newTasks.length > 0) {
-        addTasksToState(newTasks)
-      }
-    } catch (err) {
-      console.error('Upload error:', err)
-    }
-    setUploading(false)
-  }
 
   const handleCreateTask = async () => {
     if (!createForm.title.trim()) return
@@ -178,45 +137,13 @@ function Dashboard() {
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-xl font-medium text-gray-900 dark:text-gray-100">Upcoming Deadlines</h1>
-        <div className="relative">
-          <button
-            onClick={(e) => { e.stopPropagation(); setShowTaskOptions(prev => !prev) }}
-            className="text-xs px-4 py-2 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 active:scale-95 transition-all duration-150 text-gray-700 dark:text-gray-300 cursor-pointer"
-          >
-            {uploading ? 'Uploading...' : '+ Add Task Information'}
-          </button>
-          {showTaskOptions && (
-            <div
-              className="absolute right-0 top-8 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg z-10 overflow-hidden w-40"
-              onClick={e => e.stopPropagation()}
-            >
-              <label className="block text-xs px-4 py-2.5 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer transition-all duration-150">
-                Upload Course Assessment Slides
-                <input
-                  type="file"
-                  className="hidden"
-                  accept=".pdf,.docx,.pptx,image/*"
-                  onChange={(e) => { setShowTaskOptions(false); handleUpload(e) }}
-                />
-              </label>
-              <button
-                onClick={() => { setShowTaskOptions(false); setShowCreateForm(true) }}
-                className="block w-full text-left text-xs px-4 py-2.5 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-150 border-t border-gray-100 dark:border-gray-800 cursor-pointer"
-              >
-                Manual Entry
-              </button>
-            </div>
-          )}
-        </div>
+        <button
+          onClick={() => setShowCreateForm(true)}
+          className="text-xs px-4 py-2 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 active:scale-95 transition-all duration-150 text-gray-700 dark:text-gray-300 cursor-pointer"
+        >
+          + Add Task
+        </button>
       </div>
-
-      {/* Upload error */}
-      {uploadError && (
-        <div className="mb-4 px-4 py-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-sm text-red-700 dark:text-red-400 flex items-center justify-between">
-          {uploadError}
-          <button onClick={() => setUploadError(null)} className="ml-3 text-red-400 hover:text-red-600 cursor-pointer">✕</button>
-        </div>
-      )}
 
       {/* Create task form */}
       {showCreateForm && (
@@ -478,20 +405,7 @@ function Dashboard() {
       {/* Empty state */}
       {!loading && tasks.length === 0 && (
         <div className="text-center py-16 text-gray-400 dark:text-gray-600">
-          <div className="text-sm">No tasks yet — upload your slides to get started</div>
-        </div>
-      )}
-
-      {/* Upload overlay */}
-      {uploading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(4px)' }}>
-          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl px-8 py-7 flex flex-col items-center gap-4 shadow-xl">
-            <div className="w-8 h-8 border-2 border-gray-200 dark:border-gray-700 border-t-gray-600 dark:border-t-gray-300 rounded-full animate-spin" />
-            <div>
-              <div className="text-sm font-medium text-gray-900 dark:text-gray-100 text-center">Parsing file...</div>
-              <div className="text-xs text-gray-400 dark:text-gray-500 text-center mt-1">Extracting tasks from your document</div>
-            </div>
-          </div>
+          <div className="text-sm">No tasks yet — add your courses to get started</div>
         </div>
       )}
 
