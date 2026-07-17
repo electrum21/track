@@ -96,31 +96,36 @@ export const uploadCourseFile = async (file) => {
     headers: { 'Authorization': `Bearer ${getAuth().token}` },
     body: formData
   })
-  const data = await res.json() // { courses, tasks } on success, { error, message, missingModules } on failure
+  // Success shapes:
+  //  - saved immediately:  { courses, tasks }
+  //  - needs confirmation: { needsConfirmation: true, missingModules, courses, tasks } (nothing saved yet)
+  // Failure shape: { error, message, invalidModules? }
+  const data = await res.json()
   if (!res.ok) {
     const err = new Error(data.message || 'Upload failed')
     err.code = data.error
-    err.missingModules = data.missingModules
     err.invalidModules = data.invalidModules
-    err.requiresConfirmation = data.requiresConfirmation === true
-    err.previewId = data.previewId
     throw err
   }
   return data
 }
 
-export const confirmCourseUpload = async (previewId) => {
-  const res = await fetch(`${BASE_URL}/upload/course/confirm?previewId=${encodeURIComponent(previewId)}`, {
+export const confirmCourseUpload = async (courses, tasks) => {
+  const res = await fetch(`${BASE_URL}/upload/course/confirm`, {
     method: 'POST',
-    headers: { 'Authorization': `Bearer ${getAuth().token}` }
+    headers: {
+      'Authorization': `Bearer ${getAuth().token}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ courses, tasks })
   })
   const data = await res.json()
   if (!res.ok) {
-    const err = new Error(data.message || 'Upload confirmation failed')
+    const err = new Error(data.message || 'Failed to add course')
     err.code = data.error
     throw err
   }
-  return data
+  return data // { courses, tasks }
 }
 
 export const getAcademicWeeks = async () => {

@@ -10,7 +10,6 @@ function Course() {
   const [courses, setCourses] = useState([])
   const [selectedMod, setSelectedMod] = useState(null)
   const [extracting, setExtracting] = useState(false)
-  const [pendingUpload, setPendingUpload] = useState(null)
   const [uploadError, setUploadError] = useState(null)
   const [catalogAddError, setCatalogAddError] = useState(null)
   const [editingMod, setEditingMod] = useState(null)
@@ -18,19 +17,22 @@ function Course() {
   const [selectedTask, setSelectedTask] = useState(null)
   const [confirmDeregister, setConfirmDeregister] = useState(null)
   const [deregistering, setDeregistering] = useState(false)
+  const [pendingUpload, setPendingUpload] = useState(null)
+  const [confirmingAdd, setConfirmingAdd] = useState(false)
 
   useEffect(() => {
     getTasks().then(data => setTasks(data))
     getCourses().then(data => setCourses(data))
   }, [])
 
-  const applyUploadResult = (result) => {
-    const { courses: newCourses, tasks: newTasks } = result
-    if (!newCourses || newCourses.length === 0) {
-      console.error('Upload failed: no courses returned', result)
-      return false
-    }
+  const modules = [...new Set([
+    ...courses.map(c => c.moduleCode),
+    ...tasks.map(t => t.moduleCode).filter(Boolean)
+  ])].sort()
 
+  // Merges saved courses/tasks into local state — shared by the direct-save path
+  // and the confirm-add path below.
+  const applyUploadResult = (newCourses, newTasks) => {
     setCourses(prev => {
       let updated = [...prev]
       newCourses.forEach(course => {
@@ -40,22 +42,14 @@ function Course() {
       })
       return updated
     })
-
     if (newTasks && newTasks.length > 0) {
       setTasks(prev => {
         const existingIds = new Set(prev.map(t => t.id))
         return [...prev, ...newTasks.filter(t => !existingIds.has(t.id))]
       })
     }
-
-    setSelectedMod(newCourses[0].moduleCode)
-    return true
+    if (newCourses.length > 0) setSelectedMod(newCourses[0].moduleCode)
   }
-
-  const modules = [...new Set([
-    ...courses.map(c => c.moduleCode),
-    ...tasks.map(t => t.moduleCode).filter(Boolean)
-  ])].sort()
 
   const handleFileUpload = async (e) => {
     const file = e.target.files[0]
@@ -67,41 +61,39 @@ function Course() {
     setExtracting(true)
     try {
       const result = await uploadCourseFile(file)
-      applyUploadResult(result)
-      setPendingUpload(null)
-    } catch (err) {
-      console.error('Upload error:', err)
-      if (err.requiresConfirmation) {
-        setPendingUpload({ previewId: err.previewId, missingModules: err.missingModules || [] })
-        setUploadError(null)
+      if (result.needsConfirmation) {
+        // Nothing saved yet — hold the extracted data and ask the user to confirm.
+        setPendingUpload({
+          missingModules: result.missingModules,
+          courses: result.courses,
+          tasks: result.tasks
+        })
+        setExtracting(false)
         return
       }
-      setUploadError(err.message || 'Upload failed. Please try again.')
-    } finally {
-      setExtracting(false)
-    }
-  }
-
-  const handleConfirmUpload = async () => {
-    if (!pendingUpload?.previewId) return
-    setUploadError(null)
-    setExtracting(true)
-    try {
-      const result = await confirmCourseUpload(pendingUpload.previewId)
-      if (applyUploadResult(result)) {
-        setPendingUpload(null)
-      }
+      const { courses: newCourses, tasks: newTasks } = result
+      if (!newCourses || newCourses.length === 0) { console.error('Upload failed: no courses returned', result); setExtracting(false); return }
+      applyUploadResult(newCourses, newTasks)
     } catch (err) {
-      console.error('Confirmed upload error:', err)
+      console.error('Upload error:', err)
       setUploadError(err.message || 'Upload failed. Please try again.')
-    } finally {
-      setExtracting(false)
     }
+    setExtracting(false)
   }
 
-  const handleCancelUploadPrompt = () => {
-    setPendingUpload(null)
-    setUploadError(null)
+  const handleConfirmAddCourse = async () => {
+    if (!pendingUpload) return
+    setConfirmingAdd(true)
+    try {
+      const result = await confirmCourseUpload(pendingUpload.courses, pendingUpload.tasks)
+      applyUploadResult(result.courses || [], result.tasks || [])
+      setPendingUpload(null)
+    } catch (err) {
+      console.error('Confirm add course error:', err)
+      setUploadError(err.message || 'Could not add the course. Please try again.')
+      setPendingUpload(null)
+    }
+    setConfirmingAdd(false)
   }
 
   // Adds a course from the Course Catalog tab — replaces the old flow of
@@ -232,43 +224,6 @@ function Course() {
         <div className="mb-4 px-4 py-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-sm text-red-700 dark:text-red-400 flex items-center justify-between">
           {uploadError}
           <button onClick={() => setUploadError(null)} className="ml-3 text-red-400 hover:text-red-600 cursor-pointer">✕</button>
-        </div>
-      )}
-
-      {pendingUpload && activeTab === 'my' && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-4" style={{ background: 'rgba(0,0,0,0.22)', backdropFilter: 'blur(3px)' }}>
-          <div className="w-full max-w-md rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 p-6 shadow-2xl" role="dialog" aria-modal="true" aria-label="Add module before import">
-            <div className="mb-4">
-              <div className="text-base font-medium text-gray-900 dark:text-gray-100 mb-1">Add this module to import the tasks?</div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">
-                The uploaded slides reference {pendingUpload.missingModules.length === 1 ? 'a module' : 'modules'} that exist in NTU’s catalog but are not in your courses yet.
-                If you add {pendingUpload.missingModules.length === 1 ? 'it' : 'them'} now, the tasks detected in the slides will be created too.
-              </div>
-            </div>
-
-            <div className="flex flex-wrap gap-2 mb-5">
-              {pendingUpload.missingModules.map(mod => (
-                <span key={mod} className="text-xs px-2.5 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700">
-                  {mod}
-                </span>
-              ))}
-            </div>
-
-            <div className="flex justify-end gap-2">
-              <button
-                onClick={handleCancelUploadPrompt}
-                className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 active:scale-95 transition-all duration-150 cursor-pointer"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleConfirmUpload}
-                className="text-xs px-3 py-1.5 border border-gray-900 dark:border-gray-100 rounded-lg text-white dark:text-gray-900 bg-gray-900 dark:bg-gray-100 hover:opacity-90 active:scale-95 transition-all duration-150 cursor-pointer font-medium"
-              >
-                Add module and import tasks
-              </button>
-            </div>
-          </div>
         </div>
       )}
 
@@ -535,6 +490,45 @@ function Course() {
                 className="text-xs px-3 py-1.5 border border-red-200 dark:border-red-900/50 rounded-lg text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30 active:scale-95 transition-all duration-150 cursor-pointer font-medium"
               >
                 {deregistering ? 'Removing...' : 'Deregister'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Confirm add course modal — shown when an upload references a module not yet in the user's courses */}
+      {pendingUpload && (
+        <div
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50 px-4"
+          onClick={() => !confirmingAdd && setPendingUpload(null)}
+        >
+          <div
+            className="bg-white dark:bg-gray-900 rounded-2xl w-full max-w-sm p-6 border border-gray-200 dark:border-gray-800"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="mb-5">
+              <div className="text-base font-medium text-gray-900 dark:text-gray-100 mb-1">
+                {pendingUpload.missingModules.length === 1
+                  ? `Add ${pendingUpload.missingModules[0]} to your courses?`
+                  : `Add ${pendingUpload.missingModules.join(', ')} to your courses?`}
+              </div>
+              <div className="text-sm text-gray-400 dark:text-gray-500">
+                {pendingUpload.missingModules.length === 1 ? 'This module isn\'t' : 'These modules aren\'t'} in your courses yet. Add {pendingUpload.missingModules.length === 1 ? 'it' : 'them'} to save the {pendingUpload.tasks.length} task{pendingUpload.tasks.length === 1 ? '' : 's'} found in this file.
+              </div>
+            </div>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setPendingUpload(null)}
+                disabled={confirmingAdd}
+                className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 active:scale-95 transition-all duration-150 cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmAddCourse}
+                disabled={confirmingAdd}
+                className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 active:scale-95 transition-all duration-150 cursor-pointer font-medium"
+              >
+                {confirmingAdd ? 'Adding...' : 'Add course'}
               </button>
             </div>
           </div>
