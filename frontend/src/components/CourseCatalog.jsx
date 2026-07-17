@@ -43,7 +43,7 @@ function CourseCatalog({ courses, onAdd }) {
           type="text"
           value={query}
           onChange={e => setQuery(e.target.value)}
-          placeholder="Search by module code or course title, e.g. SC2001 or Algorithm Design & Analysis"
+          placeholder="Search by module code or module title, e.g. SC2001 or Algorithm Design & Analysis"
           className="w-full text-sm border border-gray-200 dark:border-gray-700 rounded-lg pl-9 pr-3 py-2.5 focus:outline-none focus:border-gray-400 dark:focus:border-gray-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder:text-gray-300 dark:placeholder:text-gray-600"
         />
         <svg className="absolute left-3 top-3 w-4 h-4 text-gray-300 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -152,8 +152,8 @@ function Course() {
       applyUploadResult(result.courses || [], result.tasks || [])
       setPendingUpload(null)
     } catch (err) {
-      console.error('Confirm add course error:', err)
-      setUploadError(err.message || 'Could not add the course. Please try again.')
+      console.error('Confirm add module error:', err)
+      setUploadError(err.message || 'Could not add the module. Please try again.')
       setPendingUpload(null)
     }
     setConfirmingAdd(false)
@@ -171,7 +171,7 @@ function Course() {
       })
       setCourses(prev => [...prev, saved])
     } catch (err) {
-      console.error('Failed to add course from catalog:', err)
+      console.error('Failed to add module from catalog:', err)
       setCatalogAddError(`Could not add ${mod.moduleCode}. Please try again.`)
     }
   }
@@ -268,13 +268,13 @@ function Course() {
   return (
     <div>
       <div className="flex justify-between items-center mb-5">
-        <h1 className="text-xl font-medium text-gray-900 dark:text-gray-100">Courses</h1>
+        <h1 className="text-xl font-medium text-gray-900 dark:text-gray-100">Modules</h1>
       </div>
 
       {/* Subtabs */}
       <div className="flex gap-6 border-b border-gray-200 dark:border-gray-800 mb-6">
-        <button onClick={() => setActiveTab('my')} className={tabButtonClass('my')}>My Courses</button>
-        <button onClick={() => setActiveTab('catalog')} className={tabButtonClass('catalog')}>Course Catalog</button>
+        <button onClick={() => setActiveTab('my')} className={tabButtonClass('my')}>My Modules</button>
+        <button onClick={() => setActiveTab('catalog')} className={tabButtonClass('catalog')}>Module Catalog</button>
       </div>
 
       {activeTab === 'catalog' && (
@@ -311,7 +311,7 @@ function Course() {
                 <button
                   onClick={e => { e.stopPropagation(); setConfirmDeregister(mod) }}
                   className="text-xs text-gray-300 dark:text-gray-600 hover:text-red-400 dark:hover:text-red-400 transition-all duration-150 cursor-pointer ml-2 flex-shrink-0"
-                  title="Deregister from course"
+                  title="Deregister from module"
                 >
                   ✕
                 </button>
@@ -377,7 +377,7 @@ function Course() {
                   }}
                   className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 active:scale-95 text-gray-500 dark:text-gray-400 transition-all duration-150 cursor-pointer"
                 >
-                  {isEditing ? 'Save' : 'Edit'}
+                  {isEditing ? 'Save' : 'Edit Module Details'}
                 </button>
                 <button
                   onClick={() => setConfirmDeregister(selectedMod)}
@@ -390,11 +390,11 @@ function Course() {
 
             {isEditing && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                <div><label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Module code</label><input type="text" value={editForm.moduleCode || ''} onChange={e => setEditForm(p => ({ ...p, moduleCode: e.target.value.toUpperCase() }))} placeholder="e.g. CS2040" className={inputClass} /></div>
-                <div><label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Course name</label><input type="text" value={editForm.name || ''} onChange={e => setEditForm(p => ({ ...p, name: e.target.value }))} placeholder="e.g. Data Structures" className={inputClass} /></div>
+                <div><label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Module Code</label><input type="text" value={editForm.moduleCode || ''} onChange={e => setEditForm(p => ({ ...p, moduleCode: e.target.value.toUpperCase() }))} placeholder="e.g. CS2040" className={inputClass} /></div>
+                <div><label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Module Name</label><input type="text" value={editForm.name || ''} onChange={e => setEditForm(p => ({ ...p, name: e.target.value }))} placeholder="e.g. Data Structures" className={inputClass} /></div>
                 <div><label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Professor</label><input type="text" value={editForm.prof || ''} onChange={e => setEditForm(p => ({ ...p, prof: e.target.value }))} placeholder="e.g. Prof Chan" className={inputClass} /></div>
-                <div><label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Exam date</label><input type="date" value={editForm.examDate || ''} onChange={e => setEditForm(p => ({ ...p, examDate: e.target.value }))} className={inputClass} /></div>
-                <div><label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Exam venue</label><input type="text" value={editForm.examVenue || ''} onChange={e => setEditForm(p => ({ ...p, examVenue: e.target.value }))} placeholder="e.g. SPMS LT" className={inputClass} /></div>
+                <div><label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Exam Date</label><input type="date" value={editForm.examDate || ''} onChange={e => setEditForm(p => ({ ...p, examDate: e.target.value }))} className={inputClass} /></div>
+                <div><label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Exam Venue</label><input type="text" value={editForm.examVenue || ''} onChange={e => setEditForm(p => ({ ...p, examVenue: e.target.value }))} placeholder="e.g. SPMS LT" className={inputClass} /></div>
               </div>
             )}
 
@@ -432,10 +432,10 @@ function Course() {
                       onClick={() => { setShowAddMenu(false); setShowManualForm(true) }}
                       className="block w-full text-left text-xs px-4 py-2.5 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-150 cursor-pointer"
                     >
-                      Create manually
+                      Create New Task Manually
                     </button>
                     <label className="block text-xs px-4 py-2.5 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer transition-all duration-150 border-t border-gray-100 dark:border-gray-800">
-                      Upload file for this module
+                      Upload Module Syllabus Slides
                       <input
                         type="file"
                         className="hidden"
@@ -574,7 +574,7 @@ function Course() {
 
       {modules.length === 0 && (
         <div className="text-center py-16 text-gray-400 dark:text-gray-600 text-sm">
-          No courses yet — add one from the Course Catalog tab to get started
+          No modules yet — add one from the Module Catalog tab to get started
         </div>
       )}
       </>
@@ -587,7 +587,7 @@ function Course() {
             <div className="w-8 h-8 border-2 border-gray-200 dark:border-gray-700 border-t-gray-600 dark:border-t-gray-300 rounded-full animate-spin" />
             <div>
               <div className="text-sm font-medium text-gray-900 dark:text-gray-100 text-center">Parsing file...</div>
-              <div className="text-xs text-gray-400 dark:text-gray-500 text-center mt-1">Extracting course and task info</div>
+              <div className="text-xs text-gray-400 dark:text-gray-500 text-center mt-1">Extracting module and task info</div>
             </div>
           </div>
         </div>
@@ -617,7 +617,7 @@ function Course() {
                 Deregister from {confirmDeregister}?
               </div>
               <div className="text-sm text-gray-400 dark:text-gray-500">
-                This will permanently remove the course and all {tasks.filter(t => t.moduleCode === confirmDeregister).length} associated tasks. This cannot be undone.
+                This will permanently remove the module and all {tasks.filter(t => t.moduleCode === confirmDeregister).length} associated tasks. This cannot be undone.
               </div>
             </div>
             <div className="flex justify-end gap-2">
@@ -651,11 +651,11 @@ function Course() {
             <div className="mb-5">
               <div className="text-base font-medium text-gray-900 dark:text-gray-100 mb-1">
                 {pendingUpload.missingModules.length === 1
-                  ? `Add ${pendingUpload.missingModules[0]} to your courses?`
-                  : `Add ${pendingUpload.missingModules.join(', ')} to your courses?`}
+                  ? `Add ${pendingUpload.missingModules[0]} to your modules?`
+                  : `Add ${pendingUpload.missingModules.join(', ')} to your modules?`}
               </div>
               <div className="text-sm text-gray-400 dark:text-gray-500">
-                {pendingUpload.missingModules.length === 1 ? 'This module isn\'t' : 'These modules aren\'t'} in your courses yet. Add {pendingUpload.missingModules.length === 1 ? 'it' : 'them'} to save the {pendingUpload.tasks.length} task{pendingUpload.tasks.length === 1 ? '' : 's'} found in this file.
+                {pendingUpload.missingModules.length === 1 ? 'This module isn\'t' : 'These modules aren\'t'} in your modules yet. Add {pendingUpload.missingModules.length === 1 ? 'it' : 'them'} to save the {pendingUpload.tasks.length} task{pendingUpload.tasks.length === 1 ? '' : 's'} found in this file.
               </div>
             </div>
             <div className="flex justify-end gap-2">
@@ -671,7 +671,7 @@ function Course() {
                 disabled={confirmingAdd}
                 className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 active:scale-95 transition-all duration-150 cursor-pointer font-medium"
               >
-                {confirmingAdd ? 'Adding...' : 'Add course'}
+                {confirmingAdd ? 'Adding...' : 'Add Module'}
               </button>
             </div>
           </div>
