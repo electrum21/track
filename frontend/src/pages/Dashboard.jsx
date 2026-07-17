@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { createTask, getCourses, updateTask } from '../api/api'
+import { useState } from 'react'
+import { updateTask } from '../api/api'
 import { useTasks } from '../hooks/useTasks.jsx'
 import TaskModal from '../components/TaskModal'
 
@@ -17,20 +17,8 @@ function SkeletonCard() {
 }
 
 function Dashboard() {
-  const { tasks, loading, updateTaskInState, deleteTaskFromState, addTaskToState } = useTasks()
+  const { tasks, loading, updateTaskInState, deleteTaskFromState } = useTasks()
   const [selectedTask, setSelectedTask] = useState(null)
-  const [showCreateForm, setShowCreateForm] = useState(false)
-  const [createForm, setCreateForm] = useState({
-    title: '', moduleCode: '', type: 'ASSIGNMENT',
-    dueDate: '', dueTime: '', weightage: '', note: ''
-  })
-  const [creating, setCreating] = useState(false)
-  const [courses, setCourses] = useState([])
-  const [showModuleDropdown, setShowModuleDropdown] = useState(false)
-
-  useEffect(() => {
-    getCourses().then(data => setCourses(data)).catch(() => {})
-  }, [])
 
   const today = new Date()
   const sevenDaysFromNow = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000)
@@ -70,25 +58,6 @@ function Dashboard() {
   const completedTasks = tasks.filter(task =>
     task.status === 'COMPLETED' && (!task.dueDate || new Date(task.dueDate) >= today)
   )
-
-  const handleCreateTask = async () => {
-    if (!createForm.title.trim()) return
-    setCreating(true)
-    const saved = await createTask({
-      title: createForm.title,
-      moduleCode: createForm.moduleCode || null,
-      type: createForm.type,
-      dueDate: createForm.dueDate || null,
-      dueTime: createForm.dueTime ? createForm.dueTime + ':00' : null,
-      weightage: createForm.weightage ? parseFloat(createForm.weightage) : null,
-      note: createForm.note || null,
-      status: createForm.dueDate ? 'CONFIRMED' : 'PENDING_DATE',
-    })
-    addTaskToState(saved)
-    setCreateForm({ title: '', moduleCode: '', type: 'ASSIGNMENT', dueDate: '', dueTime: '', weightage: '', note: '' })
-    setShowCreateForm(false)
-    setCreating(false)
-  }
 
   const handleTaskUpdated = (updated) => {
     updateTaskInState(updated)
@@ -130,112 +99,12 @@ function Dashboard() {
     return `in ${diff} days`
   }
 
-  const inputClass = "mt-1 w-full text-sm border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 focus:outline-none focus:border-gray-400 dark:focus:border-gray-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-
   return (
     <div>
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-xl font-medium text-gray-900 dark:text-gray-100">Upcoming Deadlines</h1>
-        <button
-          onClick={() => setShowCreateForm(true)}
-          className="text-xs px-4 py-2 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 active:scale-95 transition-all duration-150 text-gray-700 dark:text-gray-300 cursor-pointer"
-        >
-          + Add Task
-        </button>
       </div>
-
-      {/* Create task form */}
-      {showCreateForm && (
-        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5 mb-6">
-          <div className="flex justify-between items-center mb-4">
-            <span className="text-sm font-medium text-gray-900 dark:text-gray-100">New task</span>
-            <button onClick={() => setShowCreateForm(false)} className="text-xs text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 cursor-pointer">✕</button>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-            <div className="col-span-1 sm:col-span-2">
-              <label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Title</label>
-              <input type="text" value={createForm.title} onChange={e => setCreateForm(p => ({ ...p, title: e.target.value }))} placeholder="e.g. Assignment 1" className={inputClass} />
-            </div>
-            <div>
-              <label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Module</label>
-              <div className="relative mt-1">
-                <input
-                  type="text"
-                  value={createForm.moduleCode}
-                  onChange={e => {
-                    setCreateForm(p => ({ ...p, moduleCode: e.target.value.toUpperCase() }))
-                    setShowModuleDropdown(true)
-                  }}
-                  onFocus={() => setShowModuleDropdown(true)}
-                  onBlur={() => setTimeout(() => setShowModuleDropdown(false), 150)}
-                  placeholder="e.g. CS2040"
-                  className="w-full text-sm border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 focus:outline-none focus:border-gray-400 dark:focus:border-gray-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-                />
-                {showModuleDropdown && (() => {
-                  const filtered = courses.filter(c =>
-                    c.moduleCode.includes(createForm.moduleCode.toUpperCase()) ||
-                    createForm.moduleCode === ''
-                  )
-                  return filtered.length > 0 ? (
-                    <div className="absolute z-20 top-full mt-1 w-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg overflow-hidden">
-                      {filtered.map(c => (
-                        <button
-                          key={c.id}
-                          onMouseDown={() => {
-                            setCreateForm(p => ({ ...p, moduleCode: c.moduleCode }))
-                            setShowModuleDropdown(false)
-                          }}
-                          className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer"
-                        >
-                          <span className="font-medium text-gray-900 dark:text-gray-100">{c.moduleCode}</span>
-                          {c.name && <span className="text-gray-400 dark:text-gray-500 ml-2 text-xs">{c.name}</span>}
-                        </button>
-                      ))}
-                    </div>
-                  ) : null
-                })()}
-              </div>
-            </div>
-            <div>
-              <label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Type</label>
-              <select value={createForm.type} onChange={e => setCreateForm(p => ({ ...p, type: e.target.value }))} className={inputClass}>
-                {['ASSIGNMENT', 'PROJECT', 'EXAM', 'QUIZ'].map(t => (
-                  <option key={t} value={t}>{t}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Due date</label>
-              <input type="date" value={createForm.dueDate} onChange={e => setCreateForm(p => ({ ...p, dueDate: e.target.value }))} className={inputClass} />
-            </div>
-            <div>
-              <label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Due time</label>
-              <input type="time" value={createForm.dueTime} onChange={e => setCreateForm(p => ({ ...p, dueTime: e.target.value }))} className={inputClass} />
-            </div>
-            <div>
-              <label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Weightage (%)</label>
-              <input type="number" min="0" max="100" value={createForm.weightage} onChange={e => setCreateForm(p => ({ ...p, weightage: e.target.value }))} placeholder="e.g. 15" className={inputClass} />
-            </div>
-            <div>
-              <label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Note</label>
-              <input type="text" value={createForm.note} onChange={e => setCreateForm(p => ({ ...p, note: e.target.value }))} placeholder="Optional note" className={inputClass} />
-            </div>
-          </div>
-          <div className="flex justify-end gap-2">
-            <button onClick={() => setShowCreateForm(false)} className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 active:scale-95 transition-all duration-150 cursor-pointer">
-              Cancel
-            </button>
-            <button
-              onClick={handleCreateTask}
-              disabled={creating || !createForm.title.trim()}
-              className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 active:scale-95 transition-all duration-150 font-medium cursor-pointer disabled:opacity-50"
-            >
-              {creating ? 'Saving...' : 'Save task'}
-            </button>
-          </div>
-        </div>
-      )}
 
       {/* Metric cards — show skeleton while loading */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
