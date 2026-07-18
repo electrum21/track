@@ -385,7 +385,7 @@ function Course() {
             />
             {/* Panel */}
             <div
-              className={`relative bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-800 w-full max-w-md h-full overflow-y-auto p-5 shadow-xl transition-transform duration-200 ease-out ${panelVisible ? 'translate-x-0' : 'translate-x-full'}`}
+              className={`relative bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-800 w-full max-w-lg h-full overflow-y-auto p-5 shadow-xl transition-transform duration-200 ease-out ${panelVisible ? 'translate-x-0' : 'translate-x-full'}`}
               onClick={e => e.stopPropagation()}
             >
             <div className="flex flex-wrap justify-between items-start gap-3 mb-4">
