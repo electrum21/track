@@ -23,7 +23,7 @@ function TaskModal({ task, courses, onClose, onUpdated, onDeleted }) {
   const isCompleted = task.status === 'COMPLETED'
 
   // "My modules" — the only module codes a task is allowed to be assigned to.
-  const myModuleCodes = (courses || []).map(c => c.moduleCode)
+  const myModuleCodes = (courses || []).map(c => c.moduleCode).sort((a, b) => a.localeCompare(b))
   const moduleError = form.moduleCode && !myModuleCodes.includes(form.moduleCode.toUpperCase())
     ? `"${form.moduleCode}" is not in your modules. Add it first if you want to move this task there.`
     : null

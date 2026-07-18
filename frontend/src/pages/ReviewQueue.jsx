@@ -11,7 +11,7 @@ function ReviewQueue() {
   const [savingId, setSavingId] = useState(null)
   const [openModuleDropdownId, setOpenModuleDropdownId] = useState(null)
 
-  const myModuleCodes = courses.map(c => c.moduleCode)
+  const myModuleCodes = courses.map(c => c.moduleCode).sort((a, b) => a.localeCompare(b))
 
   useEffect(() => {
     getCourses().then(data => { if (Array.isArray(data)) setCourses(data) }).catch(() => {})
