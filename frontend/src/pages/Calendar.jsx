@@ -54,7 +54,13 @@ function Calendar() {
   const [calendarUploading, setCalendarUploading] = useState(false)
   const [calendarUploadError, setCalendarUploadError] = useState(null)
   const [semester, setSemester] = useState('1')
-  const [manualForm, setManualForm] = useState({ semesterStart: '', recessStart: '', examStart: '', teachingWeeks: '13', examWeeks: '3' })
+  const [week1Start, setWeek1Start] = useState('')
+  // NTU's standard semester pattern: 7 teaching weeks, 1 recess week,
+  // 6 more teaching weeks, then 3 exam weeks — all derived from Week 1's start date.
+  const WEEKS_BEFORE_RECESS = 7
+  const WEEKS_AFTER_RECESS = 6
+  const EXAM_WEEKS = 3
+  const TOTAL_TEACHING_WEEKS = WEEKS_BEFORE_RECESS + WEEKS_AFTER_RECESS
   const [currentDate, setCurrentDate] = useState(new Date())
   const [selectedTask, setSelectedTask] = useState(null)
   const [collapsedModules, setCollapsedModules] = useState({})
@@ -190,9 +196,23 @@ function Calendar() {
   }
 
   const handleManualSetup = async () => {
-    if (!manualForm.semesterStart) return
+    if (!week1Start) return
     try {
-      const weeks = await setupAcademicCalendar(manualForm)
+      const addWeeks = (dateStr, weeks) => {
+        const [y, m, d] = dateStr.split('-').map(Number)
+        const date = new Date(y, m - 1, d)
+        date.setDate(date.getDate() + weeks * 7)
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+      }
+      const recessStart = addWeeks(week1Start, WEEKS_BEFORE_RECESS)
+      const examStart = addWeeks(week1Start, WEEKS_BEFORE_RECESS + 1 + WEEKS_AFTER_RECESS)
+      const weeks = await setupAcademicCalendar({
+        semesterStart: week1Start,
+        recessStart,
+        examStart,
+        teachingWeeks: String(TOTAL_TEACHING_WEEKS),
+        examWeeks: String(EXAM_WEEKS),
+      })
       if (weeks && weeks.length > 0) { setSemesterWeeks(weeks); setShowCalendarSetup(false) }
     } catch (err) { console.error(err) }
   }
@@ -367,31 +387,16 @@ function Calendar() {
             </div>
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-2">Or enter manually</p>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <label className="text-xs text-gray-500 dark:text-gray-400 w-28">Semester start</label>
-                  <input type="date" value={manualForm.semesterStart} onChange={e => setManualForm(p => ({...p, semesterStart: e.target.value}))} className="flex-1 text-xs border border-gray-200 dark:border-gray-700 rounded px-2 py-1.5 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none" />
-                </div>
-                <div className="flex items-center gap-2">
-                  <label className="text-xs text-gray-500 dark:text-gray-400 w-28">Recess start</label>
-                  <input type="date" value={manualForm.recessStart} onChange={e => setManualForm(p => ({...p, recessStart: e.target.value}))} className="flex-1 text-xs border border-gray-200 dark:border-gray-700 rounded px-2 py-1.5 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none" />
-                </div>
-                <div className="flex items-center gap-2">
-                  <label className="text-xs text-gray-500 dark:text-gray-400 w-28">Exam period start</label>
-                  <input type="date" value={manualForm.examStart} onChange={e => setManualForm(p => ({...p, examStart: e.target.value}))} className="flex-1 text-xs border border-gray-200 dark:border-gray-700 rounded px-2 py-1.5 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none" />
-                </div>
-                <div className="flex items-center gap-2">
-                  <label className="text-xs text-gray-500 dark:text-gray-400 w-28">Teaching weeks</label>
-                  <input type="number" min="1" max="20" value={manualForm.teachingWeeks} onChange={e => setManualForm(p => ({...p, teachingWeeks: e.target.value}))} className="flex-1 text-xs border border-gray-200 dark:border-gray-700 rounded px-2 py-1.5 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none" />
-                </div>
-                <div className="flex items-center gap-2">
-                  <label className="text-xs text-gray-500 dark:text-gray-400 w-28">Exam weeks</label>
-                  <input type="number" min="1" max="10" value={manualForm.examWeeks} onChange={e => setManualForm(p => ({...p, examWeeks: e.target.value}))} className="flex-1 text-xs border border-gray-200 dark:border-gray-700 rounded px-2 py-1.5 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none" />
-                </div>
+              <div className="flex items-center gap-2">
+                <label className="text-xs text-gray-500 dark:text-gray-400 w-28">Week 1 start</label>
+                <input type="date" value={week1Start} onChange={e => setWeek1Start(e.target.value)} className="flex-1 text-xs border border-gray-200 dark:border-gray-700 rounded px-2 py-1.5 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none" />
               </div>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">
+                The rest of the semester is filled in automatically: {WEEKS_BEFORE_RECESS} teaching weeks → 1 recess week → {WEEKS_AFTER_RECESS} teaching weeks → {EXAM_WEEKS} exam weeks.
+              </p>
               <button
                 onClick={handleManualSetup}
-                disabled={!manualForm.semesterStart}
+                disabled={!week1Start}
                 className="mt-3 text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 active:scale-95 transition-all duration-150 cursor-pointer font-medium disabled:opacity-50"
               >
                 Generate weeks
