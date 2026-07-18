@@ -18,7 +18,7 @@ function Navbar() {
   const links = [
     { path: '/', label: 'Dashboard' },
     { path: '/calendar', label: 'Calendar' },
-    { path: '/course', label: 'Course' },
+    { path: '/course', label: 'Module' },
     { path: '/review', label: 'For Review', badge: true },
     { path: '/agent', label: 'Agent' },
   ]

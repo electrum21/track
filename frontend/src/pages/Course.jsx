@@ -25,11 +25,29 @@ function Course() {
   const [creatingTask, setCreatingTask] = useState(false)
   const [moduleMismatch, setModuleMismatch] = useState(null)
   const [confirmingMismatchAdd, setConfirmingMismatchAdd] = useState(false)
+  const [panelVisible, setPanelVisible] = useState(false)
 
   useEffect(() => {
     getTasks().then(data => setTasks(data))
     getCourses().then(data => setCourses(data))
   }, [])
+
+  // Drives the slide-in/out transition for the module detail side panel —
+  // mount first at translate-x-full, then flip to translate-x-0 on the next
+  // frame so the browser actually animates the transform.
+  useEffect(() => {
+    if (selectedMod) {
+      const raf = requestAnimationFrame(() => requestAnimationFrame(() => setPanelVisible(true)))
+      return () => cancelAnimationFrame(raf)
+    } else {
+      setPanelVisible(false)
+    }
+  }, [selectedMod])
+
+  const closePanel = () => {
+    setPanelVisible(false)
+    setTimeout(() => setSelectedMod(null), 200)
+  }
 
   useEffect(() => {
     const handleClickOutside = () => setShowAddMenu(false)
@@ -300,7 +318,7 @@ function Course() {
           return (
             <div
               key={mod}
-              onClick={() => setSelectedMod(isSelected ? null : mod)}
+              onClick={() => isSelected ? closePanel() : setSelectedMod(mod)}
               className={`bg-white dark:bg-gray-900 border rounded-xl p-4 cursor-pointer transition-all duration-150 relative ${
                 isSelected ? 'border-gray-400 dark:border-gray-500' : 'border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700'
               }`}
@@ -352,14 +370,33 @@ function Course() {
         })}
       </div>
 
-      {/* Selected course detail panel */}
+      {/* Selected course detail panel — slides in from the right so opening it
+          never requires scrolling past the module grid */}
       {selectedMod && (() => {
         const details = courses.find(c => c.moduleCode === selectedMod) || {}
         const modTasks = tasks.filter(t => t.moduleCode === selectedMod)
         const isEditing = editingMod === selectedMod
         return (
-          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5">
+          <div className="fixed inset-0 z-40 flex justify-end">
+            {/* Backdrop */}
+            <div
+              className={`absolute inset-0 bg-black/20 backdrop-blur-sm transition-opacity duration-200 ${panelVisible ? 'opacity-100' : 'opacity-0'}`}
+              onClick={closePanel}
+            />
+            {/* Panel */}
+            <div
+              className={`relative bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-800 w-full max-w-md h-full overflow-y-auto p-5 shadow-xl transition-transform duration-200 ease-out ${panelVisible ? 'translate-x-0' : 'translate-x-full'}`}
+              onClick={e => e.stopPropagation()}
+            >
             <div className="flex flex-wrap justify-between items-start gap-3 mb-4">
+              <button
+                onClick={closePanel}
+                title="Close"
+                className="absolute top-4 right-4 text-gray-300 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-300 transition-all duration-150 cursor-pointer text-lg leading-none"
+              >
+                ✕
+              </button>
+
               <div>
                 <div className="text-base font-medium text-gray-900 dark:text-gray-100">{selectedMod}</div>
                 {details.name && <div className="text-sm text-gray-400 dark:text-gray-500 mt-0.5">{details.name}</div>}
@@ -568,6 +605,7 @@ function Course() {
                 })}
               </div>
             )}
+            </div>
           </div>
         )
       })()}
