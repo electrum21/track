@@ -552,6 +552,7 @@ function Course() {
                     }).map(task => {
                     const isPastDue = task.dueDate && new Date(task.dueDate) < new Date()
                     const isCompleted = task.status === 'COMPLETED'
+                    const isForReview = task.status === 'NEEDS_REVIEW' || task.status === 'PENDING_DATE'
                     return (
                         <div key={task.id} className="flex items-center justify-between py-2.5 border-t border-gray-100 dark:border-gray-800">
                         <div
@@ -573,11 +574,19 @@ function Course() {
                             >
                                 <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                             </button>
+                            ) : isForReview ? (
+                            <button
+                                onClick={e => handleToggleComplete(e, task)}
+                                title="Needs review"
+                                className="w-4 h-4 rounded-full bg-amber-400 dark:bg-amber-500 flex items-center justify-center flex-shrink-0 cursor-pointer hover:bg-amber-500 transition-colors"
+                            >
+                                <span className="text-white text-[9px] font-bold leading-none">!</span>
+                            </button>
                             ) : (
                             <button
                                 onClick={e => handleToggleComplete(e, task)}
                                 title="Mark as complete"
-                                className="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-600 flex-shrink-0 cursor-pointer hover:border-green-400 dark:hover:border-green-500 transition-colors"
+                                className="w-4 h-4 rounded-full border-2 border-blue-400 dark:border-blue-500 flex-shrink-0 cursor-pointer hover:border-green-400 dark:hover:border-green-500 transition-colors"
                             />
                             )}
                             <span className={`text-xs px-2 py-0.5 rounded-full font-medium hidden sm:inline w-24 text-center ${typeColor(task.type)}`}>{task.type}</span>
