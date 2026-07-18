@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { updateTask } from '../api/api'
+import { useState, useEffect } from 'react'
+import { updateTask, getCourses } from '../api/api'
 import { useTasks } from '../hooks/useTasks.jsx'
 import TaskModal from '../components/TaskModal'
 
@@ -19,6 +19,11 @@ function SkeletonCard() {
 function Dashboard() {
   const { tasks, loading, updateTaskInState, deleteTaskFromState } = useTasks()
   const [selectedTask, setSelectedTask] = useState(null)
+  const [courses, setCourses] = useState([])
+
+  useEffect(() => {
+    getCourses().then(data => { if (Array.isArray(data)) setCourses(data) }).catch(() => {})
+  }, [])
 
   const today = new Date()
   const sevenDaysFromNow = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000)
@@ -281,6 +286,7 @@ function Dashboard() {
       {selectedTask && (
         <TaskModal
           task={selectedTask}
+          courses={courses}
           onClose={() => setSelectedTask(null)}
           onUpdated={handleTaskUpdated}
           onDeleted={handleTaskDeleted}

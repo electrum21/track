@@ -644,6 +644,7 @@ function Course() {
       {selectedTask && (
         <TaskModal
           task={selectedTask}
+          courses={courses}
           onClose={() => setSelectedTask(null)}
           onUpdated={handleTaskUpdated}
           onDeleted={handleTaskDeleted}

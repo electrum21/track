@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { updateTask, deleteTask } from '../api/api'
 
-function TaskModal({ task, onClose, onUpdated, onDeleted }) {
+function TaskModal({ task, courses, onClose, onUpdated, onDeleted }) {
   const [editing, setEditing] = useState(false)
   const [form, setForm] = useState({
     title: task.title || '',
@@ -16,9 +16,16 @@ function TaskModal({ task, onClose, onUpdated, onDeleted }) {
   const [saving, setSaving] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [toggling, setToggling] = useState(false)
+  const [saveError, setSaveError] = useState(null)
 
   const isPastDue = task.dueDate && new Date(task.dueDate) < new Date()
   const isCompleted = task.status === 'COMPLETED'
+
+  // "My modules" — the only module codes a task is allowed to be assigned to.
+  const myModuleCodes = (courses || []).map(c => c.moduleCode)
+  const moduleError = form.moduleCode && !myModuleCodes.includes(form.moduleCode.toUpperCase())
+    ? `"${form.moduleCode}" is not in your modules. Add it first if you want to move this task there.`
+    : null
 
   const typeColor = (type) => {
     switch (type) {
@@ -40,23 +47,29 @@ function TaskModal({ task, onClose, onUpdated, onDeleted }) {
   }
 
   const handleSave = async () => {
+    if (moduleError) return
     setSaving(true)
-    const updated = await updateTask(task.id, {
-      title: form.title,
-      moduleCode: form.moduleCode,
-      type: form.type,
-      dueDate: form.dueDate || null,
-      dueTime: form.dueTime ? form.dueTime + ':00' : null,
-      status: form.status,
-      note: form.note,
-      weightage: form.weightage || null,
-      dueDateRaw: task.dueDateRaw,
-      confidence: task.confidence,
-      user: { id: task.userId },
-    })
+    setSaveError(null)
+    try {
+      const updated = await updateTask(task.id, {
+        title: form.title,
+        moduleCode: form.moduleCode,
+        type: form.type,
+        dueDate: form.dueDate || null,
+        dueTime: form.dueTime ? form.dueTime + ':00' : null,
+        status: form.status,
+        note: form.note,
+        weightage: form.weightage || null,
+        dueDateRaw: task.dueDateRaw,
+        confidence: task.confidence,
+        user: { id: task.userId },
+      })
+      setEditing(false)
+      onUpdated(updated)
+    } catch (err) {
+      setSaveError(err.message || 'Could not save changes. Please try again.')
+    }
     setSaving(false)
-    setEditing(false)
-    onUpdated(updated)
   }
 
   const handleDelete = async () => {
@@ -221,7 +234,21 @@ function TaskModal({ task, onClose, onUpdated, onDeleted }) {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Module</label>
-                  <input type="text" value={form.moduleCode} onChange={e => setForm(p => ({ ...p, moduleCode: e.target.value }))} className={inputClass} />
+                  <input
+                    type="text"
+                    list="my-modules-list"
+                    value={form.moduleCode}
+                    onChange={e => setForm(p => ({ ...p, moduleCode: e.target.value.toUpperCase() }))}
+                    className={inputClass}
+                  />
+                  <datalist id="my-modules-list">
+                    {myModuleCodes.map(code => (
+                      <option key={code} value={code} />
+                    ))}
+                  </datalist>
+                  {moduleError && (
+                    <div className="text-xs text-red-500 dark:text-red-400 mt-1">{moduleError}</div>
+                  )}
                 </div>
                 <div>
                   <label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Type</label>
@@ -284,20 +311,23 @@ function TaskModal({ task, onClose, onUpdated, onDeleted }) {
                 />
               </div>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between items-start">
               <button
                 onClick={() => setEditing(false)}
                 className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 active:scale-95 transition-all duration-150 cursor-pointer"
               >
                 Cancel
               </button>
-              <button
-                onClick={handleSave}
-                disabled={saving}
-                className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 active:scale-95 transition-all duration-150 cursor-pointer font-medium"
-              >
-                {saving ? 'Saving...' : 'Save changes'}
-              </button>
+              <div className="flex flex-col items-end gap-1.5">
+                {saveError && <div className="text-xs text-red-500 dark:text-red-400 max-w-[220px] text-right">{saveError}</div>}
+                <button
+                  onClick={handleSave}
+                  disabled={saving || !!moduleError}
+                  className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 active:scale-95 transition-all duration-150 cursor-pointer font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {saving ? 'Saving...' : 'Save changes'}
+                </button>
+              </div>
             </div>
           </div>
         )}

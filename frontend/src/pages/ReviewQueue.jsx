@@ -1,11 +1,20 @@
 import { useState, useEffect } from 'react'
-import { getTasks, updateTask, deleteTask } from '../api/api'
+import { getTasks, getCourses, updateTask, deleteTask } from '../api/api'
 import { useTasks } from '../hooks/useTasks.jsx'
 
 function ReviewQueue() {
   const { updateTaskInState, deleteTaskFromState } = useTasks()
   const [tasks, setTasks] = useState([])
   const [edits, setEdits] = useState({})
+  const [courses, setCourses] = useState([])
+  const [saveErrors, setSaveErrors] = useState({})
+  const [savingId, setSavingId] = useState(null)
+
+  const myModuleCodes = courses.map(c => c.moduleCode)
+
+  useEffect(() => {
+    getCourses().then(data => { if (Array.isArray(data)) setCourses(data) }).catch(() => {})
+  }, [])
 
   useEffect(() => {
     getTasks().then(data => {
@@ -34,10 +43,20 @@ function ReviewQueue() {
       const updated = { ...prev, [id]: { ...prev[id], [field]: value } }
       return updated
     })
+    setSaveErrors(prev => {
+      if (!prev[id]) return prev
+      const { [id]: _, ...rest } = prev
+      return rest
+    })
   }
 
   const handleConfirm = async (task) => {
     const e = edits[task.id]
+    const moduleCode = e.moduleCode || task.moduleCode
+    if (moduleCode && !myModuleCodes.includes(moduleCode.toUpperCase())) {
+      setSaveErrors(prev => ({ ...prev, [task.id]: `"${moduleCode}" is not in your modules. Add it first if you want to move this task there.` }))
+      return
+    }
     const dueDate = e.dueDate || null
     // Auto-set status: if date is in the past → COMPLETED, else CONFIRMED
     let autoStatus = 'CONFIRMED'
@@ -46,7 +65,7 @@ function ReviewQueue() {
     const updated = {
       ...task,
       title:      e.title || task.title,
-      moduleCode: e.moduleCode || task.moduleCode,
+      moduleCode,
       type:       e.type || task.type,
       dueDate,
       dueTime:    e.dueTime ? e.dueTime + ':00' : null,
@@ -55,11 +74,17 @@ function ReviewQueue() {
       status:     autoStatus,
       user:       { id: task.userId },
     }
-    const saved = await updateTask(task.id, updated)
-    // Remove from local review list
-    setTasks(prev => prev.filter(t => t.id !== task.id))
-    // Update shared context so Navbar badge drops immediately
-    updateTaskInState(saved)
+    setSavingId(task.id)
+    try {
+      const saved = await updateTask(task.id, updated)
+      // Remove from local review list
+      setTasks(prev => prev.filter(t => t.id !== task.id))
+      // Update shared context so Navbar badge drops immediately
+      updateTaskInState(saved)
+    } catch (err) {
+      setSaveErrors(prev => ({ ...prev, [task.id]: err.message || 'Could not save changes. Please try again.' }))
+    }
+    setSavingId(null)
   }
 
   const handleDiscard = async (task) => {
@@ -119,11 +144,17 @@ function ReviewQueue() {
                 <label className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1 block">Module</label>
                 <input
                   type="text"
+                  list={`my-modules-list-${task.id}`}
                   value={e.moduleCode || ''}
                   onChange={ev => handleChange(task.id, 'moduleCode', ev.target.value.toUpperCase())}
                   placeholder="CS2040"
                   className={inp}
                 />
+                <datalist id={`my-modules-list-${task.id}`}>
+                  {myModuleCodes.map(code => (
+                    <option key={code} value={code} />
+                  ))}
+                </datalist>
               </div>
               <div>
                 <label className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1 block">Type</label>
@@ -183,19 +214,25 @@ function ReviewQueue() {
             </div>
 
             {/* Actions */}
-            <div className="flex justify-end gap-2">
-              <button
-                onClick={() => handleDiscard(task)}
-                className="text-xs px-3 py-1.5 border border-red-200 dark:border-red-700 rounded-lg text-red-700 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 active:scale-95 transition-all duration-150 cursor-pointer"
-              >
-                Discard
-              </button>
-              <button
-                onClick={() => handleConfirm(task)}
-                className="text-xs px-3 py-1.5 border border-green-200 dark:border-green-900/50 rounded-lg text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-900/20 hover:bg-green-100 dark:hover:bg-green-900/30 active:scale-95 transition-all duration-150 cursor-pointer font-medium"
-              >
-                Confirm & save
-              </button>
+            <div className="flex justify-between items-center gap-3">
+              {saveErrors[task.id] && (
+                <div className="text-xs text-red-500 dark:text-red-400">{saveErrors[task.id]}</div>
+              )}
+              <div className="flex justify-end gap-2 ml-auto">
+                <button
+                  onClick={() => handleDiscard(task)}
+                  className="text-xs px-3 py-1.5 border border-red-200 dark:border-red-700 rounded-lg text-red-700 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 active:scale-95 transition-all duration-150 cursor-pointer"
+                >
+                  Discard
+                </button>
+                <button
+                  onClick={() => handleConfirm(task)}
+                  disabled={savingId === task.id}
+                  className="text-xs px-3 py-1.5 border border-green-200 dark:border-green-900/50 rounded-lg text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-900/20 hover:bg-green-100 dark:hover:bg-green-900/30 active:scale-95 transition-all duration-150 cursor-pointer font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {savingId === task.id ? 'Saving...' : 'Confirm & save'}
+                </button>
+              </div>
             </div>
           </div>
         )

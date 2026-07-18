@@ -4,12 +4,14 @@ import com.track.track.model.Task;
 import com.track.track.model.TaskStatus;
 import com.track.track.model.User;
 import com.track.track.service.TaskService;
+import com.track.track.service.CourseService;
 import com.track.track.service.UserService;
 import com.track.track.dto.TaskResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -18,10 +20,12 @@ public class TaskController {
 
     private final TaskService taskService;
     private final UserService userService;
+    private final CourseService courseService;
 
-    public TaskController(TaskService taskService, UserService userService) {
+    public TaskController(TaskService taskService, UserService userService, CourseService courseService) {
         this.taskService = taskService;
         this.userService = userService;
+        this.courseService = courseService;
     }
 
     private User getUserFromRequest(HttpServletRequest request) {
@@ -67,13 +71,25 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TaskResponse> updateTask(HttpServletRequest request, @PathVariable UUID id, @RequestBody Task task) {
+    public ResponseEntity<?> updateTask(HttpServletRequest request, @PathVariable UUID id, @RequestBody Task task) {
         User user = getUserFromRequest(request);
         // Verify ownership before updating
         boolean owns = taskService.getTaskById(id)
                 .map(t -> t.getUser().getId().equals(user.getId()))
                 .orElse(false);
         if (!owns) return ResponseEntity.status(403).build();
+
+        // Reassigning a task to a module code the user hasn't added yet must not
+        // silently create that module — reject and tell the client to add it first.
+        String moduleCode = task.getModuleCode();
+        if (moduleCode != null && !moduleCode.isBlank()
+                && courseService.getCourseByUserAndCode(user.getId(), moduleCode).isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of(
+                    "error", "unknown_module",
+                    "message", "\"" + moduleCode + "\" is not in your modules. Add it first if you want to move this task there."
+            ));
+        }
+
         task.setUser(user);
         return ResponseEntity.ok(TaskResponse.from(taskService.updateTask(id, task)));
     }

@@ -41,7 +41,13 @@ export const updateTask = async (id, task) => {
     headers: authHeaders(),
     body: JSON.stringify(task)
   })
-  return res.json()
+  const data = await res.json()
+  if (!res.ok) {
+    const err = new Error(data.message || 'Failed to update task')
+    err.code = data.error
+    throw err
+  }
+  return data
 }
 
 export const deleteTask = async (id) => {
