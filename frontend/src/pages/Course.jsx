@@ -421,7 +421,7 @@ function Course() {
                   onClick={() => setConfirmDeregister(selectedMod)}
                   className="text-xs px-3 py-1.5 border border-red-100 dark:border-red-900/50 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 active:scale-95 text-red-400 transition-all duration-150 cursor-pointer"
                 >
-                  Deregister from Course
+                  Deregister from Module
                 </button>
               </div>
             </div>

@@ -9,6 +9,7 @@ function ReviewQueue() {
   const [courses, setCourses] = useState([])
   const [saveErrors, setSaveErrors] = useState({})
   const [savingId, setSavingId] = useState(null)
+  const [openModuleDropdownId, setOpenModuleDropdownId] = useState(null)
 
   const myModuleCodes = courses.map(c => c.moduleCode)
 
@@ -140,21 +141,37 @@ function ReviewQueue() {
 
             {/* Fields grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
-              <div>
+              <div className="relative">
                 <label className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1 block">Module</label>
                 <input
                   type="text"
-                  list={`my-modules-list-${task.id}`}
+                  autoComplete="off"
                   value={e.moduleCode || ''}
                   onChange={ev => handleChange(task.id, 'moduleCode', ev.target.value.toUpperCase())}
+                  onFocus={() => setOpenModuleDropdownId(task.id)}
+                  onBlur={() => setTimeout(() => setOpenModuleDropdownId(prev => prev === task.id ? null : prev), 150)}
                   placeholder="CS2040"
                   className={inp}
                 />
-                <datalist id={`my-modules-list-${task.id}`}>
-                  {myModuleCodes.map(code => (
-                    <option key={code} value={code} />
-                  ))}
-                </datalist>
+                {openModuleDropdownId === task.id && myModuleCodes.length > 0 && (() => {
+                  const matches = myModuleCodes.filter(code => !e.moduleCode || code.includes(e.moduleCode))
+                  return (
+                    <div className="absolute z-20 left-0 right-0 mt-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg max-h-32 overflow-y-auto">
+                      {matches.length > 0 ? matches.map(code => (
+                        <button
+                          key={code}
+                          type="button"
+                          onMouseDown={ev => { ev.preventDefault(); handleChange(task.id, 'moduleCode', code); setOpenModuleDropdownId(null) }}
+                          className="block w-full text-left text-xs px-3 py-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer transition-colors"
+                        >
+                          {code}
+                        </button>
+                      )) : (
+                        <div className="px-3 py-1.5 text-xs text-gray-400 dark:text-gray-500">No matching modules</div>
+                      )}
+                    </div>
+                  )
+                })()}
               </div>
               <div>
                 <label className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1 block">Type</label>

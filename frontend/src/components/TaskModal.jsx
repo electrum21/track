@@ -17,6 +17,7 @@ function TaskModal({ task, courses, onClose, onUpdated, onDeleted }) {
   const [deleting, setDeleting] = useState(false)
   const [toggling, setToggling] = useState(false)
   const [saveError, setSaveError] = useState(null)
+  const [moduleDropdownOpen, setModuleDropdownOpen] = useState(false)
 
   const isPastDue = task.dueDate && new Date(task.dueDate) < new Date()
   const isCompleted = task.status === 'COMPLETED'
@@ -232,20 +233,36 @@ function TaskModal({ task, courses, onClose, onUpdated, onDeleted }) {
                 />
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
+                <div className="relative">
                   <label className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">Module</label>
                   <input
                     type="text"
-                    list="my-modules-list"
+                    autoComplete="off"
                     value={form.moduleCode}
                     onChange={e => setForm(p => ({ ...p, moduleCode: e.target.value.toUpperCase() }))}
+                    onFocus={() => setModuleDropdownOpen(true)}
+                    onBlur={() => setTimeout(() => setModuleDropdownOpen(false), 150)}
                     className={inputClass}
                   />
-                  <datalist id="my-modules-list">
-                    {myModuleCodes.map(code => (
-                      <option key={code} value={code} />
-                    ))}
-                  </datalist>
+                  {moduleDropdownOpen && myModuleCodes.length > 0 && (() => {
+                    const matches = myModuleCodes.filter(code => !form.moduleCode || code.includes(form.moduleCode))
+                    return (
+                      <div className="absolute z-20 left-0 right-0 mt-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg max-h-36 overflow-y-auto">
+                        {matches.length > 0 ? matches.map(code => (
+                          <button
+                            key={code}
+                            type="button"
+                            onMouseDown={e => { e.preventDefault(); setForm(p => ({ ...p, moduleCode: code })); setModuleDropdownOpen(false) }}
+                            className="block w-full text-left text-xs px-3 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer transition-colors"
+                          >
+                            {code}
+                          </button>
+                        )) : (
+                          <div className="px-3 py-2 text-xs text-gray-400 dark:text-gray-500">No matching modules</div>
+                        )}
+                      </div>
+                    )
+                  })()}
                   {moduleError && (
                     <div className="text-xs text-red-500 dark:text-red-400 mt-1">{moduleError}</div>
                   )}
