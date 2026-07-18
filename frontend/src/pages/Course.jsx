@@ -310,7 +310,7 @@ function Course() {
       {activeTab === 'my' && (
       <>
       {/* Course cards grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 mb-5">
         {modules.map(mod => {
           const details = courses.find(c => c.moduleCode === mod) || {}
           const stats = getModStats(mod)
@@ -319,7 +319,7 @@ function Course() {
             <div
               key={mod}
               onClick={() => isSelected ? closePanel() : setSelectedMod(mod)}
-              className={`bg-white dark:bg-gray-900 border rounded-xl p-4 cursor-pointer transition-all duration-150 relative ${
+              className={`bg-white dark:bg-gray-900 border rounded-xl p-3 cursor-pointer transition-all duration-150 relative ${
                 isSelected ? 'border-gray-400 dark:border-gray-500' : 'border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700'
               }`}
             >
@@ -336,16 +336,16 @@ function Course() {
               </div>
 
               {details.name
-                ? <div className="text-xs text-gray-400 dark:text-gray-500 mb-3 truncate">{details.name}</div>
-                : <div className="mb-3" />
+                ? <div className="text-xs text-gray-400 dark:text-gray-500 mb-2 truncate">{details.name}</div>
+                : <div className="mb-2" />
               }
               {(details.prof || details.examDate) && (
-                <div className="text-xs text-gray-400 dark:text-gray-500 mb-3 space-y-0.5">
+                <div className="text-xs text-gray-400 dark:text-gray-500 mb-2 space-y-0.5">
                   {details.prof && <div>{details.prof}</div>}
                   {details.examDate && <div>Exam · {new Date(details.examDate).toLocaleDateString('en-SG', { day: 'numeric', month: 'short' })}</div>}
                 </div>
               )}
-              <div className="border-t border-gray-100 dark:border-gray-800 pt-3">
+              <div className="border-t border-gray-100 dark:border-gray-800 pt-2">
                 <div className="flex justify-between">
                   {[
                     { label: 'Tasks', value: stats.total, color: 'text-gray-900 dark:text-gray-100' },
@@ -360,7 +360,7 @@ function Course() {
                   ))}
                 </div>
                 {stats.total > 0 && (
-                  <div className="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-0.5 mt-3">
+                  <div className="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-0.5 mt-2">
                     <div className="bg-green-400 h-0.5 rounded-full transition-all duration-500" style={{ width: `${Math.round((stats.completed / stats.total) * 100)}%` }} />
                   </div>
                 )}
@@ -388,15 +388,16 @@ function Course() {
               className={`relative bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-800 w-full max-w-lg h-full overflow-y-auto p-5 shadow-xl transition-transform duration-200 ease-out ${panelVisible ? 'translate-x-0' : 'translate-x-full'}`}
               onClick={e => e.stopPropagation()}
             >
-            <div className="flex flex-wrap justify-between items-start gap-3 mb-4">
+            <div className="flex justify-end mb-2">
               <button
                 onClick={closePanel}
                 title="Close"
-                className="absolute top-4 right-4 text-gray-300 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-300 transition-all duration-150 cursor-pointer text-lg leading-none"
+                className="text-gray-300 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-300 transition-all duration-150 cursor-pointer text-lg leading-none"
               >
                 ✕
               </button>
-
+            </div>
+            <div className="flex flex-wrap justify-between items-start gap-3 mb-4">
               <div>
                 <div className="text-base font-medium text-gray-900 dark:text-gray-100">{selectedMod}</div>
                 {details.name && <div className="text-sm text-gray-400 dark:text-gray-500 mt-0.5">{details.name}</div>}
