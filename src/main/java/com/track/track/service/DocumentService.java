@@ -8,7 +8,6 @@ import com.track.track.model.Task;
 import com.track.track.model.TaskStatus;
 import com.track.track.model.TaskType;
 import org.springframework.beans.factory.annotation.Value;
-import com.track.track.model.AcademicWeek;
 import com.track.track.service.FileConversionService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -95,48 +94,6 @@ public class DocumentService {
         }
 
         return new CourseAndTasks(courses, tasks);
-    }
-
-    // ── academic calendar extraction ─────────────────────────────────────────
-
-    public List<AcademicWeek> extractAcademicWeeksFromFile(MultipartFile file, String semester) throws Exception {
-        String jsonText = callGemini(file, buildCalendarPrompt(semester));
-        JsonNode weeksArray = objectMapper.readTree(jsonText);
-        List<AcademicWeek> weeks = new ArrayList<>();
-        int sort = 0;
-        for (JsonNode node : weeksArray) {
-            AcademicWeek w = new AcademicWeek();
-            w.setWeekLabel(nullableText(node, "weekLabel") != null ? node.path("weekLabel").asText("Week") : "Week");
-            w.setWeekType(node.path("weekType").asText("TEACHING"));
-            if (!node.path("weekNumber").isNull() && !node.path("weekNumber").isMissingNode())
-                w.setWeekNumber(node.path("weekNumber").asInt());
-            String start = node.path("startDate").asText(null);
-            String end = node.path("endDate").asText(null);
-            if (isValidDateString(start)) {
-                try { w.setStartDate(LocalDate.parse(start.substring(0, 10))); } catch (Exception ignored) {}
-            }
-            if (isValidDateString(end)) {
-                try { w.setEndDate(LocalDate.parse(end.substring(0, 10))); } catch (Exception ignored) {}
-            }
-            w.setSortOrder(sort++);
-            weeks.add(w);
-        }
-        return weeks;
-    }
-
-    private String buildCalendarPrompt(String semester) {
-        String semContext = (semester != null && !semester.isBlank())
-            ? "This is Semester " + semester + " of the academic year. "
-            : "";
-        return semContext
-            + "Extract the academic calendar week structure from this document.\n"
-            + "Return a JSON array where each object represents one week with:\n"
-            + "- weekLabel (string, e.g. \"Week 1\", \"Recess Week\", \"Exam Week\")\n"
-            + "- weekType (one of: \"TEACHING\", \"RECESS\", \"EXAM\")\n"
-            + "- weekNumber (integer for teaching weeks e.g. 1, 2, 3 — null for recess/exam)\n"
-            + "- startDate (ISO 8601 YYYY-MM-DD, Monday of the week)\n"
-            + "- endDate (ISO 8601 YYYY-MM-DD, Sunday of the week)\n"
-            + "Order by date ascending. Include all weeks from semester start to end of exams.";
     }
 
     // ── shared Gemini caller ─────────────────────────────────────────────────

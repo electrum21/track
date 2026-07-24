@@ -1,6 +1,5 @@
 package com.track.track.controller;
 
-import com.track.track.config.FileValidator;
 import com.track.track.model.AcademicWeek;
 import com.track.track.model.User;
 import com.track.track.service.AcademicCalendarService;
@@ -8,7 +7,6 @@ import com.track.track.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,14 +18,11 @@ public class AcademicCalendarController {
 
     private final AcademicCalendarService academicCalendarService;
     private final UserService userService;
-    private final FileValidator fileValidator;
 
     public AcademicCalendarController(AcademicCalendarService academicCalendarService,
-                                      UserService userService,
-                                      FileValidator fileValidator) {
+                                      UserService userService) {
         this.academicCalendarService = academicCalendarService;
         this.userService = userService;
-        this.fileValidator = fileValidator;
     }
 
     private User getUserFromRequest(HttpServletRequest request) {
@@ -41,22 +36,6 @@ public class AcademicCalendarController {
     public ResponseEntity<List<AcademicWeek>> getWeeks(HttpServletRequest request) {
         User user = getUserFromRequest(request);
         return ResponseEntity.ok(academicCalendarService.getWeeksForUser(user.getId()));
-    }
-
-    @PostMapping("/weeks/upload")
-    public ResponseEntity<List<AcademicWeek>> uploadCalendar(
-            HttpServletRequest request,
-            @RequestParam("file") MultipartFile file,
-            @RequestParam(value = "semester", defaultValue = "1") String semester) {
-        fileValidator.validate(file);
-        try {
-            User user = getUserFromRequest(request);
-            List<AcademicWeek> weeks = academicCalendarService.extractAndSaveFromFile(file, user.getId(), user, semester);
-            return ResponseEntity.ok(weeks);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.internalServerError().build();
-        }
     }
 
     @DeleteMapping("/weeks")

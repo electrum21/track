@@ -142,18 +142,6 @@ export const getAcademicWeeks = async () => {
   return res.json()
 }
 
-export const uploadAcademicCalendar = async (file, semester = '1') => {
-  const formData = new FormData()
-  formData.append('file', file)
-  formData.append('semester', semester)
-  const res = await fetch(`${BASE_URL}/calendar/weeks/upload`, {
-    method: 'POST',
-    headers: { 'Authorization': `Bearer ${getAuth().token}` },
-    body: formData
-  })
-  return res.json()
-}
-
 export const setupAcademicCalendar = async (form) => {
   const res = await fetch(`${BASE_URL}/calendar/weeks/manual`, {
     method: 'POST',

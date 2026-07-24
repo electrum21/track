@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSettings } from '../hooks/useSettings.jsx'
 import { useTasks } from '../hooks/useTasks.jsx'
-import { getCourses, getAcademicWeeks, uploadAcademicCalendar, setupAcademicCalendar, clearAcademicCalendar } from '../api/api'
-import { validateUploadFile } from '../utils/fileValidation'
+import { getCourses, getAcademicWeeks, setupAcademicCalendar, clearAcademicCalendar } from '../api/api'
 import TaskModal from '../components/TaskModal'
 
 const FALLBACK_WEEKS = [
@@ -51,9 +50,6 @@ function Calendar() {
   const [view, setView] = useState(() => settings.calendarView || 'month')
   const [semesterWeeks, setSemesterWeeks] = useState(FALLBACK_WEEKS)
   const [showCalendarSetup, setShowCalendarSetup] = useState(false)
-  const [calendarUploading, setCalendarUploading] = useState(false)
-  const [calendarUploadError, setCalendarUploadError] = useState(null)
-  const [semester, setSemester] = useState('1')
   const [week1Start, setWeek1Start] = useState('')
   // NTU's standard semester pattern: 7 teaching weeks, 1 recess week,
   // 6 more teaching weeks, then 3 exam weeks — all derived from Week 1's start date.
@@ -61,6 +57,11 @@ function Calendar() {
   const WEEKS_AFTER_RECESS = 6
   const EXAM_WEEKS = 3
   const TOTAL_TEACHING_WEEKS = WEEKS_BEFORE_RECESS + WEEKS_AFTER_RECESS
+  const parseLocalDate = dateStr => {
+    const [y, m, d] = dateStr.split('-').map(Number)
+    return new Date(y, m - 1, d)
+  }
+  const isMonday = dateStr => !dateStr || parseLocalDate(dateStr).getDay() === 1
   const [currentDate, setCurrentDate] = useState(new Date())
   const [selectedTask, setSelectedTask] = useState(null)
   const [collapsedModules, setCollapsedModules] = useState({})
@@ -180,27 +181,11 @@ function Calendar() {
     setSemesterWeeks(FALLBACK_WEEKS)
   }
 
-  const handleCalendarUpload = async (e) => {
-    const file = e.target.files[0]
-    if (!file) return
-    e.target.value = ''
-    const err = validateUploadFile(file)
-    if (err) { setCalendarUploadError(err); return }
-    setCalendarUploadError(null)
-    setCalendarUploading(true)
-    try {
-      const weeks = await uploadAcademicCalendar(file, semester)
-      if (weeks && weeks.length > 0) { setSemesterWeeks(weeks); setShowCalendarSetup(false) }
-    } catch (err) { console.error(err) }
-    setCalendarUploading(false)
-  }
-
   const handleManualSetup = async () => {
-    if (!week1Start) return
+    if (!week1Start || !isMonday(week1Start)) return
     try {
       const addWeeks = (dateStr, weeks) => {
-        const [y, m, d] = dateStr.split('-').map(Number)
-        const date = new Date(y, m - 1, d)
+        const date = parseLocalDate(dateStr)
         date.setDate(date.getDate() + weeks * 7)
         return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
       }
@@ -335,7 +320,7 @@ function Calendar() {
             onClick={() => setShowCalendarSetup(p => !p)}
             className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-500 dark:text-gray-400 transition-all duration-150 cursor-pointer"
           >
-            {calendarUploading ? 'Uploading...' : '⚙ Academic Calendar'}
+            ⚙ Academic Calendar
           </button>
           <div className="flex border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
             {views.map(v => (
@@ -362,46 +347,27 @@ function Calendar() {
             <span className="text-sm font-medium text-gray-900 dark:text-gray-100">Academic Calendar Setup</span>
             <button onClick={() => setShowCalendarSetup(false)} className="text-xs text-gray-400 hover:text-gray-600 cursor-pointer">✕</button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-2">Upload calendar file</p>
-              <div className="flex gap-2 mb-2">
-                {['1', '2'].map(s => (
-                  <button
-                    key={s}
-                    onClick={() => setSemester(s)}
-                    className={`flex-1 text-xs py-1.5 rounded-lg border transition-all duration-150 cursor-pointer font-medium ${semester === s ? 'bg-gray-100 dark:bg-gray-800 border-gray-400 dark:border-gray-500 text-gray-900 dark:text-gray-100' : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'}`}
-                  >
-                    Sem {s}
-                  </button>
-                ))}
-              </div>
-              <label className="block text-xs px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer transition-all duration-150 text-center">
-                {calendarUploading ? 'Parsing...' : 'Upload PDF / PPTX'}
-                <input type="file" className="hidden" accept=".pdf,.pptx,.docx,image/*" onChange={handleCalendarUpload} />
-              </label>
-              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Semester {semester} · Extraction may not be reliable — manual entry is advised for higher accuracy</p>
-              {calendarUploadError && (
-                <p className="text-xs text-red-500 dark:text-red-400 mt-1">{calendarUploadError}</p>
-              )}
+          <div className="mb-4">
+            <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-2">Set up your semester</p>
+            <div className="flex items-center gap-2">
+              <label className="text-xs text-gray-500 dark:text-gray-400 w-28">Week 1 start</label>
+              <input type="date" value={week1Start} onChange={e => setWeek1Start(e.target.value)} className="flex-1 max-w-xs text-xs border border-gray-200 dark:border-gray-700 rounded px-2 py-1.5 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none" />
             </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-2">Or enter manually</p>
-              <div className="flex items-center gap-2">
-                <label className="text-xs text-gray-500 dark:text-gray-400 w-28">Week 1 start</label>
-                <input type="date" value={week1Start} onChange={e => setWeek1Start(e.target.value)} className="flex-1 text-xs border border-gray-200 dark:border-gray-700 rounded px-2 py-1.5 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none" />
-              </div>
-              <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">
-                The rest of the semester is filled in automatically: {WEEKS_BEFORE_RECESS} teaching weeks → 1 recess week → {WEEKS_AFTER_RECESS} teaching weeks → {EXAM_WEEKS} exam weeks.
+            <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">
+              Pick the Monday your semester begins — the rest of the weeks fill in automatically: {WEEKS_BEFORE_RECESS} teaching weeks → 1 recess week → {WEEKS_AFTER_RECESS} teaching weeks → {EXAM_WEEKS} exam weeks.
+            </p>
+            {week1Start && !isMonday(week1Start) && (
+              <p className="text-xs text-red-500 dark:text-red-400 mt-1">
+                {parseLocalDate(week1Start).toLocaleDateString('en-SG', { weekday: 'long' })} isn't a Monday — please pick the Monday of week 1.
               </p>
+            )}
               <button
                 onClick={handleManualSetup}
-                disabled={!week1Start}
+                disabled={!week1Start || !isMonday(week1Start)}
                 className="mt-3 text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 active:scale-95 transition-all duration-150 cursor-pointer font-medium disabled:opacity-50"
               >
                 Generate weeks
               </button>
-            </div>
           </div>
           {semesterWeeks !== FALLBACK_WEEKS && semesterWeeks.length > 0 && (
             <div className="mt-3 pt-3 border-t border-gray-100 dark:border-gray-800 flex justify-end">
