@@ -82,7 +82,7 @@ public class UploadController {
         try {
             User user = getUserFromRequest(request);
             checkRateLimit(user.getId().toString());
-            String weekContext = academicCalendarService.buildWeekContext(user.getId());
+            String weekContext = academicCalendarService.buildWeekContext();
             DocumentService.CourseAndTasks result = documentService.extractCourseAndTasksFromFile(file, weekContext);
 
             String hint = (moduleCodeHint != null && !moduleCodeHint.isBlank())

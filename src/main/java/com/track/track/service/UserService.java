@@ -1,7 +1,6 @@
 package com.track.track.service;
 
 import com.track.track.model.User;
-import com.track.track.repository.AcademicWeekRepository;
 import com.track.track.repository.CourseRepository;
 import com.track.track.repository.TaskRepository;
 import com.track.track.repository.UserRepository;
@@ -16,16 +15,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final TaskRepository taskRepository;
     private final CourseRepository courseRepository;
-    private final AcademicWeekRepository academicWeekRepository;
 
     public UserService(UserRepository userRepository,
                        TaskRepository taskRepository,
-                       CourseRepository courseRepository,
-                       AcademicWeekRepository academicWeekRepository) {
+                       CourseRepository courseRepository) {
         this.userRepository = userRepository;
         this.taskRepository = taskRepository;
         this.courseRepository = courseRepository;
-        this.academicWeekRepository = academicWeekRepository;
     }
 
     public User saveUser(User user) {
@@ -76,7 +72,8 @@ public class UserService {
             UUID userId = user.getId();
             taskRepository.deleteByUserId(userId);
             courseRepository.deleteByUserId(userId);
-            academicWeekRepository.deleteByUserId(userId);
+            // Note: academic calendar weeks are shared globally across all users
+            // and are intentionally NOT deleted when a single account is deleted.
             userRepository.delete(user);
         });
     }

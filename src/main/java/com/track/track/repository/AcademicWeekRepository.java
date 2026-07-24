@@ -8,6 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface AcademicWeekRepository extends JpaRepository<AcademicWeek, UUID> {
-    List<AcademicWeek> findByUserIdOrderBySortOrder(UUID userId);
-    void deleteByUserId(UUID userId);
+    List<AcademicWeek> findAllByOrderBySortOrder();
 }

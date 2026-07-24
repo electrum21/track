@@ -12,10 +12,6 @@ public class AcademicWeek {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
     private String weekLabel;   // "Week 1", "Recess", "Exam", "Study"
     private String weekType;    // "TEACHING", "RECESS", "EXAM"
     private Integer weekNumber; // 1-13 for teaching weeks, null for special
@@ -25,14 +21,6 @@ public class AcademicWeek {
 
     public UUID getId() { 
         return id; 
-    }
-
-    public User getUser() { 
-        return user; 
-    }
-
-    public void setUser(User user) { 
-        this.user = user; 
     }
 
     public String getWeekLabel() { 
