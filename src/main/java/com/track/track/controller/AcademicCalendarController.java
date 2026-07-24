@@ -1,10 +1,7 @@
 package com.track.track.controller;
 
 import com.track.track.model.AcademicWeek;
-import com.track.track.model.User;
 import com.track.track.service.AcademicCalendarService;
-import com.track.track.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,45 +9,33 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+// The academic calendar is global — one shared set of weeks used by every
+// user, not scoped per-user. Requests still require Firebase auth (enforced
+// by SecurityConfig), but any authenticated user reads/writes the same rows.
 @RestController
 @RequestMapping("/api/calendar")
 public class AcademicCalendarController {
 
     private final AcademicCalendarService academicCalendarService;
-    private final UserService userService;
 
-    public AcademicCalendarController(AcademicCalendarService academicCalendarService,
-                                      UserService userService) {
+    public AcademicCalendarController(AcademicCalendarService academicCalendarService) {
         this.academicCalendarService = academicCalendarService;
-        this.userService = userService;
-    }
-
-    private User getUserFromRequest(HttpServletRequest request) {
-        String uid   = (String) request.getAttribute("firebaseUid");
-        String email = (String) request.getAttribute("firebaseEmail");
-        String name  = (String) request.getAttribute("firebaseName");
-        return userService.findOrCreateByFirebaseUid(uid, email != null ? email : "", name != null ? name : "");
     }
 
     @GetMapping("/weeks")
-    public ResponseEntity<List<AcademicWeek>> getWeeks(HttpServletRequest request) {
-        User user = getUserFromRequest(request);
-        return ResponseEntity.ok(academicCalendarService.getWeeksForUser(user.getId()));
+    public ResponseEntity<List<AcademicWeek>> getWeeks() {
+        return ResponseEntity.ok(academicCalendarService.getWeeks());
     }
 
     @DeleteMapping("/weeks")
-    public ResponseEntity<Void> clearCalendar(HttpServletRequest request) {
-        User user = getUserFromRequest(request);
-        academicCalendarService.clearWeeks(user.getId());
+    public ResponseEntity<Void> clearCalendar() {
+        academicCalendarService.clearWeeks();
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/weeks/manual")
-    public ResponseEntity<List<AcademicWeek>> setupManual(
-            HttpServletRequest request,
-            @RequestBody Map<String, String> body) {
+    public ResponseEntity<List<AcademicWeek>> setupManual(@RequestBody Map<String, String> body) {
         try {
-            User user = getUserFromRequest(request);
             LocalDate semStart   = LocalDate.parse(body.get("semesterStart"));
             LocalDate recessStart = body.containsKey("recessStart") && body.get("recessStart") != null
                     ? LocalDate.parse(body.get("recessStart")) : null;
@@ -61,7 +46,7 @@ public class AcademicCalendarController {
             int examWeeks = body.containsKey("examWeeks")
                     ? Integer.parseInt(body.get("examWeeks")) : 3;
             List<AcademicWeek> weeks = academicCalendarService.generateFromDates(
-                    user.getId(), user, semStart, recessStart, examStart, teachingWeeks, examWeeks);
+                    semStart, recessStart, examStart, teachingWeeks, examWeeks);
             return ResponseEntity.ok(weeks);
         } catch (Exception e) {
             e.printStackTrace();
