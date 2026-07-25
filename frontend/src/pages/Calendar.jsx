@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSettings } from '../hooks/useSettings.jsx'
 import { useTasks } from '../hooks/useTasks.jsx'
-import { getCourses, getAcademicWeeks, setupAcademicCalendar, clearAcademicCalendar } from '../api/api'
+import { getCourses, getAcademicWeeks } from '../api/api'
 import TaskModal from '../components/TaskModal'
 
 const FALLBACK_WEEKS = [
@@ -49,19 +49,6 @@ function Calendar() {
   const td = settings.taskDisplay
   const [view, setView] = useState(() => settings.calendarView || 'month')
   const [semesterWeeks, setSemesterWeeks] = useState(FALLBACK_WEEKS)
-  const [showCalendarSetup, setShowCalendarSetup] = useState(false)
-  const [week1Start, setWeek1Start] = useState('')
-  // NTU's standard semester pattern: 7 teaching weeks, 1 recess week,
-  // 6 more teaching weeks, then 3 exam weeks — all derived from Week 1's start date.
-  const WEEKS_BEFORE_RECESS = 7
-  const WEEKS_AFTER_RECESS = 6
-  const EXAM_WEEKS = 3
-  const TOTAL_TEACHING_WEEKS = WEEKS_BEFORE_RECESS + WEEKS_AFTER_RECESS
-  const parseLocalDate = dateStr => {
-    const [y, m, d] = dateStr.split('-').map(Number)
-    return new Date(y, m - 1, d)
-  }
-  const isMonday = dateStr => !dateStr || parseLocalDate(dateStr).getDay() === 1
   const [currentDate, setCurrentDate] = useState(new Date())
   const [selectedTask, setSelectedTask] = useState(null)
   const [collapsedModules, setCollapsedModules] = useState({})
@@ -175,32 +162,6 @@ function Calendar() {
   })
 
   const views = ['month', 'semester', 'module']
-
-  const handleClearCalendar = async () => {
-    await clearAcademicCalendar()
-    setSemesterWeeks(FALLBACK_WEEKS)
-  }
-
-  const handleManualSetup = async () => {
-    if (!week1Start || !isMonday(week1Start)) return
-    try {
-      const addWeeks = (dateStr, weeks) => {
-        const date = parseLocalDate(dateStr)
-        date.setDate(date.getDate() + weeks * 7)
-        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
-      }
-      const recessStart = addWeeks(week1Start, WEEKS_BEFORE_RECESS)
-      const examStart = addWeeks(week1Start, WEEKS_BEFORE_RECESS + 1 + WEEKS_AFTER_RECESS)
-      const weeks = await setupAcademicCalendar({
-        semesterStart: week1Start,
-        recessStart,
-        examStart,
-        teachingWeeks: String(TOTAL_TEACHING_WEEKS),
-        examWeeks: String(EXAM_WEEKS),
-      })
-      if (weeks && weeks.length > 0) { setSemesterWeeks(weeks); setShowCalendarSetup(false) }
-    } catch (err) { console.error(err) }
-  }
 
   // ── iCalendar export ──────────────────────────────────────────────────────
   const exportICS = () => {
@@ -316,12 +277,6 @@ function Calendar() {
               Save PDF
             </button>
           )}
-          <button
-            onClick={() => setShowCalendarSetup(p => !p)}
-            className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-500 dark:text-gray-400 transition-all duration-150 cursor-pointer"
-          >
-            ⚙ Academic Calendar
-          </button>
           <div className="flex border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
             {views.map(v => (
               <button
@@ -339,48 +294,6 @@ function Calendar() {
           </div>
         </div>
       </div>
-
-      {/* Academic calendar setup panel */}
-      {showCalendarSetup && (
-        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5 mb-4">
-          <div className="flex justify-between items-center mb-4">
-            <span className="text-sm font-medium text-gray-900 dark:text-gray-100">Academic Calendar Setup</span>
-            <button onClick={() => setShowCalendarSetup(false)} className="text-xs text-gray-400 hover:text-gray-600 cursor-pointer">✕</button>
-          </div>
-          <div className="mb-4">
-            <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-2">Set up your semester</p>
-            <div className="flex items-center gap-2">
-              <label className="text-xs text-gray-500 dark:text-gray-400 w-28">Week 1 start</label>
-              <input type="date" value={week1Start} onChange={e => setWeek1Start(e.target.value)} className="flex-1 max-w-xs text-xs border border-gray-200 dark:border-gray-700 rounded px-2 py-1.5 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none" />
-            </div>
-            <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">
-              Pick the Monday your semester begins — the rest of the weeks fill in automatically: {WEEKS_BEFORE_RECESS} teaching weeks → 1 recess week → {WEEKS_AFTER_RECESS} teaching weeks → {EXAM_WEEKS} exam weeks.
-            </p>
-            {week1Start && !isMonday(week1Start) && (
-              <p className="text-xs text-red-500 dark:text-red-400 mt-1">
-                {parseLocalDate(week1Start).toLocaleDateString('en-SG', { weekday: 'long' })} isn't a Monday — please pick the Monday of week 1.
-              </p>
-            )}
-              <button
-                onClick={handleManualSetup}
-                disabled={!week1Start || !isMonday(week1Start)}
-                className="mt-3 text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 active:scale-95 transition-all duration-150 cursor-pointer font-medium disabled:opacity-50"
-              >
-                Generate weeks
-              </button>
-          </div>
-          {semesterWeeks !== FALLBACK_WEEKS && semesterWeeks.length > 0 && (
-            <div className="mt-3 pt-3 border-t border-gray-100 dark:border-gray-800 flex justify-end">
-              <button
-                onClick={handleClearCalendar}
-                className="text-xs px-3 py-1.5 border border-red-100 dark:border-red-900/50 rounded-lg text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 active:scale-95 transition-all duration-150 cursor-pointer"
-              >
-                Clear calendar data
-              </button>
-            </div>
-          )}
-        </div>
-      )}
 
       {/* Month view */}
       {view === 'month' && (

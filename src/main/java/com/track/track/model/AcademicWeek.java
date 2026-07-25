@@ -1,27 +1,18 @@
 package com.track.track.model;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.util.UUID;
 
-@Entity
-@Table(name = "academic_weeks")
+// NOT a JPA entity - a week row is computed on the fly from the single
+// Week 1 start date stored in AcademicCalendarConfig, never persisted
+// individually. See AcademicCalendarService.getWeeks().
 public class AcademicWeek {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
-
-    private String weekLabel;   // "Week 1", "Recess", "Exam", "Study"
+    private String weekLabel;   // "Week 1", "Recess", "Exam Week"
     private String weekType;    // "TEACHING", "RECESS", "EXAM"
     private Integer weekNumber; // 1-13 for teaching weeks, null for special
     private LocalDate startDate;
     private LocalDate endDate;
     private Integer sortOrder;  // for ordering in the semester view
-
-    public UUID getId() { 
-        return id; 
-    }
 
     public String getWeekLabel() { 
         return weekLabel; 
@@ -70,5 +61,5 @@ public class AcademicWeek {
     public void setSortOrder(Integer sortOrder) { 
         this.sortOrder = sortOrder; 
     }
-    
+
 }

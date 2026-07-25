@@ -5,10 +5,10 @@ const getAuth = () => ({
   token: localStorage.getItem('firebase_token'),
 })
 
-// Always read token fresh from localStorage — set by AuthContext on every auth state change
+// Always read token fresh from localStorage - set by AuthContext on every auth state change
 const authHeaders = () => {
   const token = localStorage.getItem('firebase_token')
-  if (!token) console.warn('No firebase_token in localStorage — API call may fail')
+  if (!token) console.warn('No firebase_token in localStorage - API call may fail')
   return {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${token}`
@@ -140,28 +140,6 @@ export const confirmCourseUpload = async (courses, tasks) => {
 export const getAcademicWeeks = async () => {
   const res = await fetch(`${BASE_URL}/calendar/weeks`, { headers: authHeaders() })
   return res.json()
-}
-
-export const setupAcademicCalendar = async (form) => {
-  const res = await fetch(`${BASE_URL}/calendar/weeks/manual`, {
-    method: 'POST',
-    headers: authHeaders(),
-    body: JSON.stringify({
-      semesterStart: form.semesterStart || null,
-      recessStart: form.recessStart || null,
-      examStart: form.examStart || null,
-      teachingWeeks: form.teachingWeeks || '13',
-      examWeeks: form.examWeeks || '3'
-    })
-  })
-  return res.json()
-}
-
-export const clearAcademicCalendar = async () => {
-  await fetch(`${BASE_URL}/calendar/weeks`, {
-    method: 'DELETE',
-    headers: authHeaders()
-  })
 }
 
 export const deleteAccount = async () => {

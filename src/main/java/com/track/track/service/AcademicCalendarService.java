@@ -1,89 +1,92 @@
 package com.track.track.service;
 
 import com.track.track.model.AcademicWeek;
-import com.track.track.repository.AcademicWeekRepository;
-import org.springframework.transaction.annotation.Transactional;
+import com.track.track.repository.AcademicCalendarConfigRepository;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AcademicCalendarService {
 
-    private final AcademicWeekRepository academicWeekRepository;
+    // NTU's standard semester pattern, applied on top of the single Week 1
+    // start date stored in the DB: 7 teaching weeks → 1 recess week →
+    // 6 teaching weeks → 3 exam weeks.
+    private static final int WEEKS_BEFORE_RECESS = 7;
+    private static final int WEEKS_AFTER_RECESS = 6;
+    private static final int EXAM_WEEKS = 3;
 
-    public AcademicCalendarService(AcademicWeekRepository academicWeekRepository) {
-        this.academicWeekRepository = academicWeekRepository;
+    private final AcademicCalendarConfigRepository configRepository;
+
+    public AcademicCalendarService(AcademicCalendarConfigRepository configRepository) {
+        this.configRepository = configRepository;
     }
 
-    // Calendar is global — one shared set of weeks for every user, not scoped per-user.
-
-    @Transactional
-    public void clearWeeks() {
-        academicWeekRepository.deleteAll();
-    }
-
+    // Reads the single config row (populated directly in the DB - there is
+    // no write endpoint) and computes every week from it. Returns an empty
+    // list if no config row exists yet.
     public List<AcademicWeek> getWeeks() {
-        return academicWeekRepository.findAllByOrderBySortOrder();
+        Optional<LocalDate> week1Start = configRepository.findAll().stream()
+                .findFirst()
+                .map(com.track.track.model.AcademicCalendarConfig::getWeek1Start);
+        return week1Start.map(this::computeWeeks).orElseGet(ArrayList::new);
     }
 
-    // ── Generate weeks from manual entry (semester start + recess + exam dates) ──
-
-    @Transactional
-    public List<AcademicWeek> generateFromDates(
-            LocalDate semesterStart, LocalDate recessStart,
-            LocalDate examStart, int totalTeachingWeeks, int totalExamWeeks) {
-
-        academicWeekRepository.deleteAll();
+    private List<AcademicWeek> computeWeeks(LocalDate week1Start) {
         List<AcademicWeek> weeks = new ArrayList<>();
         int sort = 0;
-        int teachingWeek = 1;
-        LocalDate current = semesterStart;
+        LocalDate current = week1Start;
 
-        while (teachingWeek <= totalTeachingWeeks) {
-            LocalDate weekEnd = current.plusDays(6);
-            AcademicWeek w = new AcademicWeek();
-            w.setStartDate(current);
-            w.setEndDate(weekEnd);
-            w.setSortOrder(sort++);
-
-            if (recessStart != null && !current.isBefore(recessStart) && current.isBefore(recessStart.plusWeeks(1))) {
-                w.setWeekLabel("Recess");
-                w.setWeekType("RECESS");
-            } else {
-                w.setWeekLabel("Week " + teachingWeek);
-                w.setWeekType("TEACHING");
-                w.setWeekNumber(teachingWeek);
-                teachingWeek++;
-            }
-
-            weeks.add(w);
+        for (int wk = 1; wk <= WEEKS_BEFORE_RECESS; wk++) {
+            weeks.add(teachingWeek(current, wk, sort++));
             current = current.plusWeeks(1);
         }
 
-        // Add one row per exam week
-        if (examStart != null) {
-            LocalDate examCurrent = examStart;
-            for (int i = 0; i < totalExamWeeks; i++) {
-                AcademicWeek examWeek = new AcademicWeek();
-                examWeek.setStartDate(examCurrent);
-                examWeek.setEndDate(examCurrent.plusDays(6));
-                examWeek.setWeekLabel("Exam Week");
-                examWeek.setWeekType("EXAM");
-                examWeek.setSortOrder(sort++);
-                weeks.add(examWeek);
-                examCurrent = examCurrent.plusWeeks(1);
-            }
+        AcademicWeek recess = new AcademicWeek();
+        recess.setStartDate(current);
+        recess.setEndDate(current.plusDays(6));
+        recess.setWeekLabel("Recess");
+        recess.setWeekType("RECESS");
+        recess.setSortOrder(sort++);
+        weeks.add(recess);
+        current = current.plusWeeks(1);
+
+        for (int wk = WEEKS_BEFORE_RECESS + 1; wk <= WEEKS_BEFORE_RECESS + WEEKS_AFTER_RECESS; wk++) {
+            weeks.add(teachingWeek(current, wk, sort++));
+            current = current.plusWeeks(1);
         }
 
-        return academicWeekRepository.saveAll(weeks);
+        for (int i = 0; i < EXAM_WEEKS; i++) {
+            AcademicWeek exam = new AcademicWeek();
+            exam.setStartDate(current);
+            exam.setEndDate(current.plusDays(6));
+            exam.setWeekLabel("Exam Week");
+            exam.setWeekType("EXAM");
+            exam.setSortOrder(sort++);
+            weeks.add(exam);
+            current = current.plusWeeks(1);
+        }
+
+        return weeks;
+    }
+
+    private AcademicWeek teachingWeek(LocalDate start, int weekNumber, int sortOrder) {
+        AcademicWeek w = new AcademicWeek();
+        w.setStartDate(start);
+        w.setEndDate(start.plusDays(6));
+        w.setWeekLabel("Week " + weekNumber);
+        w.setWeekType("TEACHING");
+        w.setWeekNumber(weekNumber);
+        w.setSortOrder(sortOrder);
+        return w;
     }
 
     // ── Build a compact week context string for Gemini task prompts ──
 
     public String buildWeekContext() {
-        List<AcademicWeek> weeks = academicWeekRepository.findAllByOrderBySortOrder();
+        List<AcademicWeek> weeks = getWeeks();
         if (weeks.isEmpty()) return "";
         StringBuilder sb = new StringBuilder("Academic calendar week reference:\n");
         for (AcademicWeek w : weeks) {
