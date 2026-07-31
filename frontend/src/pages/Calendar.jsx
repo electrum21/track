@@ -243,6 +243,8 @@ function Calendar() {
           body * { visibility: hidden; }
           #semester-print-area, #semester-print-area * { visibility: visible; }
           #semester-print-area { position: absolute; inset: 0; padding: 24px; }
+          #semester-print-area .max-h-\\[75vh\\] { max-height: none !important; overflow: visible !important; }
+          #semester-print-area thead th { position: static !important; }
           #semester-print-title { font-size: 16px; font-weight: 600; margin-bottom: 12px; }
         }
       `}</style>
@@ -375,13 +377,13 @@ function Calendar() {
           <div id="semester-print-title" className="hidden print:block text-gray-900 mb-3">
             Semester Overview — Track
           </div>
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto max-h-[75vh] overflow-y-auto">
             <table className="w-full text-xs border-collapse">
               <thead>
                 <tr>
-                  <th className="text-left p-2 font-medium text-gray-400 dark:text-gray-500 w-24 sticky left-0 z-10 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700">Week</th>
+                  <th className="text-left p-2 font-medium text-gray-400 dark:text-gray-500 w-24 sticky top-0 left-0 z-30 bg-gray-50 dark:bg-gray-900 border-r border-b border-gray-200 dark:border-gray-700">Week</th>
                   {modules.map(mod => (
-                    <th key={mod} className="text-left p-2 font-medium text-gray-600 dark:text-gray-300 min-w-32 border-r border-gray-200 dark:border-gray-700">{mod}</th>
+                    <th key={mod} className="text-left p-2 font-medium text-gray-600 dark:text-gray-300 min-w-32 sticky top-0 z-20 bg-gray-50 dark:bg-gray-900 border-r border-b border-gray-200 dark:border-gray-700">{mod}</th>
                   ))}
                 </tr>
               </thead>
