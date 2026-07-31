@@ -3,6 +3,7 @@ import { useSettings } from '../hooks/useSettings.jsx'
 import { useTasks } from '../hooks/useTasks.jsx'
 import { getCourses, getAcademicWeeks } from '../api/api'
 import TaskModal from '../components/TaskModal'
+import AddTaskModal from '../components/AddTaskModal'
 
 const FALLBACK_WEEKS = [
   { weekLabel: 'Week 1', startDate: '2026-01-12', endDate: '2026-01-18', weekType: 'TEACHING' },
@@ -27,6 +28,9 @@ const parseDate = (dateStr) => {
   return new Date(y, m - 1, d)
 }
 
+const toISODate = (date) =>
+  `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+
 function normaliseWeeks(weeks) {
   // Rename legacy labels
   const rename = { 'Study': 'Exam Week', 'Exam': 'Exam Week' }
@@ -43,7 +47,7 @@ function normaliseWeeks(weeks) {
 }
 
 function Calendar() {
-  const { tasks, updateTaskInState, deleteTaskFromState } = useTasks()
+  const { tasks, updateTaskInState, deleteTaskFromState, addTaskToState } = useTasks()
   const [courses, setCourses] = useState([])
   const { settings } = useSettings()
   const td = settings.taskDisplay
@@ -52,6 +56,7 @@ function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date())
   const [selectedTask, setSelectedTask] = useState(null)
   const [collapsedModules, setCollapsedModules] = useState({})
+  const [addTaskDraft, setAddTaskDraft] = useState(null)
 
   const handleTaskUpdated = (updated) => {
     updateTaskInState(updated)
@@ -61,6 +66,11 @@ function Calendar() {
   const handleTaskDeleted = (id) => {
     deleteTaskFromState(id)
     setSelectedTask(null)
+  }
+
+  const handleTaskCreated = (created) => {
+    addTaskToState(created)
+    setAddTaskDraft(null)
   }
 
   const toggleModule = (mod) => {
@@ -307,7 +317,11 @@ function Calendar() {
             {cells.map((cell, i) => {
               const dayTasks = getTasksForDay(cell.date)
               return (
-                <div key={i} className={`min-h-16 sm:min-h-32 rounded-lg p-1 sm:p-1.5 border ${
+                <div
+                  key={i}
+                  onDoubleClick={() => setAddTaskDraft({ moduleCode: '', dueDate: toISODate(cell.date), lockModule: false, lockDueDate: true })}
+                  title="Double-click to add a task on this date"
+                  className={`min-h-16 sm:min-h-32 rounded-lg p-1 sm:p-1.5 border cursor-pointer ${
                   isToday(cell.date)
                     ? 'border-blue-400 dark:border-blue-500 bg-blue-50 dark:bg-blue-900/20'
                     : cell.currentMonth
@@ -425,7 +439,12 @@ function Calendar() {
                           return due >= start && due <= end
                         })
                         return (
-                          <td key={mod} className={`p-2 align-top border-r border-t-2 border-gray-200 dark:border-gray-700 ${rowBg}`}>
+                          <td
+                            key={mod}
+                            onDoubleClick={() => setAddTaskDraft({ moduleCode: mod, dueDate: semWeek.startDate, lockModule: true, lockDueDate: false })}
+                            title="Double-click to add a task for this module/week"
+                            className={`p-2 align-top border-r border-t-2 border-gray-200 dark:border-gray-700 cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 transition-colors duration-150 ${rowBg}`}
+                          >
                             {cellTasks.map(task => (
                               <div
                                 key={task.id}
@@ -457,7 +476,12 @@ function Calendar() {
                     {modules.map(mod => {
                       const undated = tasks.filter(t => t.moduleCode === mod && !t.dueDate)
                       return (
-                        <td key={mod} className={`p-2 align-top border-r border-t-2 border-gray-200 dark:border-gray-700`}>
+                        <td
+                          key={mod}
+                          onDoubleClick={() => setAddTaskDraft({ moduleCode: mod, dueDate: '', lockModule: true, lockDueDate: false })}
+                          title="Double-click to add a task for this module"
+                          className={`p-2 align-top border-r border-t-2 border-gray-200 dark:border-gray-700 cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 transition-colors duration-150`}
+                        >
                           {undated.map(task => (
                             <div
                               key={task.id}
@@ -647,6 +671,18 @@ function Calendar() {
           onClose={() => setSelectedTask(null)}
           onUpdated={handleTaskUpdated}
           onDeleted={handleTaskDeleted}
+        />
+      )}
+
+      {addTaskDraft && (
+        <AddTaskModal
+          courses={courses}
+          initialModuleCode={addTaskDraft.moduleCode}
+          initialDueDate={addTaskDraft.dueDate}
+          lockModule={addTaskDraft.lockModule}
+          lockDueDate={addTaskDraft.lockDueDate}
+          onClose={() => setAddTaskDraft(null)}
+          onCreated={handleTaskCreated}
         />
       )}
     </div>
