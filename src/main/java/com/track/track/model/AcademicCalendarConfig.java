@@ -1,4 +1,4 @@
-package com.track.track.model;
+package com.track.track.config;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;

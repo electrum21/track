@@ -408,8 +408,8 @@ function Calendar() {
                     : 'text-gray-500 dark:text-gray-400'
 
                   return (
-                    <tr key={semWeek.startDate || semWeek.weekLabel} className={`border-t border-gray-100 dark:border-gray-800 ${rowBg}`}>
-                      <td className={`p-2 font-medium sticky left-0 z-10 border-r border-gray-200 dark:border-gray-700 ${weekCellBg} ${weekLabelColor}`}>
+                    <tr key={semWeek.startDate || semWeek.weekLabel} className={rowBg}>
+                      <td className={`p-2 font-medium sticky left-0 z-10 border-r border-t-2 border-gray-200 dark:border-gray-700 ${weekCellBg} ${weekLabelColor}`}>
                         <div>{semWeek.weekLabel}</div>
                         <div className={`font-normal mt-0.5 ${isPast ? 'text-gray-600 dark:text-gray-500' : 'text-gray-400 dark:text-gray-500'}`}>
                           {parseDate(semWeek.startDate).toLocaleDateString('en-SG', { day: 'numeric', month: 'short' })}
@@ -425,7 +425,7 @@ function Calendar() {
                           return due >= start && due <= end
                         })
                         return (
-                          <td key={mod} className={`p-2 align-top border-r border-gray-200 dark:border-gray-700 ${rowBg}`}>
+                          <td key={mod} className={`p-2 align-top border-r border-t-2 border-gray-200 dark:border-gray-700 ${rowBg}`}>
                             {cellTasks.map(task => (
                               <div
                                 key={task.id}
@@ -450,14 +450,14 @@ function Calendar() {
                 })}
 
                 {modules.some(mod => tasks.some(t => t.moduleCode === mod && !t.dueDate)) && (
-                  <tr className="border-t border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50">
-                    <td className="p-2 font-medium sticky left-0 z-10 bg-gray-50 dark:bg-gray-800/50 text-gray-400 dark:text-gray-500 border-r border-gray-200 dark:border-gray-700">
+                  <tr className="bg-gray-50 dark:bg-gray-800/50">
+                    <td className="p-2 font-medium sticky left-0 z-10 bg-gray-50 dark:bg-gray-800/50 text-gray-400 dark:text-gray-500 border-r border-t-2 border-gray-200 dark:border-gray-700">
                       No date
                     </td>
                     {modules.map(mod => {
                       const undated = tasks.filter(t => t.moduleCode === mod && !t.dueDate)
                       return (
-                        <td key={mod} className={`p-2 align-top border-r border-gray-200 dark:border-gray-700`}>
+                        <td key={mod} className={`p-2 align-top border-r border-t-2 border-gray-200 dark:border-gray-700`}>
                           {undated.map(task => (
                             <div
                               key={task.id}
