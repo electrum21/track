@@ -133,8 +133,13 @@ function ChatWidget() {
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [pendingSuggestions, setPendingSuggestions] = useState(null)
+  const [pos, setPos] = useState(null) // { x, y } top-left in px once dragged; null = default bottom-right anchor
+  const [dragging, setDragging] = useState(false)
+  const [expanded, setExpanded] = useState(false)
   const bottomRef = useRef(null)
   const inputRef = useRef(null)
+  const panelRef = useRef(null)
+  const dragStateRef = useRef({ startX: 0, startY: 0, origX: 0, origY: 0 })
 
   useEffect(() => {
     if (open) {
@@ -149,6 +154,76 @@ function ChatWidget() {
       return () => clearTimeout(t)
     }
   }, [open])
+
+  // Keep the panel within the viewport whenever its size changes (e.g. expand toggle)
+  useEffect(() => {
+    if (!open || !pos) return
+    const id = requestAnimationFrame(() => {
+      const panel = panelRef.current
+      if (!panel) return
+      const rect = panel.getBoundingClientRect()
+      const maxX = window.innerWidth - rect.width - 8
+      const maxY = window.innerHeight - rect.height - 8
+      const clampedX = Math.min(Math.max(pos.x, 8), Math.max(8, maxX))
+      const clampedY = Math.min(Math.max(pos.y, 8), Math.max(8, maxY))
+      if (clampedX !== pos.x || clampedY !== pos.y) {
+        setPos({ x: clampedX, y: clampedY })
+      }
+    })
+    return () => cancelAnimationFrame(id)
+  }, [expanded, open])
+
+  const clampToViewport = (x, y) => {
+    const panel = panelRef.current
+    const w = panel?.offsetWidth || 380
+    const h = panel?.offsetHeight || 520
+    const clampedX = Math.min(Math.max(x, 8), Math.max(8, window.innerWidth - w - 8))
+    const clampedY = Math.min(Math.max(y, 8), Math.max(8, window.innerHeight - h - 8))
+    return { x: clampedX, y: clampedY }
+  }
+
+  const handleDragMove = (e) => {
+    if (e.type === 'touchmove') e.preventDefault()
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY
+    const dx = clientX - dragStateRef.current.startX
+    const dy = clientY - dragStateRef.current.startY
+    setPos(clampToViewport(dragStateRef.current.origX + dx, dragStateRef.current.origY + dy))
+  }
+
+  const handleDragEnd = () => {
+    setDragging(false)
+    document.removeEventListener('mousemove', handleDragMove)
+    document.removeEventListener('mouseup', handleDragEnd)
+    document.removeEventListener('touchmove', handleDragMove)
+    document.removeEventListener('touchend', handleDragEnd)
+  }
+
+  const handleDragStart = (e) => {
+    if (e.target.closest('button')) return // don't drag when clicking header buttons
+    const panel = panelRef.current
+    if (!panel) return
+    const rect = panel.getBoundingClientRect()
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY
+    dragStateRef.current = { startX: clientX, startY: clientY, origX: rect.left, origY: rect.top }
+    setPos({ x: rect.left, y: rect.top })
+    setDragging(true)
+    document.addEventListener('mousemove', handleDragMove)
+    document.addEventListener('mouseup', handleDragEnd)
+    document.addEventListener('touchmove', handleDragMove, { passive: false })
+    document.addEventListener('touchend', handleDragEnd)
+  }
+
+  useEffect(() => {
+    return () => {
+      document.removeEventListener('mousemove', handleDragMove)
+      document.removeEventListener('mouseup', handleDragEnd)
+      document.removeEventListener('touchmove', handleDragMove)
+      document.removeEventListener('touchend', handleDragEnd)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const getHistory = () => messages
     .filter(m => m.role !== 'system')
@@ -259,9 +334,25 @@ function ChatWidget() {
     <>
       {/* Floating panel */}
       {open && (
-        <div className="fixed bottom-24 right-4 sm:right-6 z-[60] w-[calc(100vw-2rem)] max-w-[380px] h-[520px] max-h-[70vh] flex flex-col bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-2xl overflow-hidden">
-          {/* Header */}
-          <div className="flex justify-between items-center px-4 py-3 border-b border-gray-100 dark:border-gray-800 flex-shrink-0">
+        <div
+          ref={panelRef}
+          style={pos ? { left: pos.x, top: pos.y, right: 'auto', bottom: 'auto' } : undefined}
+          className={`fixed z-[60] flex flex-col bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-2xl overflow-hidden ${
+            pos ? '' : 'bottom-24 right-4 sm:right-6'
+          } ${
+            expanded
+              ? 'w-[calc(100vw-2rem)] lg:w-[50vw] h-[640px] max-h-[80vh]'
+              : 'w-[calc(100vw-2rem)] max-w-[380px] h-[520px] max-h-[70vh]'
+          } ${dragging ? 'select-none transition-none' : 'transition-[width,height] duration-150'}`}
+        >
+          {/* Header — drag handle */}
+          <div
+            onMouseDown={handleDragStart}
+            onTouchStart={handleDragStart}
+            className={`flex justify-between items-center px-4 py-3 border-b border-gray-100 dark:border-gray-800 flex-shrink-0 ${
+              dragging ? 'cursor-grabbing' : 'cursor-grab'
+            }`}
+          >
             <div className="flex items-center gap-2">
               <div className="w-7 h-7 rounded-full bg-gray-900 dark:bg-gray-100 flex items-center justify-center flex-shrink-0">
                 <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
@@ -274,6 +365,21 @@ function ChatWidget() {
               </div>
             </div>
             <div className="flex items-center gap-1">
+              <button
+                onClick={() => setExpanded(prev => !prev)}
+                title={expanded ? 'Collapse' : 'Expand'}
+                className="hidden sm:flex w-7 h-7 items-center justify-center rounded-lg text-gray-400 dark:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-600 dark:hover:text-gray-300 transition-all duration-150 cursor-pointer"
+              >
+                {expanded ? (
+                  <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+                    <path d="M8.5 1v3.5H12M5.5 13V9.5H2M12 1L8.5 4.5M2 13l3.5-3.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                ) : (
+                  <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+                    <path d="M1 4.5V1h3.5M13 9.5V13H9.5M13 1L8.5 5.5M1 13l4.5-4.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                )}
+              </button>
               <button
                 onClick={handleClear}
                 title="Clear chat"
