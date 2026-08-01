@@ -20,7 +20,6 @@ function Navbar() {
     { path: '/calendar', label: 'Calendar' },
     { path: '/course', label: 'Course' },
     { path: '/review', label: 'For Review', badge: true },
-    { path: '/agent', label: 'Agent' },
   ]
 
   return (

@@ -3,11 +3,11 @@ import { AuthProvider, useAuth } from './AuthContext'
 import { SettingsProvider } from './hooks/useSettings.jsx'
 import { TasksProvider } from './hooks/useTasks.jsx'
 import Navbar from './components/Navbar'
+import ChatWidget from './components/ChatWidget'
 import Dashboard from './pages/Dashboard'
 import Calendar from './pages/Calendar'
 import ReviewQueue from './pages/ReviewQueue'
 import Course from './pages/Course'
-import Agent from './pages/Agent'
 import Login from './pages/Login'
 
 function ProtectedRoute({ children }) {
@@ -29,9 +29,9 @@ function AppLayout() {
           <Route path="/calendar" element={<ProtectedRoute><Calendar /></ProtectedRoute>} />
           <Route path="/review" element={<ProtectedRoute><ReviewQueue /></ProtectedRoute>} />
           <Route path="/course" element={<ProtectedRoute><Course /></ProtectedRoute>} />
-          <Route path="/agent" element={<ProtectedRoute><Agent /></ProtectedRoute>} />
         </Routes>
       </main>
+      {user && <ChatWidget />}
     </div>
   )
 }
