@@ -319,7 +319,7 @@ function Course() {
             <div
               key={mod}
               onClick={() => isSelected ? closePanel() : setSelectedMod(mod)}
-              className={`bg-white dark:bg-gray-900 border rounded-xl p-3 cursor-pointer transition-all duration-150 relative ${
+              className={`hover-lift bg-white dark:bg-gray-900 border rounded-xl p-3 cursor-pointer transition-all duration-150 relative ${
                 isSelected ? 'border-gray-400 dark:border-gray-500' : 'border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700'
               }`}
             >
@@ -328,7 +328,7 @@ function Course() {
                 <div className="text-sm font-medium text-gray-900 dark:text-gray-100">{mod}</div>
                 <button
                   onClick={e => { e.stopPropagation(); setConfirmDeregister(mod) }}
-                  className="text-xs text-gray-300 dark:text-gray-600 hover:text-red-400 dark:hover:text-red-400 transition-all duration-150 cursor-pointer ml-2 flex-shrink-0"
+                  className="text-xs text-gray-300 dark:text-gray-600 hover:text-red-400 dark:hover:text-red-400 hover:scale-125 active:scale-90 transition-all duration-150 cursor-pointer ml-2 flex-shrink-0"
                   title="Deregister from module"
                 >
                   ✕

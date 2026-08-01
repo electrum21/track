@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { updateTask, getCourses } from '../api/api'
 import { useTasks } from '../hooks/useTasks.jsx'
 import TaskModal from '../components/TaskModal'
+import { fireConfetti } from '../utils/confetti'
 
 function SkeletonCard() {
   return (
@@ -81,6 +82,10 @@ function Dashboard() {
     if (isPastDue(task)) return
     const isCompleted = task.status === 'COMPLETED'
     const updated = { ...task, status: isCompleted ? 'CONFIRMED' : 'COMPLETED', user: { id: task.userId } }
+    if (!isCompleted) {
+      const rect = e.currentTarget.getBoundingClientRect()
+      fireConfetti(rect.left + rect.width / 2, rect.top + rect.height / 2)
+    }
     await updateTask(task.id, updated)
     updateTaskInState({ ...task, status: updated.status })
   }
@@ -126,7 +131,7 @@ function Dashboard() {
               { label: 'Needs review', value: needsReview, color: 'text-amber-600 dark:text-amber-400' },
               { label: 'Completed', value: completed, color: 'text-green-600 dark:text-green-400' },
             ].map(card => (
-              <div key={card.label} className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
+              <div key={card.label} className="hover-lift bg-gray-100 dark:bg-gray-800 rounded-lg p-4 cursor-default">
                 <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">{card.label}</div>
                 <div className={`text-2xl font-medium ${card.color}`}>{card.value}</div>
               </div>
@@ -151,12 +156,12 @@ function Dashboard() {
           {thisWeekTasks.map(task => (
             <div
               key={task.id}
-              className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4 mb-2 flex items-center gap-3 hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-150"
+              className="hover-lift bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4 mb-2 flex items-center gap-3 hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-150"
             >
               <button
                 onClick={e => handleToggleComplete(e, task)}
                 disabled={isPastDue(task)}
-                className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors ${isPastDue(task) ? 'border-gray-200 dark:border-gray-700 cursor-not-allowed opacity-40' : 'border-gray-300 dark:border-gray-600 hover:border-green-400 dark:hover:border-green-500 cursor-pointer'}`}
+                className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all duration-150 ${isPastDue(task) ? 'border-gray-200 dark:border-gray-700 cursor-not-allowed opacity-40' : 'border-gray-300 dark:border-gray-600 hover:border-green-400 dark:hover:border-green-500 hover:scale-110 active:scale-90 cursor-pointer'}`}
               />
               <div className="flex-1 cursor-pointer" onClick={() => setSelectedTask(task)}>
                 <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
@@ -184,12 +189,12 @@ function Dashboard() {
           {laterTasks.map(task => (
             <div
               key={task.id}
-              className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4 mb-2 flex items-center gap-3 hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-150"
+              className="hover-lift bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4 mb-2 flex items-center gap-3 hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-150"
             >
               <button
                 onClick={e => handleToggleComplete(e, task)}
                 disabled={isPastDue(task)}
-                className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors ${isPastDue(task) ? 'border-gray-200 dark:border-gray-700 cursor-not-allowed opacity-40' : 'border-gray-300 dark:border-gray-600 hover:border-green-400 dark:hover:border-green-500 cursor-pointer'}`}
+                className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all duration-150 ${isPastDue(task) ? 'border-gray-200 dark:border-gray-700 cursor-not-allowed opacity-40' : 'border-gray-300 dark:border-gray-600 hover:border-green-400 dark:hover:border-green-500 hover:scale-110 active:scale-90 cursor-pointer'}`}
               />
               <div className="flex-1 cursor-pointer" onClick={() => setSelectedTask(task)}>
                 <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
@@ -251,13 +256,13 @@ function Dashboard() {
           {completedTasks.map(task => (
             <div
               key={task.id}
-              className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl p-4 mb-2 flex items-center gap-3 opacity-60 hover:opacity-80 transition-all duration-150"
+              className="hover-lift bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl p-4 mb-2 flex items-center gap-3 opacity-60 hover:opacity-90 transition-all duration-150"
             >
               <button
                 onClick={e => handleToggleComplete(e, task)}
                 disabled={isPastDue(task)}
                 title={isPastDue(task) ? 'Past due — cannot unmark' : 'Mark as incomplete'}
-                className={`w-5 h-5 rounded-full bg-green-400 dark:bg-green-500 flex items-center justify-center flex-shrink-0 ${isPastDue(task) ? 'cursor-not-allowed' : 'cursor-pointer hover:bg-green-500 dark:hover:bg-green-400'} transition-colors`}
+                className={`animate-pop-in w-5 h-5 rounded-full bg-green-400 dark:bg-green-500 flex items-center justify-center flex-shrink-0 ${isPastDue(task) ? 'cursor-not-allowed' : 'cursor-pointer hover:bg-green-500 dark:hover:bg-green-400 hover:scale-110 active:scale-90'} transition-all duration-150`}
               >
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
                   <path d="M2 5l2.5 2.5L8 3" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -279,6 +284,7 @@ function Dashboard() {
       {/* Empty state */}
       {!loading && tasks.length === 0 && (
         <div className="text-center py-16 text-gray-400 dark:text-gray-600">
+          <div className="animate-float text-4xl mb-3">🎯</div>
           <div className="text-sm">No tasks yet — add your courses to get started</div>
         </div>
       )}

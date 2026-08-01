@@ -287,9 +287,9 @@ function Calendar() {
 
         {view === 'month' ? (
           <div className="flex items-center gap-2">
-            <button onClick={prevMonth} className="text-sm px-2.5 py-1 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 active:scale-95 transition-all duration-150 text-gray-500 dark:text-gray-400 cursor-pointer">←</button>
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300 min-w-36 text-center">{monthName}</span>
-            <button onClick={nextMonth} className="text-sm px-2.5 py-1 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 active:scale-95 transition-all duration-150 text-gray-500 dark:text-gray-400 cursor-pointer">→</button>
+            <button onClick={prevMonth} className="text-sm px-2.5 py-1 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:-translate-x-0.5 active:scale-90 transition-all duration-150 text-gray-500 dark:text-gray-400 cursor-pointer">←</button>
+            <span key={monthName} className="animate-fade-slide-up text-sm font-medium text-gray-700 dark:text-gray-300 min-w-36 text-center">{monthName}</span>
+            <button onClick={nextMonth} className="text-sm px-2.5 py-1 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:translate-x-0.5 active:scale-90 transition-all duration-150 text-gray-500 dark:text-gray-400 cursor-pointer">→</button>
           </div>
         ) : (
           <div />
@@ -327,7 +327,7 @@ function Calendar() {
               <button
                 key={v}
                 onClick={() => setView(v)}
-                className={`text-xs px-4 py-2 transition-all duration-150 ${
+                className={`text-xs px-4 py-2 transition-all duration-150 active:scale-90 ${
                   view === v
                     ? 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 font-medium'
                     : 'text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'
@@ -356,9 +356,9 @@ function Calendar() {
                   key={i}
                   onDoubleClick={() => setAddTaskDraft({ moduleCode: '', dueDate: toISODate(cell.date), lockModule: false, lockDueDate: true })}
                   title="Double-click to add a task on this date"
-                  className={`min-h-16 sm:min-h-32 rounded-lg p-1 sm:p-1.5 border cursor-pointer ${
+                  className={`min-h-16 sm:min-h-32 rounded-lg p-1 sm:p-1.5 border cursor-pointer transition-all duration-150 hover:shadow-md hover:z-10 hover:scale-[1.03] ${
                   isToday(cell.date)
-                    ? 'border-blue-400 dark:border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                    ? 'border-blue-400 dark:border-blue-500 bg-blue-50 dark:bg-blue-900/20 ring-2 ring-blue-200 dark:ring-blue-800'
                     : cell.currentMonth
                     ? 'border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900'
                     : 'border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50'
@@ -372,7 +372,7 @@ function Calendar() {
                       key={task.id}
                       onClick={() => setSelectedTask(task)}
                       title={task.title}
-                      className={`text-xs px-1 py-1 rounded mb-0.5 cursor-pointer font-medium hover:opacity-80 transition-all duration-150 ${typeColor(task.type)}`}
+                      className={`text-xs px-1 py-1 rounded mb-0.5 cursor-pointer font-medium hover:opacity-80 hover:scale-105 transition-all duration-150 ${typeColor(task.type)}`}
                     >
                       <div className="flex items-start justify-between gap-0.5">
                         <div className="text-xs leading-tight break-words flex-1">
