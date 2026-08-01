@@ -15,6 +15,7 @@ function TaskModal({ task, courses, onClose, onUpdated, onDeleted }) {
   })
   const [saving, setSaving] = useState(false)
   const [deleting, setDeleting] = useState(false)
+  const [confirmingDelete, setConfirmingDelete] = useState(false)
   const [toggling, setToggling] = useState(false)
   const [saveError, setSaveError] = useState(null)
   const [moduleDropdownOpen, setModuleDropdownOpen] = useState(false)
@@ -22,7 +23,6 @@ function TaskModal({ task, courses, onClose, onUpdated, onDeleted }) {
   const isPastDue = task.dueDate && new Date(task.dueDate) < new Date()
   const isCompleted = task.status === 'COMPLETED'
 
-  // "My modules" — the only module codes a task is allowed to be assigned to.
   const myModuleCodes = (courses || []).map(c => c.moduleCode).sort((a, b) => a.localeCompare(b))
   const moduleError = form.moduleCode && !myModuleCodes.includes(form.moduleCode.toUpperCase())
     ? `"${form.moduleCode}" is not in your modules. Add it first if you want to move this task there.`
@@ -74,7 +74,6 @@ function TaskModal({ task, courses, onClose, onUpdated, onDeleted }) {
   }
 
   const handleDelete = async () => {
-    if (!confirm('Delete this task?')) return
     setDeleting(true)
     await deleteTask(task.id)
     setDeleting(false)
@@ -171,13 +170,32 @@ function TaskModal({ task, courses, onClose, onUpdated, onDeleted }) {
               )}
             </div>
             <div className="flex justify-between items-center">
-              <button
-                onClick={handleDelete}
-                disabled={deleting}
-                className="text-xs px-3 py-1.5 border border-red-100 dark:border-red-900/50 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 active:scale-95 text-red-400 transition-all duration-150 cursor-pointer"
-              >
-                {deleting ? 'Deleting...' : 'Delete'}
-              </button>
+              {!confirmingDelete ? (
+                <button
+                  onClick={() => setConfirmingDelete(true)}
+                  className="text-xs px-3 py-1.5 border border-red-100 dark:border-red-900/50 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 active:scale-95 text-red-400 transition-all duration-150 cursor-pointer"
+                >
+                  Delete
+                </button>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-gray-500 dark:text-gray-400">Delete this task?</span>
+                  <button
+                    onClick={handleDelete}
+                    disabled={deleting}
+                    className="text-xs px-3 py-1.5 rounded-lg bg-red-500 hover:bg-red-600 active:scale-95 text-white transition-all duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {deleting ? 'Deleting...' : 'Yes, delete'}
+                  </button>
+                  <button
+                    onClick={() => setConfirmingDelete(false)}
+                    disabled={deleting}
+                    className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 active:scale-95 text-gray-500 dark:text-gray-400 transition-all duration-150 cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              )}
               <div className="flex items-center gap-2">
                 {/* Complete toggle — locked if past due */}
                 {isPastDue ? (
