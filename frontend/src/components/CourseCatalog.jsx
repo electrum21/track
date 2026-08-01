@@ -38,6 +38,41 @@ function CourseCatalog({ courses, onAdd }) {
 
   return (
     <div>
+      <style>{`
+        .catalog-scroll {
+          scrollbar-width: thin;
+          scrollbar-color: rgb(203 213 225) transparent;
+        }
+        .dark .catalog-scroll {
+          scrollbar-color: rgb(71 85 105) transparent;
+        }
+        .catalog-scroll::-webkit-scrollbar {
+          width: 10px;
+          height: 10px;
+        }
+        .catalog-scroll::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .catalog-scroll::-webkit-scrollbar-thumb {
+          background-color: rgb(203 213 225);
+          border-radius: 9999px;
+          border: 2px solid transparent;
+          background-clip: padding-box;
+        }
+        .catalog-scroll::-webkit-scrollbar-thumb:hover {
+          background-color: rgb(148 163 184);
+        }
+        .dark .catalog-scroll::-webkit-scrollbar-thumb {
+          background-color: rgb(71 85 105);
+          background-clip: padding-box;
+        }
+        .dark .catalog-scroll::-webkit-scrollbar-thumb:hover {
+          background-color: rgb(100 116 139);
+        }
+        .catalog-scroll::-webkit-scrollbar-corner {
+          background: transparent;
+        }
+      `}</style>
       <div className="relative mb-4">
         <input
           type="text"
@@ -63,7 +98,7 @@ function CourseCatalog({ courses, onAdd }) {
 
       {!loading && !loadError && (
         <div className="border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
-          <div className="max-h-[54vh] overflow-y-auto">
+          <div className="catalog-scroll max-h-[54vh] overflow-y-auto">
             <table className="w-full text-sm border-collapse">
               <thead className="sticky top-0 z-10 bg-gray-50 dark:bg-gray-800">
                 <tr>
