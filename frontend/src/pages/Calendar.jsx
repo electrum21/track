@@ -239,6 +239,39 @@ function Calendar() {
     <div>
       {/* Print-only styles */}
       <style>{`
+        .semester-scroll {
+          scrollbar-width: thin;
+          scrollbar-color: rgb(203 213 225) transparent;
+        }
+        .dark .semester-scroll {
+          scrollbar-color: rgb(71 85 105) transparent;
+        }
+        .semester-scroll::-webkit-scrollbar {
+          width: 10px;
+          height: 10px;
+        }
+        .semester-scroll::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .semester-scroll::-webkit-scrollbar-thumb {
+          background-color: rgb(203 213 225);
+          border-radius: 9999px;
+          border: 2px solid transparent;
+          background-clip: padding-box;
+        }
+        .semester-scroll::-webkit-scrollbar-thumb:hover {
+          background-color: rgb(148 163 184);
+        }
+        .dark .semester-scroll::-webkit-scrollbar-thumb {
+          background-color: rgb(71 85 105);
+          background-clip: padding-box;
+        }
+        .dark .semester-scroll::-webkit-scrollbar-thumb:hover {
+          background-color: rgb(100 116 139);
+        }
+        .semester-scroll::-webkit-scrollbar-corner {
+          background: transparent;
+        }
         @media print {
           body * { visibility: hidden; }
           #semester-print-area, #semester-print-area * { visibility: visible; }
@@ -377,7 +410,7 @@ function Calendar() {
           <div id="semester-print-title" className="hidden print:block text-gray-900 mb-3">
             Semester Overview — Track
           </div>
-          <div className="overflow-x-auto max-h-[75vh] overflow-y-auto">
+          <div className="semester-scroll overflow-x-auto max-h-[75vh] overflow-y-auto">
             <table className="w-full text-xs border-collapse">
               <thead>
                 <tr>
