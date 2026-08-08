@@ -8,11 +8,13 @@ import {
   TextRun,
   WidthType,
   BorderStyle,
-  AlignmentType,
   ShadingType,
   VerticalAlign,
   PageOrientation,
 } from 'docx'
+
+const FONT = 'Arial'
+const WEIGHTAGE_COLOR = 'C00000'
 
 const CELL_BORDER = {
   top: { style: BorderStyle.SINGLE, size: 2, color: '999999' },
@@ -38,6 +40,10 @@ const shortDate = (dateStr) => {
 // Keep the app's own label as-is, e.g. "Week 1", "Recess", "Exam Week"
 const weekNumberLabel = (weekLabel) => weekLabel
 
+function run(text, opts = {}) {
+  return new TextRun({ text, font: FONT, ...opts })
+}
+
 function headerCell(text, widthPct) {
   return new TableCell({
     width: { size: widthPct, type: WidthType.PERCENTAGE },
@@ -47,7 +53,7 @@ function headerCell(text, widthPct) {
     margins: { top: 80, bottom: 80, left: 100, right: 100 },
     children: [
       new Paragraph({
-        children: [new TextRun({ text, bold: true, size: 18 })],
+        children: [run(text, { bold: true, size: 18 })],
       }),
     ],
   })
@@ -64,10 +70,10 @@ function weekCell(semWeek, widthPct) {
     margins: { top: 80, bottom: 80, left: 100, right: 100 },
     children: [
       new Paragraph({
-        children: [new TextRun({ text: weekNumberLabel(semWeek.weekLabel), bold: true, size: 18 })],
+        children: [run(weekNumberLabel(semWeek.weekLabel), { bold: true, size: 18 })],
       }),
       new Paragraph({
-        children: [new TextRun({ text: `(${shortDate(semWeek.startDate)})`, size: 16, color: '666666' })],
+        children: [run(`(${shortDate(semWeek.startDate)})`, { size: 16, color: '666666' })],
       }),
     ],
   })
@@ -76,22 +82,28 @@ function weekCell(semWeek, widthPct) {
 function taskCell(cellTasks, td, fill, widthPct) {
   const paragraphs =
     cellTasks.length === 0
-      ? [new Paragraph({ children: [new TextRun({ text: '', size: 18 })] })]
-      : cellTasks.map((task, i) => {
-          const parts = [task.title]
-          if (td.weightage && task.weightage) parts.push(`(${task.weightage}%)`)
-          let dateSuffix = ''
-          if (td.dueDate && task.dueDate) {
-            dateSuffix = ` — ${shortDate(task.dueDate)}`
-            if (td.dueTime && task.dueTime) dateSuffix += ` ${task.dueTime.slice(0, 5)}`
+      ? [new Paragraph({ children: [run('', { size: 18 })] })]
+      : cellTasks.map((task) => {
+          const children = [run(task.title, { size: 18 })]
+
+          if (td.weightage && task.weightage) {
+            children.push(run(` (${task.weightage}%)`, { size: 18, color: WEIGHTAGE_COLOR }))
           }
+
+          if (td.dueDate && task.dueDate) {
+            let dateSuffix = ` — ${shortDate(task.dueDate)}`
+            if (td.dueTime && task.dueTime) dateSuffix += ` ${task.dueTime.slice(0, 5)}`
+            children.push(run(dateSuffix, { size: 16, color: '666666' }))
+          }
+
+          if (task.status === 'COMPLETED') {
+            children.push(run('  ✓', { size: 16, color: '2E7D32' }))
+          }
+
           return new Paragraph({
-            spacing: i > 0 ? { before: 60 } : undefined,
-            children: [
-              new TextRun({ text: parts.join(' '), size: 18 }),
-              new TextRun({ text: dateSuffix, size: 16, color: '666666' }),
-              task.status === 'COMPLETED' ? new TextRun({ text: '  ✓', size: 16, color: '2E7D32' }) : new TextRun({ text: '' }),
-            ],
+            bullet: { level: 0 },
+            spacing: { after: 40 },
+            children,
           })
         })
 
@@ -157,7 +169,7 @@ export async function exportSemesterWord({ semesterWeeks, modules, tasks, td }) 
             shading: { type: ShadingType.CLEAR, fill: 'FAFAFA' },
             borders: CELL_BORDER,
             margins: { top: 80, bottom: 80, left: 100, right: 100 },
-            children: [new Paragraph({ children: [new TextRun({ text: 'No date', italics: true, size: 16, color: '888888' })] })],
+            children: [new Paragraph({ children: [run('No date', { italics: true, size: 16, color: '888888' })] })],
           }),
           ...modules.map((mod) => {
             const undated = tasks.filter((t) => t.moduleCode === mod && !t.dueDate)
@@ -169,6 +181,13 @@ export async function exportSemesterWord({ semesterWeeks, modules, tasks, td }) 
   }
 
   const doc = new Document({
+    styles: {
+      default: {
+        document: {
+          run: { font: FONT },
+        },
+      },
+    },
     sections: [
       {
         properties: {
@@ -179,7 +198,7 @@ export async function exportSemesterWord({ semesterWeeks, modules, tasks, td }) 
         },
         children: [
           new Paragraph({
-            children: [new TextRun({ text: 'Consolidated Assessment Schedule', bold: true, size: 28 })],
+            children: [run('Consolidated Assessment Schedule', { bold: true, size: 28 })],
             spacing: { after: 200 },
           }),
           new Table({
