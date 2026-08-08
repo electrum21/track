@@ -4,6 +4,7 @@ import { useTasks } from '../hooks/useTasks.jsx'
 import { getCourses, getAcademicWeeks } from '../api/api'
 import TaskModal from '../components/TaskModal'
 import AddTaskModal from '../components/AddTaskModal'
+import { exportSemesterWord } from '../utils/exportSemesterDocx'
 
 const FALLBACK_WEEKS = [
   { weekLabel: 'Week 1', startDate: '2026-01-12', endDate: '2026-01-18', weekType: 'TEACHING' },
@@ -235,6 +236,18 @@ function Calendar() {
     window.print()
   }
 
+  // ── Word (.docx) semester table ───────────────────────────────────────────
+  const [exportingWord, setExportingWord] = useState(false)
+  const saveSemesterWord = async () => {
+    if (exportingWord) return
+    setExportingWord(true)
+    try {
+      await exportSemesterWord({ semesterWeeks, modules, tasks, td })
+    } finally {
+      setExportingWord(false)
+    }
+  }
+
   return (
     <div>
       {/* Print-only styles */}
@@ -320,6 +333,20 @@ function Calendar() {
                 <path d="M3.5 4.5h5M3.5 6.5h5M3.5 8.5h3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
               </svg>
               Save PDF
+            </button>
+          )}
+          {view === 'semester' && (
+            <button
+              onClick={saveSemesterWord}
+              disabled={exportingWord}
+              title="Download semester table as a Word document"
+              className="text-xs px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-500 dark:text-gray-400 transition-all duration-150 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1.5"
+            >
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <rect x="1" y="1" width="10" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.3"/>
+                <path d="M3 4l1 4 1-3 1 3 1-4" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              {exportingWord ? 'Saving…' : 'Save Word'}
             </button>
           )}
           <div className="flex border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
